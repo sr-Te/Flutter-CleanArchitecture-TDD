@@ -1,19 +1,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:my_movie_list/data/models/movie_model.dart';
 
-import '../../core/errors/failures.dart';
+import '../../core/errors/failure.dart';
 import '../../core/usecases/usecase.dart';
-import '../../data/models/movie.dart';
 import '../repositories/movie_repository.dart';
 
-class GetMoviesNowPlaying extends UseCase<List<Movie>, Params> {
+class GetMoviesNowPlaying extends UseCase<List<MovieModel>, Params> {
   final MovieRepository repository;
 
   GetMoviesNowPlaying(this.repository);
 
   @override
-  Future<Either<Failure, List<Movie>>> call(Params params) async {
+  Future<Either<Failure, List<MovieModel>>> call(Params params) async {
     return await repository.getMoviesNowPlaying(params.language);
   }
 }

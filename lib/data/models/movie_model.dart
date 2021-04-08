@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-Movie movieFromJson(String str) => Movie.fromJson(json.decode(str));
+MovieModel movieModelFromJson(String str) =>
+    MovieModel.fromJson(json.decode(str));
 
-String movieToJson(Movie data) => json.encode(data.toJson());
+String movieModelToJson(MovieModel data) => json.encode(data.toJson());
 
-class Movie extends Equatable {
-  Movie({
+class MovieModel extends Equatable {
+  MovieModel({
     this.adult,
     this.backdropPath,
     this.genreIds,
@@ -39,7 +40,7 @@ class Movie extends Equatable {
   final double voteAverage;
   final int voteCount;
 
-  factory Movie.fromJson(Map<String, dynamic> json) => Movie(
+  factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
         adult: json["adult"],
         backdropPath: json["backdrop_path"],
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
