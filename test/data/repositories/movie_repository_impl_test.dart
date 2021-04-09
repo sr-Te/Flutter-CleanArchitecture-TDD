@@ -4,16 +4,16 @@ import 'package:mockito/mockito.dart';
 import 'package:my_movie_list/core/errors/exception.dart';
 import 'package:my_movie_list/core/errors/failure.dart';
 import 'package:my_movie_list/core/network/network_info.dart';
-import 'package:my_movie_list/data/datasources/movie_remote_data_source.dart';
+import 'package:my_movie_list/data/datasources/movies_remote_data_source.dart';
 import 'package:my_movie_list/data/models/movie_model.dart';
-import 'package:my_movie_list/data/repositories/movie_repository_impl.dart';
+import 'package:my_movie_list/data/repositories/movies_repository_impl.dart';
 
-class MockRemoteDataSource extends Mock implements MovieRemoteDataSource {}
+class MockRemoteDataSource extends Mock implements MoviesRemoteDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MovieRepositoryImpl repository;
+  MoviesRepositoryImpl repository;
   MockRemoteDataSource mockRemoteDataSource;
   MockNetworkInfo mockNetworkInfo;
 
@@ -21,7 +21,7 @@ void main() {
     mockRemoteDataSource = MockRemoteDataSource();
     mockNetworkInfo = MockNetworkInfo();
 
-    repository = MovieRepositoryImpl(
+    repository = MoviesRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       networkInfo: mockNetworkInfo,
     );
@@ -30,7 +30,7 @@ void main() {
   group('getMoviesNowPlaying', () {
     // DATA FOR THE MOCKS AND ASSERTIONS
     final tLanguage = 'en-US';
-    final tMovieList = [MovieModel(title: 'test')];
+    final tMovieList = MovieListModel();
 
     test(
       'should check if the device is online',

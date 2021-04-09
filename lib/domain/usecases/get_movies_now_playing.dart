@@ -7,13 +7,13 @@ import '../../core/errors/failure.dart';
 import '../../core/usecases/usecase.dart';
 import '../repositories/movie_repository.dart';
 
-class GetMoviesNowPlaying extends UseCase<List<MovieModel>, Params> {
+class GetMoviesNowPlaying extends UseCase<MovieListModel, Params> {
   final MovieRepository repository;
 
   GetMoviesNowPlaying(this.repository);
 
   @override
-  Future<Either<Failure, List<MovieModel>>> call(Params params) async {
+  Future<Either<Failure, MovieListModel>> call(Params params) async {
     return await repository.getMoviesNowPlaying(params.language);
   }
 }

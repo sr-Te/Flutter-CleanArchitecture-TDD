@@ -17,7 +17,7 @@ void main() {
   });
 
   final tLanguage = 'en-US';
-  final tMovieList = [MovieModel(title: 'test')];
+  final tMovieList = MovieListModel();
 
   test(
     'shoul get movie list from the repository',

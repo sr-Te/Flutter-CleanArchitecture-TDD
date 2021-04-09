@@ -2,6 +2,20 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
+class MovieListModel {
+  List<MovieModel> items = [];
+  MovieListModel();
+
+  MovieListModel.fromJsonList(List<dynamic> jsonList) {
+    if (jsonList == null) return;
+
+    jsonList.forEach((item) {
+      final movie = MovieModel.fromJson(item);
+      items.add(movie);
+    });
+  }
+}
+
 MovieModel movieModelFromJson(String str) =>
     MovieModel.fromJson(json.decode(str));
 
