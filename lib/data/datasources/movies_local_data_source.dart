@@ -8,7 +8,7 @@ import '../models/movie_model.dart';
 
 abstract class MoviesLocalDataSource {
   Future<MovieListModel> getLastMoviesNowPlaying();
-  Future<void> cacheMovies(MovieListModel moviesToCache);
+  Future<void> cacheMoviesNowPlaying(MovieListModel moviesToCache);
 }
 
 const CACHED_MOVIES_NOW_PLAYING = 'CACHED_MOVIES_NOW_PLAYING';
@@ -19,7 +19,7 @@ class MoviesLocalDataSourceImpl implements MoviesLocalDataSource {
   MoviesLocalDataSourceImpl({@required this.sharedPreferences});
 
   @override
-  Future<void> cacheMovies(MovieListModel moviesToCache) {
+  Future<void> cacheMoviesNowPlaying(MovieListModel moviesToCache) {
     return sharedPreferences.setString(
         CACHED_MOVIES_NOW_PLAYING, json.encode(moviesToCache.toJson()));
   }

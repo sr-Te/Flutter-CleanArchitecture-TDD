@@ -61,7 +61,7 @@ void main() {
       'should call SharedPreferences to cache the data',
       () {
         // act
-        dataSource.cacheMovies(tMovieListModel);
+        dataSource.cacheMoviesNowPlaying(tMovieListModel);
         // assert
         final expectedJsonString = json.encode(tMovieListModel.toJson());
         verify(mockSharedPreferences.setString(
