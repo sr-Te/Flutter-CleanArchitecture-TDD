@@ -21,11 +21,16 @@ class MoviesRepositoryImpl implements MovieRepository {
   Future<Either<Failure, MovieListModel>> getMoviesNowPlaying(
     String language,
   ) async {
-    networkInfo.isConnected;
-    try {
-      final remoteMovies = await remoteDataSource.getMoviesNowPlaying(language);
-      return Right(remoteMovies);
-    } on ServerException {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteMovies =
+            await remoteDataSource.getMoviesNowPlaying(language);
+        return Right(remoteMovies);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      // TODO: store cache :c
       return Left(ServerFailure());
     }
   }

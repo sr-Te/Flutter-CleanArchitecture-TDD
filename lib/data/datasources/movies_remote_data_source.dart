@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../core/errors/exception.dart';
-import '../../core/util/globals/movies_api.dart';
+import '../../core/globals/movies_api.dart';
 import '../models/movie_model.dart';
 
 abstract class MoviesRemoteDataSource {

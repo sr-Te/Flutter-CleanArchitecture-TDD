@@ -1,15 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_movie_list/core/errors/failure.dart';
-import 'package:my_movie_list/domain/usecases/get_movies_now_playing.dart';
+import 'package:my_movie_list/core/globals/failure_message.dart';
 
+import '../../../core/errors/failure.dart';
 import '../../../data/models/movie_model.dart';
+import '../../../domain/usecases/get_movies_now_playing.dart';
 
 part 'movies_event.dart';
 part 'movies_state.dart';
-
-const String SERVER_FAILURE_MESSAGE = 'Server Failure';
 
 class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   final GetMoviesNowPlaying getMoviesNowPlaying;
@@ -41,9 +40,9 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {
       case ServerFailure:
-        return SERVER_FAILURE_MESSAGE;
+        return FailureMessage.server;
       default:
-        return 'Unexpected Error';
+        return FailureMessage.unexpected;
     }
   }
 }

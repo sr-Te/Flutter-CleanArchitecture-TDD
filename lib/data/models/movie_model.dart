@@ -14,6 +14,13 @@ class MovieListModel {
       items.add(movie);
     });
   }
+  List<Map<String, dynamic>> toJson() {
+    List<Map<String, dynamic>> tmp = [];
+    items.forEach((i) {
+      tmp.add(i.toJson());
+    });
+    return tmp;
+  }
 }
 
 MovieModel movieModelFromJson(String str) =>
