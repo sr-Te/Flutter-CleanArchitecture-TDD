@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import '../../core/errors/exception.dart';
 import '../../core/errors/failure.dart';
 import '../../core/network/network_info.dart';
-import '../../domain/repositories/movie_repository.dart';
+import '../../domain/repositories/movies_repository.dart';
 import '../datasources/movies_local_data_source.dart';
 import '../datasources/movies_remote_data_source.dart';
 import '../models/movie_model.dart';
 
-class MoviesRepositoryImpl implements MovieRepository {
+class MoviesRepositoryImpl implements MoviesRepository {
   final MoviesRemoteDataSource remoteDataSource;
   final MoviesLocalDataSource localDataSource;
   final NetworkInfo networkInfo;

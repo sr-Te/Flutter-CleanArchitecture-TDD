@@ -2,10 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:my_movie_list/data/models/movie_model.dart';
-import 'package:my_movie_list/domain/repositories/movie_repository.dart';
+import 'package:my_movie_list/domain/repositories/movies_repository.dart';
 import 'package:my_movie_list/domain/usecases/get_movies_now_playing.dart';
 
-class MockMovieRepository extends Mock implements MovieRepository {}
+class MockMovieRepository extends Mock implements MoviesRepository {}
 
 void main() {
   GetMoviesNowPlaying usecase;

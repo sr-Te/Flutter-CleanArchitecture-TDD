@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'core/routes.dart';
+import 'injection_container.dart' as di;
 
-import 'presentation/movies/movies_view.dart';
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await di.init();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  final _router = AppRouter();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Movies',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        primaryColor: Colors.black,
+        accentColor: Colors.black,
       ),
-      home: MoviesView(),
+      onGenerateRoute: _router.onGenerateRoute,
+      initialRoute: '/',
     );
   }
 }

@@ -5,10 +5,10 @@ import 'package:my_movie_list/data/models/movie_model.dart';
 
 import '../../core/errors/failure.dart';
 import '../../core/usecases/usecase.dart';
-import '../repositories/movie_repository.dart';
+import '../repositories/movies_repository.dart';
 
 class GetMoviesNowPlaying extends UseCase<MovieListModel, Params> {
-  final MovieRepository repository;
+  final MoviesRepository repository;
 
   GetMoviesNowPlaying(this.repository);
 
