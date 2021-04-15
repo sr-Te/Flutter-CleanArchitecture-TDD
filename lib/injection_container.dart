@@ -8,7 +8,8 @@ import 'data/datasources/movies_local_data_source.dart';
 import 'data/datasources/movies_remote_data_source.dart';
 import 'data/repositories/movies_repository_impl.dart';
 import 'domain/repositories/movies_repository.dart';
-import 'domain/usecases/get_movies_now_playing.dart';
+import 'domain/usecases/get_movies.dart';
+import 'presentation/home/nav_cubit.dart';
 import 'presentation/movies/bloc/movies_bloc.dart';
 
 final sl = GetIt.instance;
@@ -18,14 +19,16 @@ Future<void> init() async {
   //!     FEATURES - MOVIES
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // Bloc
+  sl.registerFactory(() => NavCubit());
+
   sl.registerFactory(
     () => MoviesBloc(
-      nowPlaying: sl(),
+      getMovies: sl(),
     ),
   );
 
   // UseCases
-  sl.registerLazySingleton(() => GetMoviesNowPlaying(sl()));
+  sl.registerLazySingleton(() => GetMovies(sl()));
 
   // Repository
   sl.registerLazySingleton<MoviesRepository>(

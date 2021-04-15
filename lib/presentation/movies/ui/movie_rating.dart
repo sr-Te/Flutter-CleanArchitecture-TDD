@@ -16,7 +16,7 @@ class MovieRating extends StatelessWidget {
         child: CircularPercentIndicator(
           radius: 65.0,
           animation: true,
-          animationDuration: 1200,
+          animationDuration: 800,
           lineWidth: 7.0,
           percent: _percent,
           center: Stack(

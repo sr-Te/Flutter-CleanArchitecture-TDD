@@ -24,4 +24,7 @@ class MoviesApi {
 
 class MoviesEndpoint {
   static String nowPlaying = '3/movie/now_playing';
+  static String popular = '3/movie/popular';
+  static String topRated = '3/movie/top_rated';
+  static String upcoming = '3/movie/upcoming';
 }

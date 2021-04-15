@@ -5,33 +5,32 @@ import 'package:my_movie_list/core/globals/failure_message.dart';
 
 import '../../../core/errors/failure.dart';
 import '../../../data/models/movie_model.dart';
-import '../../../domain/usecases/get_movies_now_playing.dart';
+import '../../../domain/usecases/get_movies.dart';
 
 part 'movies_event.dart';
 part 'movies_state.dart';
 
 class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
-  final GetMoviesNowPlaying getMoviesNowPlaying;
+  final GetMovies getMovies;
 
   MoviesBloc({
-    @required GetMoviesNowPlaying nowPlaying,
-  })  : assert(nowPlaying != null),
-        getMoviesNowPlaying = nowPlaying,
-        super(EmptyMovies());
+    @required this.getMovies,
+  })  : assert(getMovies != null),
+        super(MoviesInitial());
 
   @override
   Stream<MoviesState> mapEventToState(MoviesEvent event) async* {
-    if (event is GetNowPlaying) yield* _getNowPlaying(event);
+    if (event is MoviesGet) yield* _moviesGet(event);
   }
 
-  Stream<MoviesState> _getNowPlaying(GetNowPlaying event) async* {
-    yield LoadingMovies();
-    final failureOrMovies = await getMoviesNowPlaying(
-      Params(language: event.language),
+  Stream<MoviesState> _moviesGet(MoviesGet event) async* {
+    yield MoviesLoadInProgress();
+    final failureOrMovies = await getMovies(
+      Params(endpoint: event.endpoint, language: event.language),
     );
     yield failureOrMovies.fold(
-      (failure) => ErrorMovies(message: _mapFailureToMessage(failure)),
-      (movies) => LoadedMovies(movieList: movies),
+      (failure) => MoviesLoadFailure(message: _mapFailureToMessage(failure)),
+      (movies) => MoviesLoadSuccess(movieList: movies),
     );
   }
 

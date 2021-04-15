@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/globals/movies_api.dart';
 import '../../../data/models/movie_model.dart';
+import '../../widgets/transparent_appbar.dart';
 import 'movie_poster.dart';
 import 'movie_rating.dart';
 
@@ -13,16 +14,7 @@ class MovieProfile extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
-      appBar: AppBar(
-        title: Text(
-          movie.title,
-          softWrap: true,
-          maxLines: 2,
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-      ),
+      appBar: TransparentAppbar(title: movie.title),
       body: Stack(
         children: [
           MoviePoster(movie: movie),

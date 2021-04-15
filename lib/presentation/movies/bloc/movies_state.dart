@@ -5,16 +5,16 @@ abstract class MoviesState extends Equatable {
   List<Object> get props => [];
 }
 
-class EmptyMovies extends MoviesState {}
+class MoviesInitial extends MoviesState {}
 
-class LoadingMovies extends MoviesState {}
+class MoviesLoadInProgress extends MoviesState {}
 
-class LoadedMovies extends MoviesState {
+class MoviesLoadSuccess extends MoviesState {
   final MovieListModel movieList;
-  LoadedMovies({@required this.movieList});
+  MoviesLoadSuccess({@required this.movieList});
 }
 
-class ErrorMovies extends MoviesState {
+class MoviesLoadFailure extends MoviesState {
   final String message;
-  ErrorMovies({@required this.message});
+  MoviesLoadFailure({@required this.message});
 }

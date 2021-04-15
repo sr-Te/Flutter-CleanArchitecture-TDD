@@ -14,6 +14,8 @@ class MoviesRepositoryImpl implements MoviesRepository {
   final MoviesLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
+  Map<String, MovieListModel> moviesByCategory = {};
+
   MoviesRepositoryImpl({
     @required this.remoteDataSource,
     @required this.localDataSource,
@@ -25,11 +27,15 @@ class MoviesRepositoryImpl implements MoviesRepository {
     String endpoint,
     String language,
   ) async {
-    if (await networkInfo.isConnected) {
+    if (moviesByCategory[endpoint] != null &&
+        moviesByCategory[endpoint].items.isNotEmpty) {
+      return Right(moviesByCategory[endpoint]);
+    } else if (await networkInfo.isConnected) {
       try {
         final remoteMovies =
             await remoteDataSource.getMovies(endpoint, language);
         localDataSource.cacheMovies(endpoint, remoteMovies);
+        moviesByCategory[endpoint] = remoteMovies;
         return Right(remoteMovies);
       } on ServerException {
         return Left(ServerFailure());
@@ -37,6 +43,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
     } else {
       try {
         final localMovies = await localDataSource.getLastMovies(endpoint);
+        moviesByCategory[endpoint] = localMovies;
         return Right(localMovies);
       } on CacheException {
         return Left(CacheFailure());

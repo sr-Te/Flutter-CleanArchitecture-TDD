@@ -5,40 +5,40 @@ import 'package:my_movie_list/core/errors/failure.dart';
 import 'package:my_movie_list/core/globals/failure_message.dart';
 import 'package:my_movie_list/core/globals/movies_api.dart';
 import 'package:my_movie_list/data/models/movie_model.dart';
-import 'package:my_movie_list/domain/usecases/get_movies_now_playing.dart';
+import 'package:my_movie_list/domain/usecases/get_movies.dart';
 import 'package:my_movie_list/presentation/movies/bloc/movies_bloc.dart';
 
-class MockGetMoviesNowPlaying extends Mock implements GetMoviesNowPlaying {}
+class MockGetMovies extends Mock implements GetMovies {}
 
 void main() {
   MoviesBloc bloc;
-  MockGetMoviesNowPlaying mockGetMoviesNowPlaying;
+  MockGetMovies mockGetMovies;
 
   setUp(() {
-    mockGetMoviesNowPlaying = MockGetMoviesNowPlaying();
-    bloc = MoviesBloc(nowPlaying: mockGetMoviesNowPlaying);
+    mockGetMovies = MockGetMovies();
+    bloc = MoviesBloc(getMovies: mockGetMovies);
   });
 
   test('initialState should be EmptyMovies', () {
     // assert
-    expect(bloc.state, equals(EmptyMovies()));
+    expect(bloc.state, equals(MoviesInitial()));
   });
 
   group('GetNowPlaying', () {
     final tMovieList = MovieListModel();
     final tLanguage = MoviesApi.en;
+    final tEndpoint = MoviesEndpoint.nowPlaying;
 
     test(
       'should get data from nowPlaying usecase',
       () async {
         // arrange
-        when(mockGetMoviesNowPlaying(any))
-            .thenAnswer((_) async => Right(tMovieList));
+        when(mockGetMovies(any)).thenAnswer((_) async => Right(tMovieList));
         // act
-        bloc.add(GetNowPlaying(tLanguage));
-        await untilCalled(mockGetMoviesNowPlaying(any));
+        bloc.add(MoviesGet(tEndpoint, tLanguage));
+        await untilCalled(mockGetMovies(any));
         // assert
-        verify(mockGetMoviesNowPlaying(Params(language: tLanguage)));
+        verify(mockGetMovies(Params(endpoint: tEndpoint, language: tLanguage)));
       },
     );
 
@@ -46,16 +46,15 @@ void main() {
       'should emit [LoadingMovies, LoadedMovies] when data is gotten successfully',
       () async {
         // arrange
-        when(mockGetMoviesNowPlaying(any))
-            .thenAnswer((_) async => Right(tMovieList));
+        when(mockGetMovies(any)).thenAnswer((_) async => Right(tMovieList));
         // assert layer
         final expected = [
-          LoadingMovies(),
-          LoadedMovies(movieList: tMovieList),
+          MoviesLoadInProgress(),
+          MoviesLoadSuccess(movieList: tMovieList),
         ];
         expectLater(bloc.stream, emitsInOrder(expected));
         //act
-        bloc.add(GetNowPlaying(tLanguage));
+        bloc.add(MoviesGet(tEndpoint, tLanguage));
       },
     );
 
@@ -63,16 +62,15 @@ void main() {
       'should emit [LoadingMovies, ErrorMovies] when getting data fails',
       () async {
         // arrange
-        when(mockGetMoviesNowPlaying(any))
-            .thenAnswer((_) async => Left(ServerFailure()));
+        when(mockGetMovies(any)).thenAnswer((_) async => Left(ServerFailure()));
         // assert layer
         final expected = [
-          LoadingMovies(),
-          ErrorMovies(message: FailureMessage.server),
+          MoviesLoadInProgress(),
+          MoviesLoadFailure(message: FailureMessage.server),
         ];
         expectLater(bloc.stream, emitsInOrder(expected));
         //act
-        bloc.add(GetNowPlaying(tLanguage));
+        bloc.add(MoviesGet(tEndpoint, tLanguage));
       },
     );
   });

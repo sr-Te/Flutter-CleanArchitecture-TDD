@@ -5,7 +5,8 @@ abstract class MoviesEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetNowPlaying extends MoviesEvent {
+class MoviesGet extends MoviesEvent {
+  final String endpoint;
   final String language;
-  GetNowPlaying(this.language);
+  MoviesGet(this.endpoint, this.language);
 }

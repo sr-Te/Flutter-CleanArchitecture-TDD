@@ -4,17 +4,17 @@ import 'package:mockito/mockito.dart';
 import 'package:my_movie_list/core/globals/movies_api.dart';
 import 'package:my_movie_list/data/models/movie_model.dart';
 import 'package:my_movie_list/domain/repositories/movies_repository.dart';
-import 'package:my_movie_list/domain/usecases/get_movies_now_playing.dart';
+import 'package:my_movie_list/domain/usecases/get_movies.dart';
 
 class MockMovieRepository extends Mock implements MoviesRepository {}
 
 void main() {
-  GetMoviesNowPlaying usecase;
+  GetMovies usecase;
   MockMovieRepository mockMovieRepository;
 
   setUp(() {
     mockMovieRepository = MockMovieRepository();
-    usecase = GetMoviesNowPlaying(mockMovieRepository);
+    usecase = GetMovies(mockMovieRepository);
   });
 
   final tLanguage = MoviesApi.en;
