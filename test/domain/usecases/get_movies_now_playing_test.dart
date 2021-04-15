@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:my_movie_list/core/globals/movies_api.dart';
 import 'package:my_movie_list/data/models/movie_model.dart';
 import 'package:my_movie_list/domain/repositories/movies_repository.dart';
 import 'package:my_movie_list/domain/usecases/get_movies_now_playing.dart';
@@ -16,20 +17,22 @@ void main() {
     usecase = GetMoviesNowPlaying(mockMovieRepository);
   });
 
-  final tLanguage = 'en-US';
+  final tLanguage = MoviesApi.en;
+  final tEndpoint = MoviesEndpoint.nowPlaying;
   final tMovieList = MovieListModel();
 
   test(
     'shoul get movie list from the repository',
     () async {
       // arrange
-      when(mockMovieRepository.getMoviesNowPlaying(any))
+      when(mockMovieRepository.getMovies(any, any))
           .thenAnswer((_) async => Right(tMovieList));
       // act
-      final result = await usecase(Params(language: tLanguage));
+      final result =
+          await usecase(Params(endpoint: tEndpoint, language: tLanguage));
       // assert
       expect(result, Right(tMovieList));
-      verify(mockMovieRepository.getMoviesNowPlaying(tLanguage));
+      verify(mockMovieRepository.getMovies(tEndpoint, tLanguage));
       verifyNoMoreInteractions(mockMovieRepository);
     },
   );

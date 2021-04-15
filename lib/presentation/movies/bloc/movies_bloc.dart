@@ -16,10 +16,8 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
   MoviesBloc({
     @required GetMoviesNowPlaying nowPlaying,
   })  : assert(nowPlaying != null),
-        getMoviesNowPlaying = nowPlaying;
-
-  @override
-  MoviesState get initialState => EmptyMovies();
+        getMoviesNowPlaying = nowPlaying,
+        super(EmptyMovies());
 
   @override
   Stream<MoviesState> mapEventToState(MoviesEvent event) async* {

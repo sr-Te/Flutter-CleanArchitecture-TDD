@@ -21,7 +21,7 @@ void main() {
 
   test('initialState should be EmptyMovies', () {
     // assert
-    expect(bloc.initialState, equals(EmptyMovies()));
+    expect(bloc.state, equals(EmptyMovies()));
   });
 
   group('GetNowPlaying', () {
@@ -50,15 +50,15 @@ void main() {
             .thenAnswer((_) async => Right(tMovieList));
         // assert layer
         final expected = [
-          EmptyMovies(),
           LoadingMovies(),
           LoadedMovies(movieList: tMovieList),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         //act
         bloc.add(GetNowPlaying(tLanguage));
       },
     );
+
     test(
       'should emit [LoadingMovies, ErrorMovies] when getting data fails',
       () async {
@@ -67,11 +67,10 @@ void main() {
             .thenAnswer((_) async => Left(ServerFailure()));
         // assert layer
         final expected = [
-          EmptyMovies(),
           LoadingMovies(),
           ErrorMovies(message: FailureMessage.server),
         ];
-        expectLater(bloc, emitsInOrder(expected));
+        expectLater(bloc.stream, emitsInOrder(expected));
         //act
         bloc.add(GetNowPlaying(tLanguage));
       },

@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:my_movie_list/core/errors/exception.dart';
 import 'package:my_movie_list/core/errors/failure.dart';
+import 'package:my_movie_list/core/globals/movies_api.dart';
 import 'package:my_movie_list/core/network/network_info.dart';
 import 'package:my_movie_list/data/datasources/movies_local_data_source.dart';
 import 'package:my_movie_list/data/datasources/movies_remote_data_source.dart';
@@ -55,7 +56,8 @@ void main() {
 
   group('getMoviesNowPlaying', () {
     // DATA FOR THE MOCKS AND ASSERTIONS
-    final tLanguage = 'en-US';
+    final tLanguage = MoviesApi.en;
+    final tEndpoint = MoviesEndpoint.nowPlaying;
     final tMovieList = MovieListModel();
 
     test(
@@ -64,7 +66,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getMoviesNowPlaying(tLanguage);
+        repository.getMovies(tEndpoint, tLanguage);
         // assert
         verify(mockNetworkInfo.isConnected);
       },
@@ -79,12 +81,12 @@ void main() {
         'should return remote data when the call to remote data source is successful',
         () async {
           // arrange
-          when(mockRemoteDataSource.getMoviesNowPlaying(any))
+          when(mockRemoteDataSource.getMovies(any, any))
               .thenAnswer((_) async => tMovieList);
           // act
-          final result = await repository.getMoviesNowPlaying(tLanguage);
+          final result = await repository.getMovies(tEndpoint, tLanguage);
           // assert
-          verify(mockRemoteDataSource.getMoviesNowPlaying(tLanguage));
+          verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage));
           expect(result, equals(Right(tMovieList)));
         },
       );
@@ -93,12 +95,12 @@ void main() {
         'should return server failure when the call to remote data source is unsuccessful',
         () async {
           // arrange
-          when(mockRemoteDataSource.getMoviesNowPlaying(any))
+          when(mockRemoteDataSource.getMovies(any, any))
               .thenThrow(ServerException());
           // act
-          final result = await repository.getMoviesNowPlaying(tLanguage);
+          final result = await repository.getMovies(tEndpoint, tLanguage);
           // assert
-          verify(mockRemoteDataSource.getMoviesNowPlaying(tLanguage));
+          verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage));
           expect(result, equals(Left(ServerFailure())));
         },
       );
@@ -109,13 +111,13 @@ void main() {
         'should return last locally cached data when the cached data is present',
         () async {
           // arrange
-          when(mockLocalDataSource.getLastMoviesNowPlaying())
+          when(mockLocalDataSource.getLastMovies(tEndpoint))
               .thenAnswer((_) async => tMovieList);
           // act
-          final result = await repository.getMoviesNowPlaying(tLanguage);
+          final result = await repository.getMovies(tEndpoint, tLanguage);
           // assert
           verifyZeroInteractions(mockRemoteDataSource);
-          verify(mockLocalDataSource.getLastMoviesNowPlaying());
+          verify(mockLocalDataSource.getLastMovies(tEndpoint));
           expect(result, equals(Right(tMovieList)));
         },
       );
@@ -123,13 +125,13 @@ void main() {
       test('should return CacheFailure when there is no cached data present',
           () async {
         // arrange
-        when(mockLocalDataSource.getLastMoviesNowPlaying())
+        when(mockLocalDataSource.getLastMovies(tEndpoint))
             .thenThrow(CacheException());
         // act
-        final result = await repository.getMoviesNowPlaying(tLanguage);
+        final result = await repository.getMovies(tEndpoint, tLanguage);
         // assert
         verifyZeroInteractions(mockRemoteDataSource);
-        verify(mockLocalDataSource.getLastMoviesNowPlaying());
+        verify(mockLocalDataSource.getLastMovies(tEndpoint));
         expect(result, equals(Left(CacheFailure())));
       });
     });

@@ -53,7 +53,11 @@ class MoviesView extends StatelessWidget {
   }
 
   Widget _loadingMovies(BuildContext context, MoviesState state) {
-    return CircularProgressIndicator();
+    return Center(
+      child: CircularProgressIndicator(
+        valueColor: new AlwaysStoppedAnimation<Color>(Colors.orange),
+      ),
+    );
   }
 
   Widget _loadedMovies(BuildContext context, LoadedMovies state) {

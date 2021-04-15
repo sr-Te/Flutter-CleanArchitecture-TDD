@@ -14,14 +14,15 @@ class GetMoviesNowPlaying extends UseCase<MovieListModel, Params> {
 
   @override
   Future<Either<Failure, MovieListModel>> call(Params params) async {
-    return await repository.getMoviesNowPlaying(params.language);
+    return await repository.getMovies(params.endpoint, params.language);
   }
 }
 
 class Params extends Equatable {
   final String language;
-  Params({@required this.language});
+  final String endpoint;
+  Params({@required this.endpoint, @required this.language});
 
   @override
-  List<Object> get props => [language];
+  List<Object> get props => [endpoint, language];
 }

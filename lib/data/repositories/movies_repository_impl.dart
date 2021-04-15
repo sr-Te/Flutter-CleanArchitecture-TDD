@@ -21,21 +21,22 @@ class MoviesRepositoryImpl implements MoviesRepository {
   });
 
   @override
-  Future<Either<Failure, MovieListModel>> getMoviesNowPlaying(
+  Future<Either<Failure, MovieListModel>> getMovies(
+    String endpoint,
     String language,
   ) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteMovies =
-            await remoteDataSource.getMoviesNowPlaying(language);
-        localDataSource.cacheMoviesNowPlaying(remoteMovies);
+            await remoteDataSource.getMovies(endpoint, language);
+        localDataSource.cacheMovies(endpoint, remoteMovies);
         return Right(remoteMovies);
       } on ServerException {
         return Left(ServerFailure());
       }
     } else {
       try {
-        final localMovies = await localDataSource.getLastMoviesNowPlaying();
+        final localMovies = await localDataSource.getLastMovies(endpoint);
         return Right(localMovies);
       } on CacheException {
         return Left(CacheFailure());

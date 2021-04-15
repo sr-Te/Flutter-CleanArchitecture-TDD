@@ -41,7 +41,8 @@ void main() {
   }
 
   group('getMoviesNowPlaying', () {
-    final tLanguage = 'en-US';
+    final tLanguage = MoviesApi.es;
+    final tEndpoint = MoviesEndpoint.nowPlaying;
 
     test(
       'should preform a GET request on a URL',
@@ -49,10 +50,10 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        dataSource.getMoviesNowPlaying(tLanguage);
+        dataSource.getMovies(tEndpoint, tLanguage);
         // assert
         verify(mockHttpClient.get(
-          MoviesApi.getMoviesNowPlayingUri(tLanguage),
+          MoviesApi.getMovies(tEndpoint, tLanguage),
         ));
       },
     );
@@ -63,7 +64,7 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        final result = await dataSource.getMoviesNowPlaying(tLanguage);
+        final result = await dataSource.getMovies(tEndpoint, tLanguage);
         // arrange
         expect(result, isA<MovieListModel>());
       },
@@ -75,9 +76,12 @@ void main() {
         // arrange
         setUpMockHttpClientFailure404();
         // act
-        final call = dataSource.getMoviesNowPlaying;
+        final call = dataSource.getMovies;
         // assert
-        expect(() => call(tLanguage), throwsA(TypeMatcher<ServerException>()));
+        expect(
+          () => call(tEndpoint, tLanguage),
+          throwsA(TypeMatcher<ServerException>()),
+        );
       },
     );
   });

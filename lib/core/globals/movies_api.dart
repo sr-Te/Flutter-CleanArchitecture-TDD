@@ -7,9 +7,9 @@ class MoviesApi {
   static String en = 'en-US';
 
   // Uris
-  static Uri getMoviesNowPlayingUri(String language) => Uri.https(
+  static Uri getMovies(String endpoint, String language) => Uri.https(
         _url,
-        '3/movie/now_playing',
+        endpoint,
         {'api_key': _apikey, 'language': language},
       );
 
@@ -20,4 +20,8 @@ class MoviesApi {
       return 'https://image.tmdb.org/t/p/w500/$posterPath';
     }
   }
+}
+
+class MoviesEndpoint {
+  static String nowPlaying = '3/movie/now_playing';
 }
