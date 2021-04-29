@@ -10,8 +10,8 @@ class MoviesLoadingView extends StatefulWidget {
 
 class _MoviesLoadingViewState extends State<MoviesLoadingView> {
   Timer timer;
-  double _width = 50;
-  double _height = 50;
+  double _width = 0;
+  double _height = 0;
   Color _color = Colors.green;
   BorderRadiusGeometry _borderRadius = BorderRadius.circular(8);
 

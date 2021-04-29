@@ -13,11 +13,26 @@ class MoviesApi {
         {'api_key': _apikey, 'language': language},
       );
 
+  static Uri getGenres(String endpoint, String language) => Uri.https(
+        _url,
+        '3/genre/movie/list',
+        {'api_key': _apikey, 'language': language},
+      );
+
+  // Img / Posters
   static String getMoviePoster(String posterPath) {
     if (posterPath == null) {
       return 'https://cdn11.bigcommerce.com/s-auu4kfi2d9/stencil/59512910-bb6d-0136-46ec-71c445b85d45/e/933395a0-cb1b-0135-a812-525400970412/icons/icon-no-image.svg';
     } else {
       return 'https://image.tmdb.org/t/p/w500/$posterPath';
+    }
+  }
+
+  static String getMovieBackgroundImg(String backdropPath) {
+    if (backdropPath == null) {
+      return 'https://cdn11.bigcommerce.com/s-auu4kfi2d9/stencil/59512910-bb6d-0136-46ec-71c445b85d45/e/933395a0-cb1b-0135-a812-525400970412/icons/icon-no-image.svg';
+    } else {
+      return 'https://image.tmdb.org/t/p/w500/$backdropPath';
     }
   }
 }

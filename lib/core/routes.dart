@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../injection_container.dart';
 import '../presentation/home/home.dart';
 import '../presentation/home/nav_cubit.dart';
+import '../presentation/movie_profile/movie_profile_view.dart';
 import '../presentation/movies/bloc/movies_bloc.dart';
-import '../presentation/movies/ui/movie_profile.dart';
 
 class AppRouter {
   Route onGenerateRoute(RouteSettings settings) {
@@ -22,7 +22,7 @@ class AppRouter {
         );
       case '/movie_profile':
         return MaterialPageRoute(
-            settings: settings, builder: (context) => MovieProfile());
+            settings: settings, builder: (context) => MovieProfileView());
       default:
         return null;
     }
