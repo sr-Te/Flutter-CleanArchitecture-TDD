@@ -3,20 +3,18 @@ import 'package:flutter/material.dart';
 
 import '../../../core/globals/movies_api.dart';
 import '../../../data/models/movie_model.dart';
-import '../../movies/ui/movie_poster.dart';
-import '../../widgets/transparent_appbar.dart';
+import '../ui/movie_poster.dart';
+import 'movie_profile_appbar.dart';
 
-class MovieProfile extends StatelessWidget {
-  final MovieModel movie;
-
-  MovieProfile({@required this.movie});
-
+class MoviesProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final MovieModel movie = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
-      appBar: TransparentAppbar(title: movie.title),
+      appBar: MoviesProfileAppbar(title: movie.title),
       body: Stack(
         children: [
           MoviePoster(movie: movie),
@@ -28,6 +26,7 @@ class MovieProfile extends StatelessWidget {
 
   Widget _infoCard(BuildContext context, MovieModel movie) {
     final topMargin = AppBar().preferredSize.height + 40;
+
     return Container(
       height: double.infinity,
       margin: EdgeInsets.only(top: topMargin, bottom: 20, left: 20, right: 20),

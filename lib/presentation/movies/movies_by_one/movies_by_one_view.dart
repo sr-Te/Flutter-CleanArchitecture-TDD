@@ -1,27 +1,29 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 import '../../../core/globals/movies_api.dart';
 import '../../../data/models/movie_model.dart';
-import 'movie_poster.dart';
-import 'movie_rating.dart';
+import '../movies_view_mode_cubit/movies_view_mode_cubit.dart';
+import '../ui/movie_poster.dart';
+import '../ui/movie_rating.dart';
 
-class MoviesSwiper extends StatefulWidget {
-  final List<MovieModel> movieList;
-  const MoviesSwiper({this.movieList});
+class MoviesByOneView extends StatefulWidget {
+  final List<MovieModel> movies;
+  const MoviesByOneView({this.movies});
 
   @override
-  _MoviesSwiperState createState() => _MoviesSwiperState();
+  _MoviesByOneViewState createState() => _MoviesByOneViewState();
 }
 
-class _MoviesSwiperState extends State<MoviesSwiper> {
+class _MoviesByOneViewState extends State<MoviesByOneView> {
   MovieModel actualMovie;
 
   @override
   void initState() {
     super.initState();
-    actualMovie = widget.movieList[0];
+    actualMovie = widget.movies[0];
   }
 
   @override
@@ -43,12 +45,11 @@ class _MoviesSwiperState extends State<MoviesSwiper> {
           Container(
             height: _screenHeight * 0.54,
             child: Swiper(
-              itemCount: widget.movieList.length,
+              itemCount: widget.movies.length,
               viewportFraction: 0.6,
               scale: 0.5,
               onIndexChanged: (i) => indexChange(i),
-              itemBuilder: (context, i) =>
-                  _moviePoster(context, widget.movieList[i]),
+              itemBuilder: (context, i) => _moviePoster(context, i),
             ),
           ),
           SizedBox(height: 20),
@@ -81,13 +82,13 @@ class _MoviesSwiperState extends State<MoviesSwiper> {
     );
   }
 
-  Widget _moviePoster(BuildContext context, MovieModel movie) {
+  Widget _moviePoster(BuildContext context, int index) {
     return Hero(
-      tag: movie.id,
+      tag: widget.movies[index].id,
       child: GestureDetector(
-        onTap: () => _goToMovieProfile(context, movie),
+        onTap: () => _goToMovieProfile(context, widget.movies[index]),
         child: CachedNetworkImage(
-          imageUrl: MoviesApi.getMoviePoster(movie.posterPath),
+          imageUrl: MoviesApi.getMoviePoster(widget.movies[index].posterPath),
           imageBuilder: (context, imageProvider) => Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -104,7 +105,8 @@ class _MoviesSwiperState extends State<MoviesSwiper> {
   }
 
   indexChange(int i) {
-    actualMovie = widget.movieList[i];
+    BlocProvider.of<MoviesViewModeCubit>(context).byOneMovieViewMode(index: i);
+    actualMovie = widget.movies[i];
     setState(() {});
   }
 

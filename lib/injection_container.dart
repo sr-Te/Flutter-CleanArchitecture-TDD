@@ -11,6 +11,7 @@ import 'domain/repositories/movies_repository.dart';
 import 'domain/usecases/get_movies.dart';
 import 'presentation/home/nav_cubit.dart';
 import 'presentation/movies/bloc/movies_bloc.dart';
+import 'presentation/movies/movies_view_mode_cubit/movies_view_mode_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -26,6 +27,8 @@ Future<void> init() async {
       getMovies: sl(),
     ),
   );
+
+  sl.registerFactory(() => MoviesViewModeCubit());
 
   // UseCases
   sl.registerLazySingleton(() => GetMovies(sl()));

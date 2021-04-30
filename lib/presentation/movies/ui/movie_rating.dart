@@ -5,8 +5,9 @@ import '../../../data/models/movie_model.dart';
 
 class MovieRating extends StatelessWidget {
   final MovieModel movie;
+  final bool tiny;
 
-  const MovieRating({this.movie});
+  const MovieRating({this.movie, this.tiny = false});
   @override
   Widget build(BuildContext context) {
     final _percent = movie.voteAverage / 10;
@@ -14,10 +15,10 @@ class MovieRating extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 30),
         child: CircularPercentIndicator(
-          radius: 65.0,
+          radius: tiny ? 45 : 65.0,
           animation: true,
           animationDuration: 800,
-          lineWidth: 7.0,
+          lineWidth: tiny ? 5.0 : 7.0,
           percent: _percent,
           center: Stack(
             children: [
@@ -25,7 +26,7 @@ class MovieRating extends StatelessWidget {
                 child: Opacity(
                   opacity: 0.6,
                   child: Container(
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsets.all(tiny ? 8.2 : 15),
                     decoration: BoxDecoration(
                       color: Colors.black,
                       borderRadius: BorderRadius.circular(1000),
@@ -39,7 +40,7 @@ class MovieRating extends StatelessWidget {
                   '${movie.voteAverage}',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 14.0,
+                    fontSize: tiny ? 12 : 14.0,
                     color: Colors.white,
                   ),
                 ),
