@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/globals/movies_api.dart';
+import '../../../data/datasources/movies_api.dart';
 import '../../../data/models/movie_model.dart';
 
 class MoviePoster extends StatelessWidget {

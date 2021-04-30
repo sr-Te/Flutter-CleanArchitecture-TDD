@@ -5,9 +5,9 @@ import '../../data/models/movie_model.dart';
 import '../widgets/custom_drawer.dart';
 import '../widgets/transparent_appbar.dart';
 import 'bloc/movies_bloc.dart';
+import 'cubit/movies_view_mode_cubit/movies_view_mode_cubit.dart';
 import 'movies_by_one/movies_by_one_view.dart';
 import 'movies_grid/movies_grid_view.dart';
-import 'movies_view_mode_cubit/movies_view_mode_cubit.dart';
 import 'ui/movies_loading_view.dart';
 
 class MoviesView extends StatelessWidget {

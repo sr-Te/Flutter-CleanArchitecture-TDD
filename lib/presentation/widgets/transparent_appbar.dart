@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_movie_list/presentation/movies/movies_view_mode_cubit/movies_view_mode_cubit.dart';
+import 'package:my_movie_list/presentation/movies/cubit/movies_view_mode_cubit/movies_view_mode_cubit.dart';
 
 class TransparentAppbar extends StatelessWidget with PreferredSizeWidget {
   @override

@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:my_movie_list/core/globals/movies_api.dart';
-import 'package:my_movie_list/data/models/movie_model.dart';
-import 'package:my_movie_list/presentation/movies/ui/movie_rating.dart';
+
+import '../../../data/datasources/movies_api.dart';
+import '../../../data/models/movie_model.dart';
+import '../ui/movie_rating.dart';
 
 class MoviesGridView extends StatelessWidget {
   final List<MovieModel> movies;

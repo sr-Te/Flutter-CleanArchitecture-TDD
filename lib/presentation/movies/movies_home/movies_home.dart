@@ -1,29 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/globals/movies_api.dart';
-import '../movies/bloc/movies_bloc.dart';
-import '../movies/movies_view.dart';
-import 'nav_cubit.dart';
+import '../../../data/datasources/movies_api.dart';
+import '../bloc/movies_bloc.dart';
+import '../cubit/movies_nav_cubit.dart';
+import '../movies_view.dart';
 
-class Home extends StatelessWidget {
+class MoviesHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<MoviesBloc, MoviesState>(
       listener: (context, state) {
         if (state is MoviesInitial) _initMovies(context, state);
       },
-      child: BlocBuilder<NavCubit, int>(
+      child: BlocBuilder<MoviesNavCubit, MovieCategory>(
         builder: (context, state) {
           switch (state) {
-            case 1:
-              return _moviesPopular(context);
-            case 2:
-              return _moviesNowPlaying(context);
-            case 3:
-              return _moviesUpcoming(context);
-            default:
+            case MovieCategory.topRated:
               return _moviesTopRated(context);
+            case MovieCategory.nowPlaying:
+              return _moviesNowPlaying(context);
+            case MovieCategory.upComing:
+              return _moviesUpcoming(context);
+            case MovieCategory.popular:
+              return _moviesPopular(context);
+            default:
+              return null;
           }
         },
       ),

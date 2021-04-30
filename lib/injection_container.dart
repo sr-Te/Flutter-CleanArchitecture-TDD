@@ -9,9 +9,9 @@ import 'data/datasources/movies_remote_data_source.dart';
 import 'data/repositories/movies_repository_impl.dart';
 import 'domain/repositories/movies_repository.dart';
 import 'domain/usecases/get_movies.dart';
-import 'presentation/home/nav_cubit.dart';
 import 'presentation/movies/bloc/movies_bloc.dart';
-import 'presentation/movies/movies_view_mode_cubit/movies_view_mode_cubit.dart';
+import 'presentation/movies/cubit/movies_nav_cubit.dart';
+import 'presentation/movies/cubit/movies_view_mode_cubit/movies_view_mode_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -20,7 +20,7 @@ Future<void> init() async {
   //!     FEATURES - MOVIES
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   // Bloc
-  sl.registerFactory(() => NavCubit());
+  sl.registerFactory(() => MoviesNavCubit());
 
   sl.registerFactory(
     () => MoviesBloc(

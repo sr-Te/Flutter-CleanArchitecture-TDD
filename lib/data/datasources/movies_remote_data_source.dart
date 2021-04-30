@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../core/errors/exception.dart';
-import '../../core/globals/movies_api.dart';
 import '../models/movie_model.dart';
+import 'movies_api.dart';
 
 abstract class MoviesRemoteDataSource {
   Future<MovieListModel> getMovies(String endpoint, String language);

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
-import '../../../core/globals/movies_api.dart';
+import '../../../data/datasources/movies_api.dart';
 import '../../../data/models/movie_model.dart';
-import '../movies_view_mode_cubit/movies_view_mode_cubit.dart';
+import '../cubit/movies_view_mode_cubit/movies_view_mode_cubit.dart';
 import '../ui/movie_poster.dart';
 import '../ui/movie_rating.dart';
 
@@ -19,12 +19,6 @@ class MoviesByOneView extends StatefulWidget {
 
 class _MoviesByOneViewState extends State<MoviesByOneView> {
   MovieModel actualMovie;
-
-  @override
-  void initState() {
-    super.initState();
-    actualMovie = widget.movies[0];
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,28 +52,20 @@ class _MoviesByOneViewState extends State<MoviesByOneView> {
     ]);
   }
 
-  Widget _movieTitle(BuildContext context, MovieModel actualMovie) {
-    return Opacity(
-      opacity: 0.7,
-      child: Container(
-        height: 50,
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: Text(
-            actualMovie.title,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    );
+  indexChange(int i) {
+    BlocProvider.of<MoviesViewModeCubit>(context).byOneMovieViewMode(index: i);
+    actualMovie = widget.movies[i];
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    actualMovie = widget.movies[0];
+  }
+
+  _goToMovieProfile(BuildContext context, MovieModel movie) {
+    Navigator.of(context).pushNamed('/movie_profile', arguments: movie);
   }
 
   Widget _moviePoster(BuildContext context, int index) {
@@ -104,13 +90,27 @@ class _MoviesByOneViewState extends State<MoviesByOneView> {
     );
   }
 
-  indexChange(int i) {
-    BlocProvider.of<MoviesViewModeCubit>(context).byOneMovieViewMode(index: i);
-    actualMovie = widget.movies[i];
-    setState(() {});
-  }
-
-  _goToMovieProfile(BuildContext context, MovieModel movie) {
-    Navigator.of(context).pushNamed('/movie_profile', arguments: movie);
+  Widget _movieTitle(BuildContext context, MovieModel actualMovie) {
+    return Opacity(
+      opacity: 0.7,
+      child: Container(
+        height: 50,
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Text(
+            actualMovie.title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/globals/movies_api.dart';
+import '../../../data/datasources/movies_api.dart';
 import '../../../data/models/movie_model.dart';
 import '../ui/movie_poster.dart';
 import 'movie_profile_appbar.dart';

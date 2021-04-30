@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_movie_list/presentation/home/nav_cubit.dart';
+
+import '../movies/cubit/movies_nav_cubit.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -44,7 +45,7 @@ class CustomDrawer extends StatelessWidget {
       title: 'En Reproducción',
       function: () {
         Navigator.of(context).pop();
-        BlocProvider.of<NavCubit>(context).getMoviesNowPlaying();
+        BlocProvider.of<MoviesNavCubit>(context).getMoviesNowPlaying();
       },
     );
   }
@@ -55,7 +56,7 @@ class CustomDrawer extends StatelessWidget {
       title: 'Populares',
       function: () {
         Navigator.of(context).pop();
-        BlocProvider.of<NavCubit>(context).getMoviesPopular();
+        BlocProvider.of<MoviesNavCubit>(context).getMoviesPopular();
       },
     );
   }
@@ -66,7 +67,7 @@ class CustomDrawer extends StatelessWidget {
       title: 'Mejor Valoradas',
       function: () {
         Navigator.of(context).pop();
-        BlocProvider.of<NavCubit>(context).getMoviesTopRated();
+        BlocProvider.of<MoviesNavCubit>(context).getMoviesTopRated();
       },
     );
   }
@@ -77,7 +78,7 @@ class CustomDrawer extends StatelessWidget {
       title: 'Próximamente',
       function: () {
         Navigator.of(context).pop();
-        BlocProvider.of<NavCubit>(context).getMoviesUpcoming();
+        BlocProvider.of<MoviesNavCubit>(context).getMoviesUpcoming();
       },
     );
   }
