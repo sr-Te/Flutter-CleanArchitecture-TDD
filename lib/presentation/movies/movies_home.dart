@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../data/datasources/movies_api.dart';
-import '../bloc/movies_bloc.dart';
-import '../cubit/movies_nav_cubit.dart';
-import '../movies_view.dart';
+import '../../data/datasources/movies_api.dart';
+import 'business_logic/movies_bloc/movies_bloc.dart';
+import 'business_logic/movies_nav_cubit.dart';
+import 'movies_view/movies_view.dart';
 
 class MoviesHome extends StatelessWidget {
   @override

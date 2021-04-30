@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../movies/cubit/movies_nav_cubit.dart';
+import '../movies/business_logic/movies_nav_cubit.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override

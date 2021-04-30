@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../data/models/movie_model.dart';
-import '../widgets/custom_drawer.dart';
-import '../widgets/transparent_appbar.dart';
-import 'bloc/movies_bloc.dart';
-import 'cubit/movies_view_mode_cubit/movies_view_mode_cubit.dart';
-import 'movies_by_one/movies_by_one_view.dart';
-import 'movies_grid/movies_grid_view.dart';
-import 'ui/movies_loading_view.dart';
+import '../../../data/models/movie_model.dart';
+import '../../widgets/custom_drawer.dart';
+import '../../widgets/transparent_appbar.dart';
+import '../business_logic/movies_bloc/movies_bloc.dart';
+import '../business_logic/movies_view_mode_cubit/movies_view_mode_cubit.dart';
+import 'movies_by_one_view.dart';
+import 'movies_grid_view.dart';
+import 'movies_loading_view.dart';
 
 class MoviesView extends StatelessWidget {
   final String title;
