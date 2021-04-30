@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:equatable/equatable.dart';
-
 class MovieListModel {
   List<MovieModel> items = [];
   MovieListModel();
@@ -28,7 +26,7 @@ MovieModel movieModelFromJson(String str) =>
 
 String movieModelToJson(MovieModel data) => json.encode(data.toJson());
 
-class MovieModel extends Equatable {
+class MovieModel {
   MovieModel({
     this.adult,
     this.backdropPath,
@@ -95,7 +93,4 @@ class MovieModel extends Equatable {
         "vote_average": voteAverage,
         "vote_count": voteCount,
       };
-
-  @override
-  List<Object> get props => throw UnimplementedError();
 }
