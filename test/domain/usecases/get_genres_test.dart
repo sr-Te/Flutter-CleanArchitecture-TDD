@@ -3,18 +3,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:my_movie_list/data/datasources/movies_api.dart';
 import 'package:my_movie_list/domain/entities/genre.dart';
-import 'package:my_movie_list/domain/repositories/movies_repository.dart';
-import 'package:my_movie_list/domain/usecases/get_movie_genres.dart';
+import 'package:my_movie_list/domain/repositories/genres_repository.dart';
+import 'package:my_movie_list/domain/usecases/get_genres.dart';
 
-class MockMovieRepository extends Mock implements MoviesRepository {}
+class MockGenresRepository extends Mock implements GenresRepository {}
 
 void main() {
-  GetMovieGenres usecase;
-  MockMovieRepository mockMovieRepository;
+  GetGenres usecase;
+  MockGenresRepository mockMovieRepository;
 
   setUp(() {
-    mockMovieRepository = MockMovieRepository();
-    usecase = GetMovieGenres(mockMovieRepository);
+    mockMovieRepository = MockGenresRepository();
+    usecase = GetGenres(mockMovieRepository);
   });
 
   final tLanguage = MoviesApi.en;
@@ -24,13 +24,13 @@ void main() {
     'shoul get movie list from the repository',
     () async {
       // arrange
-      when(mockMovieRepository.getMovieGenres(any))
+      when(mockMovieRepository.getGenres(any))
           .thenAnswer((_) async => Right(tGenreList));
       // act
       final result = await usecase(Params(language: tLanguage));
       // assert
       expect(result, Right(tGenreList));
-      verify(mockMovieRepository.getMovieGenres(tLanguage));
+      verify(mockMovieRepository.getGenres(tLanguage));
       verifyNoMoreInteractions(mockMovieRepository);
     },
   );

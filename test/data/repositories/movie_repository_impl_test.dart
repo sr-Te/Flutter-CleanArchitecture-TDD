@@ -54,7 +54,7 @@ void main() {
     });
   }
 
-  group('getMoviesNowPlaying', () {
+  group('getMovies', () {
     // DATA FOR THE MOCKS AND ASSERTIONS
     final tLanguage = MoviesApi.en;
     final tEndpoint = MoviesEndpoint.nowPlaying;

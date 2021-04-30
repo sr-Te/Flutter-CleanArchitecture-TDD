@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import '../../core/errors/failure.dart';
 import '../../core/usecases/usecase.dart';
 import '../entities/genre.dart';
-import '../repositories/movies_repository.dart';
+import '../repositories/genres_repository.dart';
 
-class GetMovieGenres extends UseCase<List<Genre>, Params> {
-  final MoviesRepository repository;
+class GetGenres extends UseCase<List<Genre>, Params> {
+  final GenresRepository repository;
 
-  GetMovieGenres(this.repository);
+  GetGenres(this.repository);
 
   @override
   Future<Either<Failure, List<Genre>>> call(params) async {
-    return await repository.getMovieGenres(params.language);
+    return await repository.getGenres(params.language);
   }
 }
 
