@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:my_movie_list/core/errors/failure.dart';
 import 'package:my_movie_list/core/globals/failure_message.dart';
-import 'package:my_movie_list/core/globals/movies_api.dart';
+import 'package:my_movie_list/data/datasources/movies_api.dart';
 import 'package:my_movie_list/data/models/movie_model.dart';
 import 'package:my_movie_list/domain/usecases/get_movies.dart';
 import 'package:my_movie_list/presentation/movies/bloc/movies_bloc.dart';

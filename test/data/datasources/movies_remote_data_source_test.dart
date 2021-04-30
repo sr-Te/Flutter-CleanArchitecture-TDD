@@ -5,7 +5,7 @@ import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_movie_list/core/errors/exception.dart';
-import 'package:my_movie_list/core/globals/movies_api.dart';
+import 'package:my_movie_list/data/datasources/movies_api.dart';
 import 'package:my_movie_list/data/datasources/movies_remote_data_source.dart';
 import 'package:my_movie_list/data/models/movie_model.dart';
 
