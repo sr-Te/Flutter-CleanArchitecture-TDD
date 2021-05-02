@@ -66,7 +66,7 @@ void main() {
         // act
         final result = await dataSource.getMovies(tEndpoint, tLanguage);
         // arrange
-        expect(result, isA<MovieListModel>());
+        expect(result, isA<List<MovieModel>>());
       },
     );
 

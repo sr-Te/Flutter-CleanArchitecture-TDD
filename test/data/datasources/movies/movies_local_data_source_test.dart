@@ -37,7 +37,7 @@ void main() {
         final result = await dataSource.getLastMovies(tEndpoint);
         // assert
         verify(mockSharedPreferences.getString(tEndpoint));
-        expect(result, isA<MovieListModel>());
+        expect(result, isA<List<MovieModel>>());
       },
     );
 
@@ -55,7 +55,7 @@ void main() {
   });
 
   group('cacheMovies', () {
-    final tMovieListModel = MovieListModel();
+    final List<MovieModel> tMovieListModel = [];
 
     test(
       'should call SharedPreferences to cache the data',
@@ -63,7 +63,9 @@ void main() {
         // act
         dataSource.cacheMovies(tEndpoint, tMovieListModel);
         // assert
-        final expectedJsonString = json.encode(tMovieListModel.toJson());
+        final expectedJsonString = json.encode(
+          movieModelListToJsonList(tMovieListModel),
+        );
         verify(mockSharedPreferences.setString(
           tEndpoint,
           expectedJsonString,

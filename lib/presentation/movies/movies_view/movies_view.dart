@@ -42,7 +42,7 @@ class MoviesView extends StatelessWidget {
   }
 
   Widget _moviesLoadSuccess(MoviesLoadSuccess state) {
-    List<MovieModel> movies = state.movieList.items;
+    List<MovieModel> movies = state.movieList;
 
     return BlocBuilder<MoviesViewModeCubit, MoviesViewModeState>(
       builder: (context, state) {

@@ -14,7 +14,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
   final MoviesLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
-  Map<String, MovieListModel> moviesByCategory = {};
+  Map<String, List<MovieModel>> moviesByCategory = {};
 
   MoviesRepositoryImpl({
     @required this.remoteDataSource,
@@ -23,12 +23,12 @@ class MoviesRepositoryImpl implements MoviesRepository {
   });
 
   @override
-  Future<Either<Failure, MovieListModel>> getMovies(
+  Future<Either<Failure, List<MovieModel>>> getMovies(
     String endpoint,
     String language,
   ) async {
     if (moviesByCategory[endpoint] != null &&
-        moviesByCategory[endpoint].items.isNotEmpty) {
+        moviesByCategory[endpoint].isNotEmpty) {
       return Right(moviesByCategory[endpoint]);
     } else if (await networkInfo.isConnected) {
       try {

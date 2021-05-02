@@ -8,7 +8,7 @@ import '../../models/movie_model.dart';
 import '../movies_api.dart';
 
 abstract class MoviesRemoteDataSource {
-  Future<MovieListModel> getMovies(String endpoint, String language);
+  Future<List<MovieModel>> getMovies(String endpoint, String language);
 }
 
 class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
@@ -17,13 +17,13 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   MoviesRemoteDataSourceImpl({@required this.client});
 
   @override
-  Future<MovieListModel> getMovies(String endpoint, String language) async {
+  Future<List<MovieModel>> getMovies(String endpoint, String language) async {
     final response = await client.get(
       MoviesApi.getMovies(endpoint, language),
     );
 
     if (response.statusCode == 200)
-      return MovieListModel.fromJsonList(json.decode(response.body)['results']);
+      return movieModelListFromJsonList(json.decode(response.body)['results']);
     else
       throw ServerException();
   }

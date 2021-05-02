@@ -24,7 +24,7 @@ void main() {
   });
 
   group('GetNowPlaying', () {
-    final tMovieList = MovieListModel();
+    final List<MovieModel> tMovieList = [];
     final tLanguage = MoviesApi.en;
     final tEndpoint = MoviesEndpoint.nowPlaying;
 

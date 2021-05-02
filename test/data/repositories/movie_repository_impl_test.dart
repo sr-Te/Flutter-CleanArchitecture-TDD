@@ -58,7 +58,7 @@ void main() {
     // DATA FOR THE MOCKS AND ASSERTIONS
     final tLanguage = MoviesApi.en;
     final tEndpoint = MoviesEndpoint.nowPlaying;
-    final tMovieList = MovieListModel();
+    final List<MovieModel> tMovieList = [];
 
     test(
       'should check if the device is online',

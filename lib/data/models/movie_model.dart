@@ -1,24 +1,22 @@
 import 'dart:convert';
 
-class MovieListModel {
-  List<MovieModel> items = [];
-  MovieListModel();
+List<MovieModel> movieModelListFromJsonList(List<dynamic> jsonList) {
+  if (jsonList == null) return [];
 
-  MovieListModel.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) return;
+  List<MovieModel> movies = [];
+  jsonList.forEach((item) {
+    final movie = MovieModel.fromJson(item);
+    movies.add(movie);
+  });
+  return movies;
+}
 
-    jsonList.forEach((item) {
-      final movie = MovieModel.fromJson(item);
-      items.add(movie);
-    });
-  }
-  List<Map<String, dynamic>> toJson() {
-    List<Map<String, dynamic>> tmp = [];
-    items.forEach((i) {
-      tmp.add(i.toJson());
-    });
-    return tmp;
-  }
+List<Map<String, dynamic>> movieModelListToJsonList(List<MovieModel> movies) {
+  List<Map<String, dynamic>> moviesJson = [];
+  movies.forEach((movie) {
+    moviesJson.add(movie.toJson());
+  });
+  return moviesJson;
 }
 
 MovieModel movieModelFromJson(String str) =>

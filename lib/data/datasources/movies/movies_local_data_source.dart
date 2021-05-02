@@ -7,8 +7,8 @@ import '../../../core/errors/exception.dart';
 import '../../models/movie_model.dart';
 
 abstract class MoviesLocalDataSource {
-  Future<MovieListModel> getLastMovies(String endpoint);
-  Future<void> cacheMovies(String endpoint, MovieListModel moviesToCache);
+  Future<List<MovieModel>> getLastMovies(String endpoint);
+  Future<void> cacheMovies(String endpoint, List<MovieModel> moviesToCache);
 }
 
 class MoviesLocalDataSourceImpl implements MoviesLocalDataSource {
@@ -17,16 +17,16 @@ class MoviesLocalDataSourceImpl implements MoviesLocalDataSource {
   MoviesLocalDataSourceImpl({@required this.sharedPreferences});
 
   @override
-  Future<void> cacheMovies(String endpoint, MovieListModel moviesToCache) {
+  Future<void> cacheMovies(String endpoint, List<MovieModel> moviesToCache) {
     return sharedPreferences.setString(
-        endpoint, json.encode(moviesToCache.toJson()));
+        endpoint, json.encode(movieModelListToJsonList(moviesToCache)));
   }
 
   @override
-  Future<MovieListModel> getLastMovies(String endpoint) {
+  Future<List<MovieModel>> getLastMovies(String endpoint) {
     final jsonString = sharedPreferences.getString(endpoint);
     if (jsonString != null) {
-      return Future.value(MovieListModel.fromJsonList(json.decode(jsonString)));
+      return Future.value(movieModelListFromJsonList(json.decode(jsonString)));
     } else {
       throw CacheException();
     }

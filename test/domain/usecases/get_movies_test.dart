@@ -19,7 +19,7 @@ void main() {
 
   final tLanguage = MoviesApi.en;
   final tEndpoint = MoviesEndpoint.nowPlaying;
-  final tMovieList = MovieListModel();
+  final List<MovieModel> tMovieList = [];
 
   test(
     'shoul get movie list from the repository',
