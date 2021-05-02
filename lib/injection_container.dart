@@ -1,14 +1,16 @@
-import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 
 import 'core/network/network_info.dart';
 import 'data/datasources/genres/genres_local_data_source.dart';
 import 'data/datasources/genres/genres_remote_data_source.dart';
 import 'data/datasources/movies/movies_local_data_source.dart';
 import 'data/datasources/movies/movies_remote_data_source.dart';
+import 'data/repositories/genres_repository_impl.dart';
 import 'data/repositories/movies_repository_impl.dart';
+import 'domain/repositories/genres_repository.dart';
 import 'domain/repositories/movies_repository.dart';
 import 'domain/usecases/get_genres.dart';
 import 'domain/usecases/get_movies.dart';
@@ -56,6 +58,15 @@ Future<void> init() async {
 
   // UseCases
   sl.registerLazySingleton(() => GetGenres(sl()));
+
+  // Repository
+  sl.registerLazySingleton<GenresRepository>(
+    () => GenresRepositoryImpl(
+      remoteDataSource: sl(),
+      localDataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
 
   // DataSources
   sl.registerLazySingleton<GenresLocalDataSource>(
