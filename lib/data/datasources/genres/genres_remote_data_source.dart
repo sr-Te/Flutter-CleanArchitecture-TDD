@@ -1,5 +1,5 @@
-import '../../../domain/entities/genre.dart';
+import '../../models/genre_model.dart';
 
 abstract class GenresRemoteDataSource {
-  Future<List<Genre>> getGenres(String language);
+  Future<List<GenreModel>> getGenres(String language);
 }

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:my_movie_list/domain/entities/movie.dart';
+
 List<MovieModel> movieModelListFromJsonList(List<dynamic> jsonList) {
   if (jsonList == null) return [];
 
@@ -24,23 +26,38 @@ MovieModel movieModelFromJson(String str) =>
 
 String movieModelToJson(MovieModel data) => json.encode(data.toJson());
 
-class MovieModel {
+class MovieModel extends Movie {
   MovieModel({
+    this.id,
+    this.title,
     this.adult,
     this.backdropPath,
     this.genreIds,
-    this.id,
     this.originalLanguage,
     this.originalTitle,
     this.overview,
     this.popularity,
     this.posterPath,
     this.releaseDate,
-    this.title,
     this.video,
     this.voteAverage,
     this.voteCount,
-  });
+  }) : super(
+          id: id,
+          title: title,
+          adult: adult,
+          backdropPath: backdropPath,
+          genreIds: genreIds,
+          originalLanguage: originalLanguage,
+          originalTitle: originalTitle,
+          overview: overview,
+          popularity: popularity,
+          posterPath: posterPath,
+          releaseDate: releaseDate,
+          video: video,
+          voteAverage: voteAverage,
+          voteCount: voteCount,
+        );
 
   final bool adult;
   final String backdropPath;

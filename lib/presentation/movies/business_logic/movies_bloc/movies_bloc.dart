@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/errors/failure.dart';
-import '../../../../data/models/movie_model.dart';
+import '../../../../domain/entities/movie.dart';
 import '../../../../domain/usecases/get_movies.dart';
 
 part 'movies_event.dart';
@@ -29,7 +29,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     );
     yield failureOrMovies.fold(
       (failure) => MoviesLoadFailure(message: _mapFailureToMessage(failure)),
-      (movies) => MoviesLoadSuccess(movieList: movies),
+      (movies) => MoviesLoadSuccess(movies: movies),
     );
   }
 

@@ -1,19 +1,19 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:my_movie_list/data/datasources/movies_api.dart';
 
 import '../../core/errors/failure.dart';
 import '../../core/usecases/usecase.dart';
-import '../../data/models/movie_model.dart';
+import '../../data/datasources/movies_api.dart';
+import '../entities/movie.dart';
 import '../repositories/movies_repository.dart';
 
-class GetMovies extends UseCase<List<MovieModel>, Params> {
+class GetMovies extends UseCase<List<Movie>, Params> {
   final MoviesRepository repository;
 
   GetMovies(this.repository);
 
   @override
-  Future<Either<Failure, List<MovieModel>>> call(Params params) async {
+  Future<Either<Failure, List<Movie>>> call(Params params) async {
     return await repository.getMovies(params.endpoint, params.language);
   }
 }

@@ -1,19 +1,19 @@
-import '../../../domain/entities/genre.dart';
+import '../../models/genre_model.dart';
 
 abstract class GenresLocalDataSource {
-  Future<List<Genre>> getLastGenres();
-  Future<void> cacheGenres(List<Genre> moviesToCache);
+  Future<List<GenreModel>> getLastGenres();
+  Future<void> cacheGenres(List<GenreModel> moviesToCache);
 }
 
 class GenresLocalDataSourseImpl implements GenresLocalDataSource {
   @override
-  Future<void> cacheGenres(List<Genre> moviesToCache) {
+  Future<void> cacheGenres(List<GenreModel> moviesToCache) {
     // TODO: implement cacheGenres
     throw UnimplementedError();
   }
 
   @override
-  Future<List<Genre>> getLastGenres() {
+  Future<List<GenreModel>> getLastGenres() {
     // TODO: implement getLastGenres
     throw UnimplementedError();
   }

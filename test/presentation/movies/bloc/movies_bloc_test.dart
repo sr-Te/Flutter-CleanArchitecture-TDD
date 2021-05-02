@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:my_movie_list/core/errors/failure.dart';
 import 'package:my_movie_list/data/datasources/movies_api.dart';
-import 'package:my_movie_list/data/models/movie_model.dart';
+import 'package:my_movie_list/domain/entities/movie.dart';
 import 'package:my_movie_list/domain/usecases/get_movies.dart';
 import 'package:my_movie_list/presentation/movies/business_logic/movies_bloc/movies_bloc.dart';
 
@@ -24,7 +24,7 @@ void main() {
   });
 
   group('GetNowPlaying', () {
-    final List<MovieModel> tMovieList = [];
+    final List<Movie> tMovieList = [];
     final tLanguage = MoviesApi.en;
     final tEndpoint = MoviesEndpoint.nowPlaying;
 
@@ -49,7 +49,7 @@ void main() {
         // assert layer
         final expected = [
           MoviesLoadInProgress(),
-          MoviesLoadSuccess(movieList: tMovieList),
+          MoviesLoadSuccess(movies: tMovieList),
         ];
         expectLater(bloc.stream, emitsInOrder(expected));
         //act
