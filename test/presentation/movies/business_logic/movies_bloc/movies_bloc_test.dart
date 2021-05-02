@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:my_movie_list/core/errors/failure.dart';
 import 'package:my_movie_list/data/datasources/movies_api.dart';
 import 'package:my_movie_list/domain/entities/movie.dart';
@@ -18,18 +18,18 @@ void main() {
     bloc = MoviesBloc(getMovies: mockGetMovies);
   });
 
-  test('initialState should be EmptyMovies', () {
+  test('initialState should be MoviesInitial', () {
     // assert
     expect(bloc.state, equals(MoviesInitial()));
   });
 
-  group('GetNowPlaying', () {
+  group('MoviesGet', () {
     final List<Movie> tMovieList = [];
     final tLanguage = MoviesApi.en;
     final tEndpoint = MoviesEndpoint.nowPlaying;
 
     test(
-      'should get data from nowPlaying usecase',
+      'should get data from getMovies usecase',
       () async {
         // arrange
         when(mockGetMovies(any)).thenAnswer((_) async => Right(tMovieList));
@@ -42,11 +42,11 @@ void main() {
     );
 
     test(
-      'should emit [LoadingMovies, LoadedMovies] when data is gotten successfully',
+      'should emit [MoviesLoadInProgress, MoviesLoadSuccess] when data is gotten successfully',
       () async {
         // arrange
         when(mockGetMovies(any)).thenAnswer((_) async => Right(tMovieList));
-        // assert layer
+        // assert
         final expected = [
           MoviesLoadInProgress(),
           MoviesLoadSuccess(movies: tMovieList),

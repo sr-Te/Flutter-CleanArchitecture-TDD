@@ -12,9 +12,15 @@ class MoviesLoadInProgress extends MoviesState {}
 class MoviesLoadSuccess extends MoviesState {
   final List<Movie> movies;
   MoviesLoadSuccess({@required this.movies});
+
+  @override
+  List<Object> get props => [this.movies];
 }
 
 class MoviesLoadFailure extends MoviesState {
   final String message;
   MoviesLoadFailure({@required this.message});
+
+  @override
+  List<Object> get props => [this.message];
 }

@@ -8,5 +8,9 @@ abstract class MoviesEvent extends Equatable {
 class MoviesGet extends MoviesEvent {
   final String endpoint;
   final String language;
+
   MoviesGet(this.endpoint, this.language);
+
+  @override
+  List<Object> get props => [this.endpoint, this.language];
 }

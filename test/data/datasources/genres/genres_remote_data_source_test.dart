@@ -5,27 +5,27 @@ import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_movie_list/core/errors/exception.dart';
-import 'package:my_movie_list/data/datasources/movies/movies_remote_data_source.dart';
+import 'package:my_movie_list/data/datasources/genres/genres_remote_data_source.dart';
 import 'package:my_movie_list/data/datasources/movies_api.dart';
-import 'package:my_movie_list/data/models/movie_model.dart';
+import 'package:my_movie_list/data/models/genre_model.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
 class MockHttpClient extends Mock implements http.Client {}
 
 void main() {
-  MoviesRemoteDataSourceImpl dataSource;
+  GenresRemoteDataSourceImpl dataSource;
   MockHttpClient mockHttpClient;
 
   setUp(() {
     mockHttpClient = MockHttpClient();
-    dataSource = MoviesRemoteDataSourceImpl(client: mockHttpClient);
+    dataSource = GenresRemoteDataSourceImpl(client: mockHttpClient);
   });
 
   void setUpMockHttpClientSuccess200() {
     when(mockHttpClient.get(any)).thenAnswer(
       (_) async => http.Response(
-        fixture('movies_now_playing.json'),
+        fixture('genres.json'),
         200,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
@@ -40,9 +40,8 @@ void main() {
     );
   }
 
-  group('getMovies', () {
+  group('getGenres', () {
     final tLanguage = MoviesApi.es;
-    final tEndpoint = MoviesEndpoint.nowPlaying;
 
     test(
       'should preform a GET request on a URL',
@@ -50,23 +49,21 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        dataSource.getMovies(tEndpoint, tLanguage);
+        dataSource.getGenres(tLanguage);
         // assert
-        verify(mockHttpClient.get(
-          MoviesApi.getMovies(tEndpoint, tLanguage),
-        ));
+        verify(mockHttpClient.get(MoviesApi.getGenres(tLanguage)));
       },
     );
 
     test(
-      'should return List<MovieModel> when response code is 200 (success)',
+      'shoud return a List<GenreModel> when the Response code is 200 (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        final result = await dataSource.getMovies(tEndpoint, tLanguage);
-        // arrange
-        expect(result, isA<List<MovieModel>>());
+        final result = await dataSource.getGenres(tLanguage);
+        // assert
+        expect(result, isA<List<GenreModel>>());
       },
     );
 
@@ -76,10 +73,10 @@ void main() {
         // arrange
         setUpMockHttpClientFailure404();
         // act
-        final call = dataSource.getMovies;
+        final call = dataSource.getGenres;
         // assert
         expect(
-          () => call(tEndpoint, tLanguage),
+          () => call(tLanguage),
           throwsA(TypeMatcher<ServerException>()),
         );
       },

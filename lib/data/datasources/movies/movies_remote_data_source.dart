@@ -21,7 +21,6 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     final response = await client.get(
       MoviesApi.getMovies(endpoint, language),
     );
-
     if (response.statusCode == 200)
       return movieModelListFromJsonList(json.decode(response.body)['results']);
     else
