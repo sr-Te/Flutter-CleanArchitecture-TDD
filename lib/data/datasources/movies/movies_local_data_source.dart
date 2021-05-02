@@ -19,7 +19,9 @@ class MoviesLocalDataSourceImpl implements MoviesLocalDataSource {
   @override
   Future<void> cacheMovies(String endpoint, List<MovieModel> moviesToCache) {
     return sharedPreferences.setString(
-        endpoint, json.encode(movieModelListToJsonList(moviesToCache)));
+      endpoint,
+      json.encode(movieModelListToJsonList(moviesToCache)),
+    );
   }
 
   @override
