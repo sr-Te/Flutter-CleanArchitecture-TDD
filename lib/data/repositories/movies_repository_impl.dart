@@ -1,13 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:my_movie_list/domain/entities/genre.dart';
 
 import '../../core/errors/exception.dart';
 import '../../core/errors/failure.dart';
 import '../../core/network/network_info.dart';
 import '../../domain/repositories/movies_repository.dart';
-import '../datasources/movies_local_data_source.dart';
-import '../datasources/movies_remote_data_source.dart';
+import '../datasources/movies/movies_local_data_source.dart';
+import '../datasources/movies/movies_remote_data_source.dart';
 import '../models/movie_model.dart';
 
 class MoviesRepositoryImpl implements MoviesRepository {
@@ -50,10 +49,5 @@ class MoviesRepositoryImpl implements MoviesRepository {
         return Left(CacheFailure());
       }
     }
-  }
-
-  @override
-  Future<Either<Failure, List<Genre>>> getMovieGenres(String language) {
-    return null;
   }
 }

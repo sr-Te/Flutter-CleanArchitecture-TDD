@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:my_movie_list/core/errors/exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/movie_model.dart';
+import '../../../core/errors/exception.dart';
+import '../../models/movie_model.dart';
 
 abstract class MoviesLocalDataSource {
   Future<MovieListModel> getLastMovies(String endpoint);

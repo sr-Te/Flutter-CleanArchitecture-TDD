@@ -3,8 +3,8 @@ class MoviesApi {
   static String _url = 'api.themoviedb.org';
 
   // languages
-  static String es = 'es-ES';
-  static String en = 'en-US';
+  static const String es = 'es-ES';
+  static const String en = 'en-US';
 
   // Uris
   static Uri getMovies(String endpoint, String language) => Uri.https(
@@ -13,7 +13,7 @@ class MoviesApi {
         {'api_key': _apikey, 'language': language},
       );
 
-  static Uri getGenres(String endpoint, String language) => Uri.https(
+  static Uri getGenres(String language) => Uri.https(
         _url,
         '3/genre/movie/list',
         {'api_key': _apikey, 'language': language},
@@ -38,8 +38,8 @@ class MoviesApi {
 }
 
 class MoviesEndpoint {
-  static String nowPlaying = '3/movie/now_playing';
-  static String popular = '3/movie/popular';
-  static String topRated = '3/movie/top_rated';
-  static String upcoming = '3/movie/upcoming';
+  static const String nowPlaying = '3/movie/now_playing';
+  static const String popular = '3/movie/popular';
+  static const String topRated = '3/movie/top_rated';
+  static const String upcoming = '3/movie/upcoming';
 }

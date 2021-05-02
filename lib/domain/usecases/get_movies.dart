@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+import 'package:my_movie_list/data/datasources/movies_api.dart';
 
 import '../../core/errors/failure.dart';
 import '../../core/usecases/usecase.dart';
@@ -21,7 +21,11 @@ class GetMovies extends UseCase<MovieListModel, Params> {
 class Params extends Equatable {
   final String language;
   final String endpoint;
-  Params({@required this.endpoint, @required this.language});
+
+  Params({
+    this.endpoint = MoviesEndpoint.popular,
+    this.language = MoviesApi.es,
+  });
 
   @override
   List<Object> get props => [endpoint, language];

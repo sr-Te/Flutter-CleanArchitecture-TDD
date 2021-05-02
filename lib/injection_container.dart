@@ -4,8 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/network_info.dart';
-import 'data/datasources/movies_local_data_source.dart';
-import 'data/datasources/movies_remote_data_source.dart';
+import 'data/datasources/movies/movies_local_data_source.dart';
+import 'data/datasources/movies/movies_remote_data_source.dart';
 import 'data/repositories/movies_repository_impl.dart';
 import 'domain/repositories/movies_repository.dart';
 import 'domain/usecases/get_movies.dart';
