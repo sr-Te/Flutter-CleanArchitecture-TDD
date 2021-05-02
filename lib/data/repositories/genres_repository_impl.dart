@@ -14,6 +14,8 @@ class GenresRepositoryImpl extends GenresRepository {
   final GenresLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
+  List<Genre> genres = [];
+
   GenresRepositoryImpl({
     @required this.remoteDataSource,
     @required this.localDataSource,
@@ -22,10 +24,13 @@ class GenresRepositoryImpl extends GenresRepository {
 
   @override
   Future<Either<Failure, List<Genre>>> getGenres(String language) async {
-    if (await networkInfo.isConnected) {
+    if (genres != null && genres.isNotEmpty) {
+      return Right(genres);
+    } else if (await networkInfo.isConnected) {
       try {
         final remoteGenres = await remoteDataSource.getGenres(language);
         localDataSource.cacheGenres(remoteGenres);
+        genres = remoteGenres;
         return Right(remoteGenres);
       } on ServerException {
         return Left(ServerFailure());
@@ -33,6 +38,7 @@ class GenresRepositoryImpl extends GenresRepository {
     } else {
       try {
         final localGenres = await localDataSource.getLastGenres();
+        genres = localGenres;
         return Right(localGenres);
       } on CacheException {
         return Left(CacheFailure());

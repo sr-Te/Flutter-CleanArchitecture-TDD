@@ -4,20 +4,20 @@ import 'package:mockito/mockito.dart';
 import 'package:my_movie_list/core/errors/exception.dart';
 import 'package:my_movie_list/core/errors/failure.dart';
 import 'package:my_movie_list/core/network/network_info.dart';
-import 'package:my_movie_list/data/datasources/movies/movies_local_data_source.dart';
-import 'package:my_movie_list/data/datasources/movies/movies_remote_data_source.dart';
+import 'package:my_movie_list/data/datasources/genres/genres_local_data_source.dart';
+import 'package:my_movie_list/data/datasources/genres/genres_remote_data_source.dart';
 import 'package:my_movie_list/data/datasources/movies_api.dart';
-import 'package:my_movie_list/data/models/movie_model.dart';
-import 'package:my_movie_list/data/repositories/movies_repository_impl.dart';
+import 'package:my_movie_list/data/repositories/genres_repository_impl.dart';
+import 'package:my_movie_list/domain/entities/genre.dart';
 
-class MockRemoteDataSource extends Mock implements MoviesRemoteDataSource {}
+class MockRemoteDataSource extends Mock implements GenresRemoteDataSource {}
 
-class MockLocalDataSource extends Mock implements MoviesLocalDataSource {}
+class MockLocalDataSource extends Mock implements GenresLocalDataSource {}
 
 class MockNetworkInfo extends Mock implements NetworkInfo {}
 
 void main() {
-  MoviesRepositoryImpl repository;
+  GenresRepositoryImpl repository;
   MockRemoteDataSource mockRemoteDataSource;
   MockLocalDataSource mockLocalDataSource;
   MockNetworkInfo mockNetworkInfo;
@@ -26,8 +26,7 @@ void main() {
     mockRemoteDataSource = MockRemoteDataSource();
     mockLocalDataSource = MockLocalDataSource();
     mockNetworkInfo = MockNetworkInfo();
-
-    repository = MoviesRepositoryImpl(
+    repository = GenresRepositoryImpl(
       remoteDataSource: mockRemoteDataSource,
       localDataSource: mockLocalDataSource,
       networkInfo: mockNetworkInfo,
@@ -54,11 +53,9 @@ void main() {
     });
   }
 
-  group('getMovies', () {
-    // DATA FOR THE MOCKS AND ASSERTIONS
+  group('getGenres', () {
     final tLanguage = MoviesApi.en;
-    final tEndpoint = MoviesEndpoint.nowPlaying;
-    final tMovieList = MovieListModel();
+    final tGenresList = [Genre(id: 1, name: 'test')];
 
     test(
       'should check if the device is online',
@@ -66,29 +63,24 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getMovies(tEndpoint, tLanguage);
+        repository.getGenres(tLanguage);
         // assert
         verify(mockNetworkInfo.isConnected);
       },
     );
 
     runTestsOnline(() {
-      setUp(() {
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      });
-
       test(
         'should return remote data when the call to remote data source is successful',
         () async {
           // arrange
-          when(
-            mockRemoteDataSource.getMovies(any, any),
-          ).thenAnswer((_) async => tMovieList);
+          when(mockRemoteDataSource.getGenres(any))
+              .thenAnswer((_) async => tGenresList);
           // act
-          final result = await repository.getMovies(tEndpoint, tLanguage);
+          final result = await repository.getGenres(tLanguage);
           // assert
-          verify(mockRemoteDataSource.getMovies(any, any));
-          expect(result, equals(Right(tMovieList)));
+          verify(mockRemoteDataSource.getGenres(tLanguage));
+          expect(result, equals(Right(tGenresList)));
         },
       );
 
@@ -96,25 +88,26 @@ void main() {
         'should cache the data locally when the call to remote data source is successful',
         () async {
           // arrange
-          when(mockRemoteDataSource.getMovies(any, any))
-              .thenAnswer((_) async => tMovieList);
+          when(mockRemoteDataSource.getGenres(any))
+              .thenAnswer((_) async => tGenresList);
           // act
-          await repository.getMovies(tEndpoint, tLanguage);
+          await repository.getGenres(tLanguage);
           // assert
-          verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage));
-          verify(mockLocalDataSource.cacheMovies(tEndpoint, tMovieList));
+          verify(mockRemoteDataSource.getGenres(tLanguage));
+          verify(mockLocalDataSource.cacheGenres(tGenresList));
         },
       );
+
       test(
         'should return server failure when the call to remote data source is unsuccessful',
         () async {
           // arrange
-          when(mockRemoteDataSource.getMovies(any, any))
+          when(mockRemoteDataSource.getGenres(any))
               .thenThrow(ServerException());
           // act
-          final result = await repository.getMovies(tEndpoint, tLanguage);
+          final result = await repository.getGenres(tLanguage);
           // assert
-          verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage));
+          verify(mockRemoteDataSource.getGenres(tLanguage));
           expect(result, equals(Left(ServerFailure())));
         },
       );
@@ -125,29 +118,30 @@ void main() {
         'should return last locally cached data when the cached data is present',
         () async {
           // arrange
-          when(mockLocalDataSource.getLastMovies(tEndpoint))
-              .thenAnswer((_) async => tMovieList);
+          when(mockLocalDataSource.getLastGenres())
+              .thenAnswer((_) async => tGenresList);
           // act
-          final result = await repository.getMovies(tEndpoint, tLanguage);
+          final result = await repository.getGenres(tLanguage);
           // assert
           verifyZeroInteractions(mockRemoteDataSource);
-          verify(mockLocalDataSource.getLastMovies(tEndpoint));
-          expect(result, equals(Right(tMovieList)));
+          verify(mockLocalDataSource.getLastGenres());
+          expect(result, equals(Right(tGenresList)));
         },
       );
 
-      test('should return CacheFailure when there is no cached data present',
-          () async {
-        // arrange
-        when(mockLocalDataSource.getLastMovies(tEndpoint))
-            .thenThrow(CacheException());
-        // act
-        final result = await repository.getMovies(tEndpoint, tLanguage);
-        // assert
-        verifyZeroInteractions(mockRemoteDataSource);
-        verify(mockLocalDataSource.getLastMovies(tEndpoint));
-        expect(result, equals(Left(CacheFailure())));
-      });
+      test(
+        'shoul return CacheFailure when there is no cached data present',
+        () async {
+          // arrange
+          when(mockLocalDataSource.getLastGenres()).thenThrow(CacheException());
+          // act
+          final result = await repository.getGenres(tLanguage);
+          // assert
+          verifyZeroInteractions(mockRemoteDataSource);
+          verify(mockLocalDataSource.getLastGenres());
+          expect(result, equals(Left(CacheFailure())));
+        },
+      );
     });
   });
 }

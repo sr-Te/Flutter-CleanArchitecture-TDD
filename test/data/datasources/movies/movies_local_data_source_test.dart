@@ -4,12 +4,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:matcher/matcher.dart';
 import 'package:my_movie_list/core/errors/exception.dart';
+import 'package:my_movie_list/data/datasources/movies/movies_local_data_source.dart';
 import 'package:my_movie_list/data/datasources/movies_api.dart';
-import 'package:my_movie_list/data/datasources/movies_local_data_source.dart';
 import 'package:my_movie_list/data/models/movie_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../fixtures/fixture_reader.dart';
+import '../../../fixtures/fixture_reader.dart';
 
 class MockSharedPreferences extends Mock implements SharedPreferences {}
 
