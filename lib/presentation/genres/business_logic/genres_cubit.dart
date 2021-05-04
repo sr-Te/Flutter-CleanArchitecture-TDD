@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/errors/failure.dart';
-import '../../../data/datasources/movies_api.dart';
+import '../../../core/network/api/movies_api.dart';
 import '../../../domain/entities/genre.dart';
 import '../../../domain/usecases/get_genres.dart';
 

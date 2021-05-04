@@ -2,8 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../core/errors/failure.dart';
+import '../../core/network/api/movies_api.dart';
+import '../../core/network/api/movies_endpoint.dart';
 import '../../core/usecases/usecase.dart';
-import '../../data/datasources/movies_api.dart';
 import '../entities/movie.dart';
 import '../repositories/movies_repository.dart';
 
@@ -14,19 +15,25 @@ class GetMovies extends UseCase<List<Movie>, Params> {
 
   @override
   Future<Either<Failure, List<Movie>>> call(Params params) async {
-    return await repository.getMovies(params.endpoint, params.language);
+    return await repository.getMovies(
+      params.endpoint,
+      params.language,
+      params.genre,
+    );
   }
 }
 
 class Params extends Equatable {
   final String language;
   final String endpoint;
+  final int genre;
 
   Params({
     this.endpoint = MoviesEndpoint.popular,
     this.language = MoviesApi.es,
+    this.genre,
   });
 
   @override
-  List<Object> get props => [endpoint, language];
+  List<Object> get props => [this.endpoint, this.language, this.genre];
 }

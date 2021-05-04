@@ -5,8 +5,9 @@ import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_movie_list/core/errors/exception.dart';
+import 'package:my_movie_list/core/network/api/movies_api.dart';
+import 'package:my_movie_list/core/network/api/movies_endpoint.dart';
 import 'package:my_movie_list/data/datasources/movies/movies_remote_data_source.dart';
-import 'package:my_movie_list/data/datasources/movies_api.dart';
 import 'package:my_movie_list/data/models/movie_model.dart';
 
 import '../../../fixtures/fixture_reader.dart';
@@ -50,10 +51,10 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        dataSource.getMovies(tEndpoint, tLanguage);
+        dataSource.getMovies(tEndpoint, tLanguage, null);
         // assert
         verify(mockHttpClient.get(
-          MoviesApi.getMovies(tEndpoint, tLanguage),
+          MoviesApi.getMovies(endpoint: tEndpoint, language: tLanguage),
         ));
       },
     );
@@ -64,7 +65,7 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        final result = await dataSource.getMovies(tEndpoint, tLanguage);
+        final result = await dataSource.getMovies(tEndpoint, tLanguage, null);
         // arrange
         expect(result, isA<List<MovieModel>>());
       },
@@ -79,7 +80,7 @@ void main() {
         final call = dataSource.getMovies;
         // assert
         expect(
-          () => call(tEndpoint, tLanguage),
+          () => call(tEndpoint, tLanguage, null),
           throwsA(TypeMatcher<ServerException>()),
         );
       },

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_movie_list/presentation/genres/business_logic/genres_cubit.dart';
+import 'package:my_movie_list/presentation/movies/business_logic/movies_nav_cubit/movies_nav_cubit.dart';
 
-import '../movies/business_logic/movies_nav_cubit.dart';
 import 'drawer_button.dart';
 import 'drawer_categories.dart';
 
@@ -25,8 +24,8 @@ class CustomDrawer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _drawerTitle('Ver Películas:'),
-              _goToTopRated(context),
               _goToPopulars(context),
+              _goToTopRated(context),
               _goToNowPlaying(context),
               _goToUpcoming(context),
               Divider(

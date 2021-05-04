@@ -2,7 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_movie_list/core/errors/failure.dart';
-import 'package:my_movie_list/data/datasources/movies_api.dart';
+import 'package:my_movie_list/core/network/api/movies_api.dart';
+import 'package:my_movie_list/core/network/api/movies_endpoint.dart';
 import 'package:my_movie_list/domain/entities/movie.dart';
 import 'package:my_movie_list/domain/usecases/get_movies.dart';
 import 'package:my_movie_list/presentation/movies/business_logic/movies_bloc/movies_bloc.dart';
@@ -34,10 +35,12 @@ void main() {
         // arrange
         when(mockGetMovies(any)).thenAnswer((_) async => Right(tMovieList));
         // act
-        bloc.add(MoviesGet(tEndpoint, tLanguage));
+        bloc.add(
+            MoviesGet(endpoint: tEndpoint, language: tLanguage, genre: -1));
         await untilCalled(mockGetMovies(any));
         // assert
-        verify(mockGetMovies(Params(endpoint: tEndpoint, language: tLanguage)));
+        verify(mockGetMovies(
+            Params(endpoint: tEndpoint, language: tLanguage, genre: -1)));
       },
     );
 
@@ -53,7 +56,8 @@ void main() {
         ];
         expectLater(bloc.stream, emitsInOrder(expected));
         //act
-        bloc.add(MoviesGet(tEndpoint, tLanguage));
+        bloc.add(
+            MoviesGet(endpoint: tEndpoint, language: tLanguage, genre: -1));
       },
     );
 
@@ -69,7 +73,8 @@ void main() {
         ];
         expectLater(bloc.stream, emitsInOrder(expected));
         //act
-        bloc.add(MoviesGet(tEndpoint, tLanguage));
+        bloc.add(
+            MoviesGet(endpoint: tEndpoint, language: tLanguage, genre: -1));
       },
     );
   });

@@ -5,8 +5,8 @@ import 'package:matcher/matcher.dart';
 import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_movie_list/core/errors/exception.dart';
+import 'package:my_movie_list/core/network/api/movies_api.dart';
 import 'package:my_movie_list/data/datasources/genres/genres_remote_data_source.dart';
-import 'package:my_movie_list/data/datasources/movies_api.dart';
 import 'package:my_movie_list/data/models/genre_model.dart';
 
 import '../../../fixtures/fixture_reader.dart';

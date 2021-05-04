@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
-import '../../../data/datasources/movies_api.dart';
+import '../../../core/network/api/movies_api.dart';
 import '../../../data/models/movie_model.dart';
 import '../business_logic/movies_view_mode_cubit/movies_view_mode_cubit.dart';
 import '../ui/movie_poster.dart';

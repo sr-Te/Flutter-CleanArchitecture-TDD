@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:my_movie_list/core/network/api/movies_endpoint.dart';
 
 import '../../core/errors/exception.dart';
 import '../../core/errors/failure.dart';
@@ -14,7 +15,8 @@ class MoviesRepositoryImpl implements MoviesRepository {
   final MoviesLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
-  Map<String, List<MovieModel>> moviesByCategory = {};
+  Map<String, List<MovieModel>> moviesByEnpoint = {};
+  Map<int, List<MovieModel>> moviesByCategory = {};
 
   MoviesRepositoryImpl({
     @required this.remoteDataSource,
@@ -26,28 +28,46 @@ class MoviesRepositoryImpl implements MoviesRepository {
   Future<Either<Failure, List<MovieModel>>> getMovies(
     String endpoint,
     String language,
+    int genre,
   ) async {
-    if (moviesByCategory[endpoint] != null &&
-        moviesByCategory[endpoint].isNotEmpty) {
-      return Right(moviesByCategory[endpoint]);
+    if (endpoint == MoviesEndpoint.withGenre &&
+        moviesByCategory[genre] != null &&
+        moviesByCategory[genre].isNotEmpty) {
+      return Right(moviesByCategory[genre]);
+    } else if (moviesByEnpoint[endpoint] != null &&
+        moviesByEnpoint[endpoint].isNotEmpty) {
+      return Right(moviesByEnpoint[endpoint]);
     } else if (await networkInfo.isConnected) {
       try {
-        final remoteMovies =
-            await remoteDataSource.getMovies(endpoint, language);
-        localDataSource.cacheMovies(endpoint, remoteMovies);
-        moviesByCategory[endpoint] = remoteMovies;
+        final remoteMovies = await remoteDataSource.getMovies(
+          endpoint,
+          language,
+          genre,
+        );
+        localDataSource.cacheMovies(endpoint + '$genre', remoteMovies);
+        _saveData(endpoint, genre, remoteMovies);
         return Right(remoteMovies);
       } on ServerException {
         return Left(ServerFailure());
       }
     } else {
       try {
-        final localMovies = await localDataSource.getLastMovies(endpoint);
-        moviesByCategory[endpoint] = localMovies;
+        final localMovies = await localDataSource.getLastMovies(
+          endpoint + '$genre',
+        );
+        _saveData(endpoint, genre, localMovies);
         return Right(localMovies);
       } on CacheException {
         return Left(CacheFailure());
       }
+    }
+  }
+
+  void _saveData(String endpoint, int genre, List<MovieModel> movies) {
+    if (endpoint == MoviesEndpoint.withGenre) {
+      moviesByCategory[genre] = movies;
+    } else {
+      moviesByEnpoint[endpoint] = movies;
     }
   }
 }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_movie_list/presentation/genres/business_logic/genres_cubit.dart';
 
-import '../../data/datasources/movies_api.dart';
+import '../../core/network/api/movies_api.dart';
+import '../../core/network/api/movies_endpoint.dart';
+import '../genres/business_logic/genres_cubit.dart';
 import '../widgets/dialogs/on_will_pop_dialog.dart';
 import 'business_logic/movies_bloc/movies_bloc.dart';
-import 'business_logic/movies_nav_cubit.dart';
+import 'business_logic/movies_nav_cubit/movies_nav_cubit.dart';
 import 'movies_view/movies_view.dart';
 
 class MoviesHome extends StatelessWidget {
@@ -17,25 +18,22 @@ class MoviesHome extends StatelessWidget {
         builder: (context) => OnWillPopDialog(),
       ),
       child: BlocBuilder<GenresCubit, GenresState>(builder: (context, state) {
-        if (state is GenresInitial)
-          BlocProvider.of<GenresCubit>(context)
-              .genresGet(language: MoviesApi.es);
-        return BlocBuilder<MoviesNavCubit, MovieCategory>(
-          builder: (context, state) {
-            switch (state) {
-              case MovieCategory.topRated:
-                return _moviesTopRated(context);
-              case MovieCategory.nowPlaying:
-                return _moviesNowPlaying(context);
-              case MovieCategory.upComing:
-                return _moviesUpcoming(context);
-              case MovieCategory.popular:
-                return _moviesPopular(context);
-              default:
-                return null;
-            }
-          },
-        );
+        if (state is GenresInitial) _initGenres(context, MoviesApi.es);
+        return BlocBuilder<MoviesNavCubit, MoviesNavState>(
+            builder: (context, state) {
+          if (state is MoviesNavPopular)
+            return _moviesPopular(context);
+          else if (state is MoviesNavTopRated)
+            return _moviesTopRated(context);
+          else if (state is MoviesNavNowPlaying)
+            return _moviesNowPlaying(context);
+          else if (state is MoviesNavUpComing)
+            return _moviesUpcoming(context);
+          else if (state is MoviesNavWithGenres)
+            return _moviesWithGenres(context, state);
+          else
+            return null;
+        });
       }),
     );
   }
@@ -45,7 +43,8 @@ class MoviesHome extends StatelessWidget {
     String language = MoviesApi.es;
     String title = 'En Reproducción';
 
-    BlocProvider.of<MoviesBloc>(context).add(MoviesGet(endpoint, language));
+    BlocProvider.of<MoviesBloc>(context)
+        .add(MoviesGet(endpoint: endpoint, language: language));
     return MoviesView(title: title, endpoint: endpoint, language: language);
   }
 
@@ -54,7 +53,8 @@ class MoviesHome extends StatelessWidget {
     String language = MoviesApi.es;
     String title = 'Populares';
 
-    BlocProvider.of<MoviesBloc>(context).add(MoviesGet(endpoint, language));
+    BlocProvider.of<MoviesBloc>(context)
+        .add(MoviesGet(endpoint: endpoint, language: language));
     return MoviesView(title: title, endpoint: endpoint, language: language);
   }
 
@@ -63,7 +63,8 @@ class MoviesHome extends StatelessWidget {
     String language = MoviesApi.es;
     String title = 'Mejor Valoradas';
 
-    BlocProvider.of<MoviesBloc>(context).add(MoviesGet(endpoint, language));
+    BlocProvider.of<MoviesBloc>(context)
+        .add(MoviesGet(endpoint: endpoint, language: language));
     return MoviesView(title: title, endpoint: endpoint, language: language);
   }
 
@@ -72,12 +73,23 @@ class MoviesHome extends StatelessWidget {
     String language = MoviesApi.es;
     String title = 'Próximamente';
 
-    BlocProvider.of<MoviesBloc>(context).add(MoviesGet(endpoint, language));
+    BlocProvider.of<MoviesBloc>(context)
+        .add(MoviesGet(endpoint: endpoint, language: language));
     return MoviesView(title: title, endpoint: endpoint, language: language);
   }
 
-  void _initGenres(BuildContext context) {
-    print('init genres');
-    BlocProvider.of<GenresCubit>(context).genresGet(language: MoviesApi.es);
+  void _initGenres(BuildContext context, String language) {
+    BlocProvider.of<GenresCubit>(context).genresGet(language: language);
+  }
+
+  Widget _moviesWithGenres(BuildContext context, MoviesNavWithGenres state) {
+    String endpoint = MoviesEndpoint.withGenre;
+    String language = MoviesApi.es;
+    String title = state.genre.name;
+
+    BlocProvider.of<MoviesBloc>(context).add(
+      MoviesGet(endpoint: endpoint, language: language, genre: state.genre.id),
+    );
+    return MoviesView(title: title, endpoint: endpoint, language: language);
   }
 }

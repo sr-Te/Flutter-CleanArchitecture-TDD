@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_movie_list/core/errors/exception.dart';
 
+import '../../../core/errors/exception.dart';
+import '../../../core/network/api/movies_api.dart';
 import '../../models/genre_model.dart';
-import '../movies_api.dart';
 
 abstract class GenresRemoteDataSource {
   Future<List<GenreModel>> getGenres(String language);

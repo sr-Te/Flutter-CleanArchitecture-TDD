@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../core/errors/failure.dart';
+import '../../core/network/api/movies_api.dart';
 import '../../core/usecases/usecase.dart';
-import '../../data/datasources/movies_api.dart';
 import '../entities/genre.dart';
 import '../repositories/genres_repository.dart';
 

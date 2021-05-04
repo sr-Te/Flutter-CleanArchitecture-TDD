@@ -3,10 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:my_movie_list/core/errors/exception.dart';
 import 'package:my_movie_list/core/errors/failure.dart';
+import 'package:my_movie_list/core/network/api/movies_api.dart';
+import 'package:my_movie_list/core/network/api/movies_endpoint.dart';
 import 'package:my_movie_list/core/network/network_info.dart';
 import 'package:my_movie_list/data/datasources/movies/movies_local_data_source.dart';
 import 'package:my_movie_list/data/datasources/movies/movies_remote_data_source.dart';
-import 'package:my_movie_list/data/datasources/movies_api.dart';
 import 'package:my_movie_list/data/models/movie_model.dart';
 import 'package:my_movie_list/data/repositories/movies_repository_impl.dart';
 
@@ -66,7 +67,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getMovies(tEndpoint, tLanguage);
+        repository.getMovies(tEndpoint, tLanguage, null);
         // assert
         verify(mockNetworkInfo.isConnected);
       },
@@ -82,12 +83,12 @@ void main() {
         () async {
           // arrange
           when(
-            mockRemoteDataSource.getMovies(any, any),
+            mockRemoteDataSource.getMovies(any, any, any),
           ).thenAnswer((_) async => tMovieList);
           // act
-          final result = await repository.getMovies(tEndpoint, tLanguage);
+          final result = await repository.getMovies(tEndpoint, tLanguage, null);
           // assert
-          verify(mockRemoteDataSource.getMovies(any, any));
+          verify(mockRemoteDataSource.getMovies(any, any, any));
           expect(result, equals(Right(tMovieList)));
         },
       );
@@ -96,12 +97,12 @@ void main() {
         'should cache the data locally when the call to remote data source is successful',
         () async {
           // arrange
-          when(mockRemoteDataSource.getMovies(any, any))
+          when(mockRemoteDataSource.getMovies(any, any, any))
               .thenAnswer((_) async => tMovieList);
           // act
-          await repository.getMovies(tEndpoint, tLanguage);
+          await repository.getMovies(tEndpoint, tLanguage, null);
           // assert
-          verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage));
+          verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage, null));
           verify(mockLocalDataSource.cacheMovies(tEndpoint, tMovieList));
         },
       );
@@ -109,12 +110,12 @@ void main() {
         'should return server failure when the call to remote data source is unsuccessful',
         () async {
           // arrange
-          when(mockRemoteDataSource.getMovies(any, any))
+          when(mockRemoteDataSource.getMovies(any, any, null))
               .thenThrow(ServerException());
           // act
-          final result = await repository.getMovies(tEndpoint, tLanguage);
+          final result = await repository.getMovies(tEndpoint, tLanguage, null);
           // assert
-          verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage));
+          verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage, null));
           expect(result, equals(Left(ServerFailure())));
         },
       );
@@ -128,7 +129,7 @@ void main() {
           when(mockLocalDataSource.getLastMovies(tEndpoint))
               .thenAnswer((_) async => tMovieList);
           // act
-          final result = await repository.getMovies(tEndpoint, tLanguage);
+          final result = await repository.getMovies(tEndpoint, tLanguage, null);
           // assert
           verifyZeroInteractions(mockRemoteDataSource);
           verify(mockLocalDataSource.getLastMovies(tEndpoint));
@@ -142,7 +143,7 @@ void main() {
         when(mockLocalDataSource.getLastMovies(tEndpoint))
             .thenThrow(CacheException());
         // act
-        final result = await repository.getMovies(tEndpoint, tLanguage);
+        final result = await repository.getMovies(tEndpoint, tLanguage, null);
         // assert
         verifyZeroInteractions(mockRemoteDataSource);
         verify(mockLocalDataSource.getLastMovies(tEndpoint));

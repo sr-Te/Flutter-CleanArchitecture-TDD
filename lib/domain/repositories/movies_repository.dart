@@ -7,5 +7,6 @@ abstract class MoviesRepository {
   Future<Either<Failure, List<Movie>>> getMovies(
     String endpoint,
     String language,
+    int genre,
   );
 }
