@@ -59,6 +59,7 @@ void main() {
     // DATA FOR THE MOCKS AND ASSERTIONS
     final tLanguage = MoviesApi.en;
     final tEndpoint = MoviesEndpoint.nowPlaying;
+    final genreId = -1;
     final List<MovieModel> tMovieList = [];
 
     test(
@@ -67,7 +68,7 @@ void main() {
         // arrange
         when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
         // act
-        repository.getMovies(tEndpoint, tLanguage, null);
+        repository.getMovies(tEndpoint, tLanguage, -1);
         // assert
         verify(mockNetworkInfo.isConnected);
       },
@@ -86,7 +87,8 @@ void main() {
             mockRemoteDataSource.getMovies(any, any, any),
           ).thenAnswer((_) async => tMovieList);
           // act
-          final result = await repository.getMovies(tEndpoint, tLanguage, null);
+          final result =
+              await repository.getMovies(tEndpoint, tLanguage, genreId);
           // assert
           verify(mockRemoteDataSource.getMovies(any, any, any));
           expect(result, equals(Right(tMovieList)));
@@ -100,22 +102,26 @@ void main() {
           when(mockRemoteDataSource.getMovies(any, any, any))
               .thenAnswer((_) async => tMovieList);
           // act
-          await repository.getMovies(tEndpoint, tLanguage, null);
+          await repository.getMovies(tEndpoint, tLanguage, genreId);
           // assert
-          verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage, null));
-          verify(mockLocalDataSource.cacheMovies(tEndpoint, tMovieList));
+          verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage, genreId));
+
+          verify(
+            mockLocalDataSource.cacheMovies(tEndpoint + '$genreId', tMovieList),
+          );
         },
       );
       test(
         'should return server failure when the call to remote data source is unsuccessful',
         () async {
           // arrange
-          when(mockRemoteDataSource.getMovies(any, any, null))
+          when(mockRemoteDataSource.getMovies(any, any, any))
               .thenThrow(ServerException());
           // act
-          final result = await repository.getMovies(tEndpoint, tLanguage, null);
+          final result =
+              await repository.getMovies(tEndpoint, tLanguage, genreId);
           // assert
-          verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage, null));
+          verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage, genreId));
           expect(result, equals(Left(ServerFailure())));
         },
       );
@@ -126,13 +132,14 @@ void main() {
         'should return last locally cached data when the cached data is present',
         () async {
           // arrange
-          when(mockLocalDataSource.getLastMovies(tEndpoint))
+          when(mockLocalDataSource.getLastMovies(tEndpoint + '$genreId'))
               .thenAnswer((_) async => tMovieList);
           // act
-          final result = await repository.getMovies(tEndpoint, tLanguage, null);
+          final result =
+              await repository.getMovies(tEndpoint, tLanguage, genreId);
           // assert
           verifyZeroInteractions(mockRemoteDataSource);
-          verify(mockLocalDataSource.getLastMovies(tEndpoint));
+          verify(mockLocalDataSource.getLastMovies(tEndpoint + '$genreId'));
           expect(result, equals(Right(tMovieList)));
         },
       );
@@ -140,13 +147,14 @@ void main() {
       test('should return CacheFailure when there is no cached data present',
           () async {
         // arrange
-        when(mockLocalDataSource.getLastMovies(tEndpoint))
+        when(mockLocalDataSource.getLastMovies(tEndpoint + '$genreId'))
             .thenThrow(CacheException());
         // act
-        final result = await repository.getMovies(tEndpoint, tLanguage, null);
+        final result =
+            await repository.getMovies(tEndpoint, tLanguage, genreId);
         // assert
         verifyZeroInteractions(mockRemoteDataSource);
-        verify(mockLocalDataSource.getLastMovies(tEndpoint));
+        verify(mockLocalDataSource.getLastMovies(tEndpoint + '$genreId'));
         expect(result, equals(Left(CacheFailure())));
       });
     });

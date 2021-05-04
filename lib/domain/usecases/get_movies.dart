@@ -18,7 +18,7 @@ class GetMovies extends UseCase<List<Movie>, Params> {
     return await repository.getMovies(
       params.endpoint,
       params.language,
-      params.genre,
+      params.genreId,
     );
   }
 }
@@ -26,14 +26,14 @@ class GetMovies extends UseCase<List<Movie>, Params> {
 class Params extends Equatable {
   final String language;
   final String endpoint;
-  final int genre;
+  final int genreId;
 
   Params({
     this.endpoint = MoviesEndpoint.popular,
     this.language = MoviesApi.es,
-    this.genre,
+    this.genreId,
   });
 
   @override
-  List<Object> get props => [this.endpoint, this.language, this.genre];
+  List<Object> get props => [this.endpoint, this.language, this.genreId];
 }

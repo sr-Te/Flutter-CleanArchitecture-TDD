@@ -51,10 +51,10 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        dataSource.getMovies(tEndpoint, tLanguage, null);
+        dataSource.getMovies(tEndpoint, tLanguage, -1);
         // assert
         verify(mockHttpClient.get(
-          MoviesApi.getMovies(endpoint: tEndpoint, language: tLanguage),
+          MoviesApi.getMovies(tEndpoint, tLanguage, -1),
         ));
       },
     );
@@ -65,7 +65,7 @@ void main() {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
-        final result = await dataSource.getMovies(tEndpoint, tLanguage, null);
+        final result = await dataSource.getMovies(tEndpoint, tLanguage, -1);
         // arrange
         expect(result, isA<List<MovieModel>>());
       },
@@ -80,7 +80,7 @@ void main() {
         final call = dataSource.getMovies;
         // assert
         expect(
-          () => call(tEndpoint, tLanguage, null),
+          () => call(tEndpoint, tLanguage, -1),
           throwsA(TypeMatcher<ServerException>()),
         );
       },

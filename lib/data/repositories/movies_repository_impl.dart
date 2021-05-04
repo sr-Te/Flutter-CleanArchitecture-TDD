@@ -28,12 +28,12 @@ class MoviesRepositoryImpl implements MoviesRepository {
   Future<Either<Failure, List<MovieModel>>> getMovies(
     String endpoint,
     String language,
-    int genre,
+    int genreId,
   ) async {
     if (endpoint == MoviesEndpoint.withGenre &&
-        moviesByCategory[genre] != null &&
-        moviesByCategory[genre].isNotEmpty) {
-      return Right(moviesByCategory[genre]);
+        moviesByCategory[genreId] != null &&
+        moviesByCategory[genreId].isNotEmpty) {
+      return Right(moviesByCategory[genreId]);
     } else if (moviesByEnpoint[endpoint] != null &&
         moviesByEnpoint[endpoint].isNotEmpty) {
       return Right(moviesByEnpoint[endpoint]);
@@ -42,10 +42,10 @@ class MoviesRepositoryImpl implements MoviesRepository {
         final remoteMovies = await remoteDataSource.getMovies(
           endpoint,
           language,
-          genre,
+          genreId,
         );
-        localDataSource.cacheMovies(endpoint + '$genre', remoteMovies);
-        _saveData(endpoint, genre, remoteMovies);
+        localDataSource.cacheMovies(endpoint + '$genreId', remoteMovies);
+        _saveData(endpoint, genreId, remoteMovies);
         return Right(remoteMovies);
       } on ServerException {
         return Left(ServerFailure());
@@ -53,9 +53,9 @@ class MoviesRepositoryImpl implements MoviesRepository {
     } else {
       try {
         final localMovies = await localDataSource.getLastMovies(
-          endpoint + '$genre',
+          endpoint + '$genreId',
         );
-        _saveData(endpoint, genre, localMovies);
+        _saveData(endpoint, genreId, localMovies);
         return Right(localMovies);
       } on CacheException {
         return Left(CacheFailure());
@@ -63,9 +63,9 @@ class MoviesRepositoryImpl implements MoviesRepository {
     }
   }
 
-  void _saveData(String endpoint, int genre, List<MovieModel> movies) {
+  void _saveData(String endpoint, int genreId, List<MovieModel> movies) {
     if (endpoint == MoviesEndpoint.withGenre) {
-      moviesByCategory[genre] = movies;
+      moviesByCategory[genreId] = movies;
     } else {
       moviesByEnpoint[endpoint] = movies;
     }

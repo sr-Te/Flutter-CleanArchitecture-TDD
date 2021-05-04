@@ -28,7 +28,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
       Params(
           endpoint: event.endpoint,
           language: event.language,
-          genre: event.genre),
+          genreId: event.genre),
     );
     yield failureOrMovies.fold(
       (failure) => MoviesLoadFailure(message: _mapFailureToMessage(failure)),

@@ -27,6 +27,7 @@ void main() {
   group('MoviesGet', () {
     final List<Movie> tMovieList = [];
     final tLanguage = MoviesApi.en;
+    final genreId = -1;
     final tEndpoint = MoviesEndpoint.nowPlaying;
 
     test(
@@ -35,12 +36,12 @@ void main() {
         // arrange
         when(mockGetMovies(any)).thenAnswer((_) async => Right(tMovieList));
         // act
-        bloc.add(
-            MoviesGet(endpoint: tEndpoint, language: tLanguage, genre: -1));
+        bloc.add(MoviesGet(
+            endpoint: tEndpoint, language: tLanguage, genre: genreId));
         await untilCalled(mockGetMovies(any));
         // assert
-        verify(mockGetMovies(
-            Params(endpoint: tEndpoint, language: tLanguage, genre: -1)));
+        verify(mockGetMovies(Params(
+            endpoint: tEndpoint, language: tLanguage, genreId: genreId)));
       },
     );
 
@@ -56,8 +57,8 @@ void main() {
         ];
         expectLater(bloc.stream, emitsInOrder(expected));
         //act
-        bloc.add(
-            MoviesGet(endpoint: tEndpoint, language: tLanguage, genre: -1));
+        bloc.add(MoviesGet(
+            endpoint: tEndpoint, language: tLanguage, genre: genreId));
       },
     );
 
@@ -73,8 +74,8 @@ void main() {
         ];
         expectLater(bloc.stream, emitsInOrder(expected));
         //act
-        bloc.add(
-            MoviesGet(endpoint: tEndpoint, language: tLanguage, genre: -1));
+        bloc.add(MoviesGet(
+            endpoint: tEndpoint, language: tLanguage, genre: genreId));
       },
     );
   });

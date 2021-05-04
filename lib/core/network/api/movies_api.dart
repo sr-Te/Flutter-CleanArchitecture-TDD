@@ -7,8 +7,8 @@ class MoviesApi {
   static const String en = 'en-US';
 
   // Uris
-  static Uri getMovies({String endpoint, String language, int genre}) =>
-      Uri.https(_url, endpoint, _getParameters(language, genre));
+  static Uri getMovies(String endpoint, String language, int genreId) =>
+      Uri.https(_url, endpoint, _getParameters(language, genreId));
 
   static Uri getGenres(String language) => Uri.https(
       _url, '3/genre/movie/list', {'api_key': _apikey, 'language': language});
@@ -28,12 +28,12 @@ class MoviesApi {
       return 'https://image.tmdb.org/t/p/w500/$backdropPath';
   }
 
-  static Map<String, dynamic> _getParameters(String language, int genre) {
+  static Map<String, dynamic> _getParameters(String language, int genreId) {
     var parameters = {'api_key': _apikey, 'language': language};
-    if (genre == null || genre == -1)
+    if (genreId == null || genreId == -1)
       return parameters;
     else {
-      parameters['with_genres'] = '$genre';
+      parameters['with_genres'] = '$genreId';
       return parameters;
     }
   }

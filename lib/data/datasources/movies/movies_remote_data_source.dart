@@ -11,7 +11,7 @@ abstract class MoviesRemoteDataSource {
   Future<List<MovieModel>> getMovies(
     String endpoint,
     String language,
-    int genre,
+    int genreId,
   );
 }
 
@@ -24,10 +24,10 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   Future<List<MovieModel>> getMovies(
     String endpoint,
     String language,
-    int genre,
+    int genreId,
   ) async {
     final response = await client.get(
-      MoviesApi.getMovies(endpoint: endpoint, language: language, genre: genre),
+      MoviesApi.getMovies(endpoint, language, genreId),
     );
     if (response.statusCode == 200)
       return movieModelListFromJsonList(json.decode(response.body)['results']);

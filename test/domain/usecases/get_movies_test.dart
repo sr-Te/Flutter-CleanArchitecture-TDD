@@ -20,6 +20,7 @@ void main() {
 
   final tLanguage = MoviesApi.en;
   final tEndpoint = MoviesEndpoint.nowPlaying;
+  final genreId = -1;
   final List<MovieModel> tMovieList = [];
 
   test(
@@ -30,10 +31,10 @@ void main() {
           .thenAnswer((_) async => Right(tMovieList));
       // act
       final result = await usecase(
-          Params(endpoint: tEndpoint, language: tLanguage, genre: -1));
+          Params(endpoint: tEndpoint, language: tLanguage, genreId: genreId));
       // assert
       expect(result, Right(tMovieList));
-      verify(mockMovieRepository.getMovies(tEndpoint, tLanguage, -1));
+      verify(mockMovieRepository.getMovies(tEndpoint, tLanguage, genreId));
       verifyNoMoreInteractions(mockMovieRepository);
     },
   );
