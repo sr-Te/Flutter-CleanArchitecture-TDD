@@ -49,7 +49,11 @@ class MovieRating extends StatelessWidget {
           ),
           circularStrokeCap: CircularStrokeCap.round,
           backgroundColor: Colors.black.withOpacity(0.4),
-          progressColor: Colors.green,
+          progressColor: movie.voteAverage >= 7
+              ? Colors.green
+              : movie.voteAverage >= 4
+                  ? Colors.yellow
+                  : Colors.red,
         ),
       ),
     );

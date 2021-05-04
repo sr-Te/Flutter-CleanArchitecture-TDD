@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_movie_list/presentation/genres/business_logic/genres_cubit.dart';
 
 import '../../data/datasources/movies_api.dart';
 import '../widgets/dialogs/on_will_pop_dialog.dart';
@@ -15,11 +16,11 @@ class MoviesHome extends StatelessWidget {
         context: context,
         builder: (context) => OnWillPopDialog(),
       ),
-      child: BlocListener<MoviesBloc, MoviesState>(
-        listener: (context, state) {
-          if (state is MoviesInitial) _initMovies(context, state);
-        },
-        child: BlocBuilder<MoviesNavCubit, MovieCategory>(
+      child: BlocBuilder<GenresCubit, GenresState>(builder: (context, state) {
+        if (state is GenresInitial)
+          BlocProvider.of<GenresCubit>(context)
+              .genresGet(language: MoviesApi.es);
+        return BlocBuilder<MoviesNavCubit, MovieCategory>(
           builder: (context, state) {
             switch (state) {
               case MovieCategory.topRated:
@@ -34,8 +35,8 @@ class MoviesHome extends StatelessWidget {
                 return null;
             }
           },
-        ),
-      ),
+        );
+      }),
     );
   }
 
@@ -75,9 +76,8 @@ class MoviesHome extends StatelessWidget {
     return MoviesView(title: title, endpoint: endpoint, language: language);
   }
 
-  void _initMovies(BuildContext context, MoviesInitial state) {
-    BlocProvider.of<MoviesBloc>(context).add(
-      MoviesGet(MoviesEndpoint.topRated, MoviesApi.es),
-    );
+  void _initGenres(BuildContext context) {
+    print('init genres');
+    BlocProvider.of<GenresCubit>(context).genresGet(language: MoviesApi.es);
   }
 }

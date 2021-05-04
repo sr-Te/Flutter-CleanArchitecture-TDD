@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/models/movie_model.dart';
-import '../../widgets/custom_drawer.dart';
+import '../../custom_drawer/custom_drawer.dart';
 import '../../widgets/transparent_appbar.dart';
 import '../business_logic/movies_bloc/movies_bloc.dart';
 import '../business_logic/movies_view_mode_cubit/movies_view_mode_cubit.dart';
