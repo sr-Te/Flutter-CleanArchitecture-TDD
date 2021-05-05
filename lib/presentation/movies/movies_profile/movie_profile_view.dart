@@ -1,5 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_movie_list/domain/entities/genre.dart';
+import 'package:my_movie_list/domain/entities/movie.dart';
+import 'package:my_movie_list/presentation/genres/business_logic/genres_cubit.dart';
 
 import '../../../core/network/api/movies_api.dart';
 import '../../../data/models/movie_model.dart';
@@ -51,6 +55,8 @@ class MoviesProfileView extends StatelessWidget {
                         _movieTitle(context, movie),
                         SizedBox(height: 10),
                         _rating(context, movie),
+                        SizedBox(height: 10),
+                        _movieGenres(context, movie),
                       ],
                     ),
                   ),
@@ -117,9 +123,7 @@ class MoviesProfileView extends StatelessWidget {
           child: Text(
             movie.originalTitle,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-            ),
+            style: TextStyle(fontSize: 14),
           ),
         ),
       ],
@@ -134,6 +138,50 @@ class MoviesProfileView extends StatelessWidget {
         Text('${movie.voteAverage}/10'),
         Icon(Icons.star_border, size: 17),
       ],
+    );
+  }
+
+  Widget _movieGenres(BuildContext context, Movie movie) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _sectionTitle('Géneros:'),
+          BlocBuilder<GenresCubit, GenresState>(
+            builder: (context, state) {
+              if (state is GenresLoadSuccess) {
+                return _getMoviesGenres(context, movie, state);
+              } else if (state is GenresLoadInProgress) {
+                return CircularProgressIndicator();
+              } else {
+                return Text('error al cargar los géneros :(, m3per d0nas¿');
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _getMoviesGenres(
+    BuildContext context,
+    Movie movie,
+    GenresLoadSuccess state,
+  ) {
+    String movieGenreNames = '';
+    state.genres.forEach((genre) {
+      movie.genreIds.forEach((movieGenreId) {
+        if (genre.id == movieGenreId) {
+          movieGenreNames += '${genre.name}, ';
+        }
+      });
+    });
+
+    movieGenreNames = movieGenreNames.substring(0, movieGenreNames.length - 2);
+    return Text(
+      movieGenreNames,
+      style: TextStyle(fontSize: 14),
     );
   }
 }
