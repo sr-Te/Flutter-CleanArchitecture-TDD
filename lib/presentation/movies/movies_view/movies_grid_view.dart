@@ -40,62 +40,64 @@ class MovieGridCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: movie.id,
-      child: GestureDetector(
-        onTap: () => _goToMovieProfile(context, movie),
-        child: Stack(
-          children: [
-            Container(
+    return GestureDetector(
+      onTap: () => _goToMovieProfile(context, movie),
+      child: Stack(
+        children: [
+          Hero(
+            tag: movie.id,
+            child: Container(
               child: _posterImage(movie),
             ),
-            Column(
-              children: [
-                Expanded(child: Container()),
-                Opacity(
-                  opacity: 0.7,
-                  child: Container(
-                    height: 85,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10),
-                      ),
-                      color: Colors.black,
-                    ),
-                    child: Center(
-                      child: Text(
-                        movie.title,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Column(
-              children: [
-                Expanded(child: Container()),
-                Container(
-                  height: 170,
+          ),
+          Column(
+            children: [
+              Expanded(child: Container()),
+              Opacity(
+                opacity: 0.7,
+                child: Container(
+                  height: 85,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
                   width: double.infinity,
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      Expanded(child: Container()),
-                      MovieRating(movie: movie, tiny: true),
-                    ],
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                    color: Colors.black,
+                  ),
+                  child: Center(
+                    child: Text(
+                      movie.title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Expanded(child: Container()),
+              Container(
+                height: 170,
+                width: double.infinity,
+                padding: EdgeInsets.all(10),
+                child: Row(
+                  children: [
+                    Expanded(child: Container()),
+                    MovieRating(movie: movie, tiny: true),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
