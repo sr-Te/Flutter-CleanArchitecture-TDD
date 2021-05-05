@@ -1,12 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_movie_list/domain/entities/genre.dart';
-import 'package:my_movie_list/domain/entities/movie.dart';
-import 'package:my_movie_list/presentation/genres/business_logic/genres_cubit.dart';
 
 import '../../../core/network/api/movies_api.dart';
 import '../../../data/models/movie_model.dart';
+import '../../../domain/entities/movie.dart';
+import '../../genres/business_logic/genres_cubit.dart';
 import '../ui/movie_poster.dart';
 import 'movie_profile_appbar.dart';
 

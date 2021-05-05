@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/models/movie_model.dart';
 import '../../custom_drawer/custom_drawer.dart';
-import '../../widgets/transparent_appbar.dart';
+import '../../main_appbar/main_appbar.dart';
 import '../business_logic/movies_bloc/movies_bloc.dart';
 import '../business_logic/movies_view_mode_cubit/movies_view_mode_cubit.dart';
 import 'movies_by_one_view.dart';
@@ -20,9 +20,10 @@ class MoviesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
-      appBar: TransparentAppbar(title: title),
+      appBar: MainAppbar(title: title),
       drawer: CustomDrawer(),
       body: BlocBuilder<MoviesBloc, MoviesState>(
         builder: (context, state) {
