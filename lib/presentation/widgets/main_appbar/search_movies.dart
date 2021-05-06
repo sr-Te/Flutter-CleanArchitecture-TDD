@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import '../../../core/network/api/movies_api.dart';
 import '../../../domain/entities/movie.dart';
-import 'business_logic/appbar_search_mode_cubit.dart';
 
 class SearchMovies extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double radius = 30;
+    var editingController = TextEditingController();
+
     return Opacity(
       opacity: 0.7,
       child: Container(
-        margin: EdgeInsets.only(top: 5, left: 20, right: 20),
+        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 50),
         decoration: BoxDecoration(
           color: Colors.black,
           borderRadius: BorderRadius.circular(radius),
@@ -21,8 +21,9 @@ class SearchMovies extends StatelessWidget {
         child: TypeAheadField(
           keepSuggestionsOnLoading: false,
           hideSuggestionsOnKeyboardHide: false,
-          suggestionsBoxDecoration: _suggestionsBoxDecoration(),
-          textFieldConfiguration: _texFieldConfiguration(context, radius),
+          suggestionsBoxDecoration: _suggestionsBoxDecoration(context),
+          textFieldConfiguration:
+              _texFieldConfiguration(context, radius, editingController),
           loadingBuilder: (context) => _loadingBuilder(),
           noItemsFoundBuilder: (context) => _noItemsFound(),
           errorBuilder: (context, exception) => _loadingBuilder(),
@@ -39,7 +40,7 @@ class SearchMovies extends StatelessWidget {
     );
   }
 
-  _suggestionsBoxDecoration() {
+  _suggestionsBoxDecoration(BuildContext context) {
     return SuggestionsBoxDecoration(
       borderRadius: BorderRadius.circular(15),
       color: Colors.grey[300],
@@ -47,28 +48,29 @@ class SearchMovies extends StatelessWidget {
     );
   }
 
-  _texFieldConfiguration(BuildContext context, double radius) {
+  _texFieldConfiguration(
+      BuildContext context, double radius, TextEditingController controller) {
     return TextFieldConfiguration(
       autofocus: true,
       cursorColor: Colors.white,
+      controller: controller,
       style: TextStyle(color: Colors.white),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
         suffixIconConstraints: BoxConstraints(minWidth: 70),
-        hintStyle: TextStyle(color: Colors.white, fontSize: 13),
+        hintStyle: TextStyle(color: Colors.white, fontSize: 15),
         hintText: 'Buscando películas...',
-        suffixIcon: _iconClearButton(context),
+        suffixIcon: _iconClearButton(controller),
         focusedBorder: _outlineInputBorder(radius, Colors.white),
         enabledBorder: _outlineInputBorder(radius, Colors.red),
       ),
     );
   }
 
-  _iconClearButton(context) {
+  _iconClearButton(TextEditingController controller) {
     return IconButton(
       icon: Icon(Icons.clear, color: Colors.white),
-      onPressed: () =>
-          BlocProvider.of<AppbarSearhModeCubit>(context).appbarModeNormal(),
+      onPressed: () => controller.clear(),
     );
   }
 

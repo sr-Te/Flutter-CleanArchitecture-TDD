@@ -15,7 +15,7 @@ class MainAppbar extends StatelessWidget with PreferredSizeWidget {
   MainAppbar({
     @required this.title,
     this.drawerKey,
-  })  : preferredSize = Size.fromHeight(70.0),
+  })  : preferredSize = Size.fromHeight(100.0),
         super();
 
   @override
@@ -23,7 +23,18 @@ class MainAppbar extends StatelessWidget with PreferredSizeWidget {
     return BlocBuilder<AppbarSearhModeCubit, bool>(
       builder: (context, state) {
         if (state)
-          return SafeArea(child: SearchMovies());
+          return AppBar(
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            flexibleSpace: Center(child: SearchMovies()),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.search_off),
+                onPressed: () => BlocProvider.of<AppbarSearhModeCubit>(context)
+                    .appbarModeNormal(),
+              ),
+            ],
+          );
         else
           return AppBar(
             title: Center(
