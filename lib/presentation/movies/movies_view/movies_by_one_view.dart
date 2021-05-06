@@ -2,16 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:my_movie_list/presentation/movies/business_logic/movies_nav_cubit/movies_nav_cubit.dart';
 
 import '../../../core/network/api/movies_api.dart';
-import '../../../data/models/movie_model.dart';
-import '../business_logic/movies_view_mode_cubit/movies_view_mode_cubit.dart';
+import '../../../domain/entities/movie.dart';
+import '../business_logic/movies_nav_cubit/movies_nav_cubit.dart';
 import '../ui/movie_poster.dart';
 import '../ui/movie_rating.dart';
 
 class MoviesByOneView extends StatefulWidget {
-  final List<MovieModel> movies;
+  final List<Movie> movies;
   const MoviesByOneView({this.movies});
 
   @override
@@ -22,19 +21,22 @@ class _MoviesByOneViewState extends State<MoviesByOneView> {
   int index;
 
   @override
+  void initState() {
+    index = 0;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _screenHeight = MediaQuery.of(context).size.height;
     return BlocListener<MoviesNavCubit, MoviesNavState>(
       listener: (context, state) {
-        index = 0;
-        setState(() {});
+        setState(() {
+          index = 0;
+        });
       },
-      child: BlocBuilder<MoviesViewModeCubit, MoviesViewModeState>(
-          builder: (context, state) {
-        if (state is MoviesViewByOneMode) {
-          index = state.index;
-        }
-        return Stack(children: [
+      child: Stack(
+        children: [
           MoviePoster(movie: widget.movies[index]),
           Column(
             children: [
@@ -67,18 +69,17 @@ class _MoviesByOneViewState extends State<MoviesByOneView> {
               SizedBox(height: 20),
             ],
           ),
-        ]);
-      }),
+        ],
+      ),
     );
   }
 
   indexChange(int i) {
-    BlocProvider.of<MoviesViewModeCubit>(context).byOneMovieViewMode(index: i);
     index = i;
     setState(() {});
   }
 
-  _goToMovieProfile(BuildContext context, MovieModel movie) {
+  _goToMovieProfile(BuildContext context, Movie movie) {
     Navigator.of(context).pushNamed('/movie_profile', arguments: movie);
   }
 
@@ -104,7 +105,7 @@ class _MoviesByOneViewState extends State<MoviesByOneView> {
     );
   }
 
-  Widget _movieTitle(BuildContext context, MovieModel actualMovie) {
+  Widget _movieTitle(BuildContext context, Movie actualMovie) {
     return Opacity(
       opacity: 0.7,
       child: Container(

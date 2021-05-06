@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/network/api/movies_api.dart';
 import '../../core/network/api/movies_endpoint.dart';
-import '../genres/business_logic/genres_cubit.dart';
 import '../widgets/dialogs/on_will_pop_dialog.dart';
 import 'business_logic/movies_bloc/movies_bloc.dart';
 import 'business_logic/movies_nav_cubit/movies_nav_cubit.dart';

@@ -5,7 +5,7 @@ import '../../../data/models/movie_model.dart';
 import '../../widgets/custom_drawer/custom_drawer.dart';
 import '../../widgets/main_appbar/main_appbar.dart';
 import '../business_logic/movies_bloc/movies_bloc.dart';
-import '../business_logic/movies_view_mode_cubit/movies_view_mode_cubit.dart';
+import '../business_logic/movies_view_mode_cubit.dart';
 import 'movies_by_one_view.dart';
 import 'movies_grid_view.dart';
 import 'movies_loading_view.dart';
@@ -31,8 +31,10 @@ class MoviesView extends StatelessWidget {
             return _moviesLoadSuccess(state);
           else if (state is MoviesLoadFailure)
             return _moviesFailure(context, state);
-          else
+          else if (state is MoviesLoadInProgress)
             return MoviesLoadingView();
+          else
+            return null;
         },
       ),
     );
@@ -47,12 +49,15 @@ class MoviesView extends StatelessWidget {
 
     return BlocBuilder<MoviesViewModeCubit, MoviesViewModeState>(
       builder: (context, state) {
-        if (state is MoviesViewByOneMode)
-          return MoviesByOneView(movies: movies);
-        else if (state is MoviesViewGridMode)
-          return MoviesGridView(movies: movies);
-        else
-          return MoviesLoadingView();
+        print(state);
+        switch (state) {
+          case MoviesViewModeState.oneByOne:
+            return MoviesByOneView(movies: movies);
+          case MoviesViewModeState.grid:
+            return MoviesGridView(movies: movies);
+          default:
+            return null;
+        }
       },
     );
   }
