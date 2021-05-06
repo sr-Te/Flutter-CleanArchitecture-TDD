@@ -13,7 +13,7 @@ class SearchMovies extends StatelessWidget {
     return Opacity(
       opacity: 0.7,
       child: Container(
-        margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+        margin: EdgeInsets.only(top: 5, left: 20, right: 20),
         decoration: BoxDecoration(
           color: Colors.black,
           borderRadius: BorderRadius.circular(radius),

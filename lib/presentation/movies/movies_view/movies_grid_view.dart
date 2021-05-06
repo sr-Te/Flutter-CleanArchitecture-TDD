@@ -17,7 +17,7 @@ class MoviesGridView extends StatelessWidget {
         SizedBox(height: 90),
         Expanded(
           child: GridView.builder(
-              padding: EdgeInsets.only(top: 5, left: padd, right: padd),
+              padding: EdgeInsets.only(top: 15, left: padd, right: padd),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 20,
