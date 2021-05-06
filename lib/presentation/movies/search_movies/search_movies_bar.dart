@@ -112,7 +112,7 @@ class SearchMoviesBar extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(20),
       ),
       child: BlocBuilder<MoviesSearchCubit, MoviesSearchState>(
@@ -134,6 +134,7 @@ class SearchMoviesBar extends StatelessWidget {
   _loadingBuilder() {
     return Container(
       padding: EdgeInsets.all(20),
+      color: Colors.transparent,
       child: CircularProgressIndicator(
         valueColor: new AlwaysStoppedAnimation<Color>(Colors.black),
       ),

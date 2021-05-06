@@ -11,13 +11,13 @@ class MoviesGridView extends StatelessWidget {
   const MoviesGridView({this.movies});
   @override
   Widget build(BuildContext context) {
-    double padd = 10;
+    double padd = 20;
     return Column(
       children: [
         SizedBox(height: 90),
         Expanded(
           child: GridView.builder(
-              padding: EdgeInsets.only(top: 15, left: padd, right: padd),
+              padding: EdgeInsets.symmetric(horizontal: padd),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 20,

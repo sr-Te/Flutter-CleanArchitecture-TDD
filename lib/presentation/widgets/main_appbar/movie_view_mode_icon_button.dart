@@ -12,13 +12,13 @@ class MovieViewModeIconButton extends StatelessWidget {
         switch (state) {
           case MoviesViewModeState.oneByOne:
             return IconButton(
-              icon: Icon(Icons.style),
+              icon: Icon(Icons.dashboard),
               onPressed: () => BlocProvider.of<MoviesViewModeCubit>(context)
                   .gridMovieViewMode(),
             );
           case MoviesViewModeState.grid:
             return IconButton(
-              icon: Icon(Icons.dashboard),
+              icon: Icon(Icons.style),
               onPressed: () => BlocProvider.of<MoviesViewModeCubit>(context)
                   .byOneMovieViewMode(),
             );

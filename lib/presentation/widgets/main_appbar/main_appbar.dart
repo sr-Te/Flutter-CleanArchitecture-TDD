@@ -15,7 +15,7 @@ class MainAppbar extends StatelessWidget with PreferredSizeWidget {
   MainAppbar({
     @required this.title,
     this.drawerKey,
-  })  : preferredSize = Size.fromHeight(100.0),
+  })  : preferredSize = Size.fromHeight(80.0),
         super();
 
   @override
@@ -26,7 +26,7 @@ class MainAppbar extends StatelessWidget with PreferredSizeWidget {
           return AppBar(
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
-            flexibleSpace: Center(child: SearchMoviesBar()),
+            flexibleSpace: SafeArea(child: Center(child: SearchMoviesBar())),
             actions: [
               IconButton(
                 icon: Icon(Icons.search_off),

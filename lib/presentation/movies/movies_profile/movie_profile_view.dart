@@ -90,8 +90,14 @@ class MoviesProfileView extends StatelessWidget {
             image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
           ),
         ),
-        progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-            child: CircularProgressIndicator(value: downloadProgress.progress)),
+        progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+          height: 170,
+          width: 110,
+          color: Colors.transparent,
+          child: Center(
+              child:
+                  CircularProgressIndicator(value: downloadProgress.progress)),
+        ),
         errorWidget: (context, url, error) => Icon(Icons.error),
       ),
     );

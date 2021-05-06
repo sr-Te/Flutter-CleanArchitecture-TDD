@@ -25,17 +25,24 @@ class MoviesView extends StatelessWidget {
       backgroundColor: Colors.transparent,
       appBar: MainAppbar(title: title),
       drawer: CustomDrawer(),
-      body: BlocBuilder<MoviesBloc, MoviesState>(
-        builder: (context, state) {
-          if (state is MoviesLoadSuccess)
-            return _moviesLoadSuccess(state);
-          else if (state is MoviesLoadFailure)
-            return _moviesFailure(context, state);
-          else if (state is MoviesLoadInProgress)
-            return MoviesLoadingView();
-          else
-            return null;
-        },
+      body: Column(
+        children: [
+          Container(height: 30, color: Colors.black),
+          Expanded(
+            child: BlocBuilder<MoviesBloc, MoviesState>(
+              builder: (context, state) {
+                if (state is MoviesLoadSuccess)
+                  return _moviesLoadSuccess(state);
+                else if (state is MoviesLoadFailure)
+                  return _moviesFailure(context, state);
+                else if (state is MoviesLoadInProgress)
+                  return MoviesLoadingView();
+                else
+                  return null;
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -49,7 +56,6 @@ class MoviesView extends StatelessWidget {
 
     return BlocBuilder<MoviesViewModeCubit, MoviesViewModeState>(
       builder: (context, state) {
-        print(state);
         switch (state) {
           case MoviesViewModeState.oneByOne:
             return MoviesByOneView(movies: movies);
