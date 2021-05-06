@@ -22,54 +22,53 @@ class _MoviesByOneViewState extends State<MoviesByOneView> {
   int index;
 
   @override
-  void initState() {
-    super.initState();
-    index = 0;
-  }
-
-  @override
   Widget build(BuildContext context) {
     final _screenHeight = MediaQuery.of(context).size.height;
     return BlocListener<MoviesNavCubit, MoviesNavState>(
       listener: (context, state) {
         index = 0;
-        print(widget.movies[0].title);
-        print(widget.movies[index].title);
+        setState(() {});
       },
-      child: Stack(children: [
-        MoviePoster(movie: widget.movies[index]),
-        Column(
-          children: [
-            Expanded(child: Container()),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: _movieTitle(context, widget.movies[index]),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: MovieRating(movie: widget.movies[index]),
-                ),
-              ],
-            ),
-            SizedBox(height: 30),
-            Container(
-              height: _screenHeight * 0.54,
-              child: Swiper(
-                itemCount: widget.movies.length,
-                viewportFraction: 0.6,
-                scale: 0.5,
-                index: index,
-                onIndexChanged: (i) => indexChange(i),
-                itemBuilder: (context, i) => _moviePoster(context, i),
+      child: BlocBuilder<MoviesViewModeCubit, MoviesViewModeState>(
+          builder: (context, state) {
+        if (state is MoviesViewByOneMode) {
+          index = state.index;
+        }
+        return Stack(children: [
+          MoviePoster(movie: widget.movies[index]),
+          Column(
+            children: [
+              Expanded(child: Container()),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: _movieTitle(context, widget.movies[index]),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: MovieRating(movie: widget.movies[index]),
+                  ),
+                ],
               ),
-            ),
-            SizedBox(height: 20),
-          ],
-        ),
-      ]),
+              SizedBox(height: 30),
+              Container(
+                height: _screenHeight * 0.54,
+                child: Swiper(
+                  itemCount: widget.movies.length,
+                  viewportFraction: 0.6,
+                  scale: 0.5,
+                  index: index,
+                  onIndexChanged: (i) => indexChange(i),
+                  itemBuilder: (context, i) => _moviePoster(context, i),
+                ),
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
+        ]);
+      }),
     );
   }
 

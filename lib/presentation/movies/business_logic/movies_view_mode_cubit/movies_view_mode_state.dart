@@ -11,7 +11,7 @@ class MoviesViewByOneMode extends MoviesViewModeState {
   MoviesViewByOneMode({@required this.index});
 
   @override
-  List<Object> get props => [index];
+  List<Object> get props => [this.index];
 }
 
 class MoviesViewGridMode extends MoviesViewModeState {}
