@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_movie_list/presentation/movies/business_logic/movies_nav_cubit/movies_nav_cubit.dart';
 
-import '../genres/business_logic/genres_cubit.dart';
+import '../../genres/business_logic/genres_cubit.dart';
+import '../../movies/business_logic/movies_nav_cubit/movies_nav_cubit.dart';
 import 'drawer_category_button.dart';
 
 class DrawerCategories extends StatelessWidget {

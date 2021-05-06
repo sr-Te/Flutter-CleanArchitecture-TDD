@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-import '../../core/network/api/movies_api.dart';
-import '../../domain/entities/movie.dart';
+import '../../../core/network/api/movies_api.dart';
+import '../../../domain/entities/movie.dart';
 import 'business_logic/appbar_search_mode_cubit.dart';
 
 class SearchMovies extends StatelessWidget {

@@ -15,10 +15,10 @@ import 'domain/repositories/movies_repository.dart';
 import 'domain/usecases/get_genres.dart';
 import 'domain/usecases/get_movies.dart';
 import 'presentation/genres/business_logic/genres_cubit.dart';
-import 'presentation/main_appbar/business_logic/appbar_search_mode_cubit.dart';
 import 'presentation/movies/business_logic/movies_bloc/movies_bloc.dart';
 import 'presentation/movies/business_logic/movies_nav_cubit/movies_nav_cubit.dart';
 import 'presentation/movies/business_logic/movies_view_mode_cubit/movies_view_mode_cubit.dart';
+import 'presentation/widgets/main_appbar/business_logic/appbar_search_mode_cubit.dart';
 
 final sl = GetIt.instance;
 

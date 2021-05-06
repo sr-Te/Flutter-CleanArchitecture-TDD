@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../data/models/movie_model.dart';
-import '../../custom_drawer/custom_drawer.dart';
-import '../../main_appbar/main_appbar.dart';
+import '../../widgets/custom_drawer/custom_drawer.dart';
+import '../../widgets/main_appbar/main_appbar.dart';
 import '../business_logic/movies_bloc/movies_bloc.dart';
 import '../business_logic/movies_view_mode_cubit/movies_view_mode_cubit.dart';
 import 'movies_by_one_view.dart';
