@@ -13,6 +13,11 @@ abstract class MoviesRemoteDataSource {
     String language,
     int genreId,
   );
+
+  Future<List<MovieModel>> searchMovies(
+    String language,
+    String query,
+  );
 }
 
 class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
@@ -32,6 +37,15 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     if (response.statusCode == 200)
       return movieModelListFromJsonList(json.decode(response.body)['results']);
     else
+      throw ServerException();
+  }
+
+  @override
+  Future<List<MovieModel>> searchMovies(String language, String query) async {
+    final response = await client.get(MoviesApi.searchMovies(language, query));
+    if (response.statusCode == 200) {
+      return movieModelListFromJsonList(json.decode(response.body)['results']);
+    } else
       throw ServerException();
   }
 }

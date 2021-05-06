@@ -6,6 +6,7 @@ import 'core/routes.dart';
 import 'injection_container.dart' as di;
 import 'presentation/genres/business_logic/genres_cubit.dart';
 import 'presentation/movies/business_logic/movies_bloc/movies_bloc.dart';
+import 'presentation/movies/business_logic/movies_search_cubit/movies_search_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => di.sl<GenresCubit>()),
         BlocProvider(create: (context) => di.sl<MoviesBloc>()),
+        BlocProvider(create: (context) => di.sl<MoviesSearchCubit>()),
       ],
       child: BlocBuilder<GenresCubit, GenresState>(
         builder: (context, state) {

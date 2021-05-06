@@ -9,4 +9,9 @@ abstract class MoviesRepository {
     String language,
     int genreId,
   );
+
+  Future<Either<Failure, List<Movie>>> searchMovies(
+    String language,
+    String query,
+  );
 }

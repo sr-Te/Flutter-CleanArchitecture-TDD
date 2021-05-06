@@ -9,7 +9,10 @@ class ServerFailure extends Failure {}
 
 class CacheFailure extends Failure {}
 
+class InternetFailure extends Failure {}
+
 class FailureMessage {
-  static String server = 'Server Failure';
-  static String unexpected = 'Unexpected Error';
+  static String server = 'Error de servidor';
+  static String unexpected = 'Error inesperado D:';
+  static String internet = 'Parece que no tienes internet :(';
 }
