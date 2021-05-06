@@ -43,3 +43,5 @@ flutter:
 
   assets:
    - assets/img/
+   - assets/cats_img/
+

@@ -1,10 +1,3 @@
-import 'package:my_movie_list/data/models/movie_model.dart';
-import 'package:my_movie_list/domain/entities/movie.dart';
-import 'package:http/http.dart' as http;
-
-import 'dart:convert';
-import 'dart:async';
-
 class MoviesApi {
   static String _apikey = '4936b271d28ceb320ef9e012cf1363d7';
   static String _url = 'api.themoviedb.org';
@@ -46,13 +39,5 @@ class MoviesApi {
       parameters['with_genres'] = '$genreId';
       return parameters;
     }
-  }
-
-  static Future<List<Movie>> buscarPelicula(String query) async {
-    final url = Uri.https(_url, '3/search/movie',
-        {'api_key': _apikey, 'language': es, 'query': query});
-
-    final response = await http.get(url);
-    return movieModelListFromJsonList(json.decode(response.body)['results']);
   }
 }

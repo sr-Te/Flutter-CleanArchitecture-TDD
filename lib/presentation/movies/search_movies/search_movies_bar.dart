@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-import 'package:my_movie_list/presentation/widgets/main_appbar/business_logic/appbar_search_mode_cubit.dart';
 
 import '../../../core/network/api/movies_api.dart';
 import '../../../domain/entities/movie.dart';
+import '../../widgets/main_appbar/business_logic/appbar_search_mode_cubit.dart';
 import '../business_logic/movies_search_cubit/movies_search_cubit.dart';
 
 class SearchMoviesBar extends StatelessWidget {
@@ -35,7 +35,6 @@ class SearchMoviesBar extends StatelessWidget {
               suggestionsCallback: (pattern) async =>
                   await BlocProvider.of<MoviesSearchCubit>(context)
                       .moviesSearch(language: MoviesApi.es, query: pattern),
-              //await MoviesApi.buscarPelicula(pattern),
               itemBuilder: (context, Movie movieSuggestion) {
                 return _listTile(context, movieSuggestion);
               },
