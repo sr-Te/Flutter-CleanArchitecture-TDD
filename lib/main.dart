@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'core/network/api/movies_api.dart';
 import 'core/routes.dart';
 import 'injection_container.dart' as di;
 import 'presentation/genres/business_logic/genres_cubit.dart';
@@ -22,16 +23,25 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => di.sl<GenresCubit>()),
         BlocProvider(create: (context) => di.sl<MoviesBloc>()),
       ],
-      child: MaterialApp(
-        title: 'Movies',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: Colors.black,
-          accentColor: Colors.black,
-        ),
-        onGenerateRoute: _router.onGenerateRoute,
-        initialRoute: '/',
+      child: BlocBuilder<GenresCubit, GenresState>(
+        builder: (context, state) {
+          if (state is GenresInitial) _initGenres(context, MoviesApi.es);
+          return MaterialApp(
+            title: 'Movies',
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              primaryColor: Colors.black,
+              accentColor: Colors.black,
+            ),
+            onGenerateRoute: _router.onGenerateRoute,
+            initialRoute: '/',
+          );
+        },
       ),
     );
+  }
+
+  void _initGenres(BuildContext context, String language) {
+    BlocProvider.of<GenresCubit>(context).genresGet(language: language);
   }
 }

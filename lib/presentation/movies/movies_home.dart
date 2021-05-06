@@ -17,10 +17,8 @@ class MoviesHome extends StatelessWidget {
         context: context,
         builder: (context) => OnWillPopDialog(),
       ),
-      child: BlocBuilder<GenresCubit, GenresState>(builder: (context, state) {
-        if (state is GenresInitial) _initGenres(context, MoviesApi.es);
-        return BlocBuilder<MoviesNavCubit, MoviesNavState>(
-            builder: (context, state) {
+      child: BlocBuilder<MoviesNavCubit, MoviesNavState>(
+        builder: (context, state) {
           if (state is MoviesNavPopular)
             return _moviesPopular(context);
           else if (state is MoviesNavTopRated)
@@ -33,8 +31,8 @@ class MoviesHome extends StatelessWidget {
             return _moviesWithGenres(context, state);
           else
             return null;
-        });
-      }),
+        },
+      ),
     );
   }
 
@@ -76,10 +74,6 @@ class MoviesHome extends StatelessWidget {
     BlocProvider.of<MoviesBloc>(context)
         .add(MoviesGet(endpoint: endpoint, language: language));
     return MoviesView(title: title, endpoint: endpoint, language: language);
-  }
-
-  void _initGenres(BuildContext context, String language) {
-    BlocProvider.of<GenresCubit>(context).genresGet(language: language);
   }
 
   Widget _moviesWithGenres(BuildContext context, MoviesNavWithGenres state) {
