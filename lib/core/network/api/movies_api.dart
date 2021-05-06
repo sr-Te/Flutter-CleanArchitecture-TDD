@@ -20,6 +20,9 @@ class MoviesApi {
   static Uri getGenres(String language) => Uri.https(
       _url, '3/genre/movie/list', {'api_key': _apikey, 'language': language});
 
+  static Uri searchMovies(String langugage, String query) => Uri.https(_url,
+      '3/search/movie', {'api_key': _apikey, 'language': es, 'query': query});
+
   // Img / Posters
   static String getMoviePoster(String posterPath) {
     if (posterPath == null)
@@ -50,7 +53,6 @@ class MoviesApi {
         {'api_key': _apikey, 'language': es, 'query': query});
 
     final response = await http.get(url);
-    print(response.body);
     return movieModelListFromJsonList(json.decode(response.body)['results']);
   }
 }
