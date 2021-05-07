@@ -86,4 +86,35 @@ void main() {
       },
     );
   });
+
+  group('searchMovies', () {
+    final tLanguage = MoviesApi.es;
+    final tQuery = 'k';
+
+    test(
+      'should return List<MovieModel> when response code is 200 (success)',
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200();
+        // act
+        final result = await dataSource.searchMovies(tLanguage, tQuery);
+        // assert
+        expect(result, isA<List<MovieModel>>());
+      },
+    );
+    test(
+      'should throw a ServerException when response code is 404 or other',
+      () async {
+        // arrange
+        setUpMockHttpClientFailure404();
+        // act
+        final call = dataSource.searchMovies;
+        // assert
+        expect(
+          () => call(tLanguage, tQuery),
+          throwsA(TypeMatcher<ServerException>()),
+        );
+      },
+    );
+  });
 }
