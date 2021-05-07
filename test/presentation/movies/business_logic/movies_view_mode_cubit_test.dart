@@ -9,10 +9,10 @@ void main() {
   });
 
   test(
-    'initState should be MoviesViewModeState.oneByOne',
+    'initState should be MoviesViewModeState.grid',
     () {
       // assert
-      expect(cubit.state, equals(MoviesViewModeState.oneByOne));
+      expect(cubit.state, equals(MoviesViewModeState.grid));
     },
   );
 }
