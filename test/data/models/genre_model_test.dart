@@ -42,25 +42,4 @@ void main() {
       },
     );
   });
-
-  group('toJson', () {
-    test(
-      'should return a JSON map from a GenreModel',
-      () {
-        // act
-        final result = tGenreModel.toJson();
-        // assert
-        expect(result, isA<Map<String, dynamic>>());
-      },
-    );
-    test(
-      'should return a JSON map from a List<GenreModel>',
-      () {
-        // act
-        final result = genreModelListToJsonList(tGenreModelList);
-        // assert
-        expect(result, isA<List<Map<String, dynamic>>>());
-      },
-    );
-  });
 }
