@@ -102,6 +102,7 @@ void main() {
         expect(result, isA<List<MovieModel>>());
       },
     );
+
     test(
       'should throw a ServerException when response code is 404 or other',
       () async {
