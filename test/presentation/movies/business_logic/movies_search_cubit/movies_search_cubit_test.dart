@@ -26,6 +26,18 @@ void main() {
     },
   );
 
+  group('moviesSearchRestart', () {
+    test(
+      'should emit MoviesSearchInitial when it is call',
+      () async {
+        // act
+        cubit.moviesSearchRestart();
+        // assert
+        expect(cubit.state, equals(MoviesSearchInitial()));
+      },
+    );
+  });
+
   group('searchMovies', () {
     String tLanguage = MoviesApi.es;
     String tQuery = 'k';
