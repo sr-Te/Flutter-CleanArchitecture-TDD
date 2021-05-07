@@ -57,7 +57,7 @@ void main() {
     );
 
     test(
-      'should emit [GenresLoadInProgress, GenresLoadSuccess] when data is gotten successfully',
+      'should emit [GenresLoadInProgress, GenresLoadFailure] when data is gotten unsuccessfully',
       () async {
         // arrange
         when(mockGetGenres(any)).thenAnswer((_) async => Left(ServerFailure()));
