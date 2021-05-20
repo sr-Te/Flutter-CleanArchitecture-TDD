@@ -16,3 +16,14 @@ class FailureMessage {
   static String unexpected = 'Error inesperado D:';
   static String internet = 'Parece que no tienes internet :(';
 }
+
+String mapFailureToMessage(Failure failure) {
+  switch (failure.runtimeType) {
+    case InternetFailure:
+      return FailureMessage.internet;
+    case ServerFailure:
+      return FailureMessage.server;
+    default:
+      return FailureMessage.unexpected;
+  }
+}

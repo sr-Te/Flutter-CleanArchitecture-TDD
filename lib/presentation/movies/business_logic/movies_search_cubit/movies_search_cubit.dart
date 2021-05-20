@@ -34,7 +34,7 @@ class MoviesSearchCubit extends Cubit<MoviesSearchState> {
 
     failureOrMovies.fold(
       (failure) {
-        emit(MoviesSearchLoadFailure(message: _mapFailureToMessage(failure)));
+        emit(MoviesSearchLoadFailure(message: mapFailureToMessage(failure)));
         movieList = [];
         //return movieList;
       },
@@ -46,17 +46,5 @@ class MoviesSearchCubit extends Cubit<MoviesSearchState> {
     );
 
     return movieList;
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    print(failure);
-    switch (failure.runtimeType) {
-      case InternetFailure:
-        return FailureMessage.internet;
-      case ServerFailure:
-        return FailureMessage.server;
-      default:
-        return FailureMessage.unexpected;
-    }
   }
 }

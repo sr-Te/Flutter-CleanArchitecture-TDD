@@ -14,7 +14,7 @@ class MoviesLoadSuccess extends MoviesState {
   MoviesLoadSuccess({@required this.movies});
 
   @override
-  List<Object> get props => [this.movies];
+  List<Object> get props => [movies];
 }
 
 class MoviesLoadFailure extends MoviesState {
@@ -22,5 +22,5 @@ class MoviesLoadFailure extends MoviesState {
   MoviesLoadFailure({@required this.message});
 
   @override
-  List<Object> get props => [this.message];
+  List<Object> get props => [message];
 }

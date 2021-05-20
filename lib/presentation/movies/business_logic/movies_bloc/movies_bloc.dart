@@ -31,17 +31,8 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
           genreId: event.genre),
     );
     yield failureOrMovies.fold(
-      (failure) => MoviesLoadFailure(message: _mapFailureToMessage(failure)),
+      (failure) => MoviesLoadFailure(message: mapFailureToMessage(failure)),
       (movies) => MoviesLoadSuccess(movies: movies),
     );
-  }
-
-  String _mapFailureToMessage(Failure failure) {
-    switch (failure.runtimeType) {
-      case ServerFailure:
-        return FailureMessage.server;
-      default:
-        return FailureMessage.unexpected;
-    }
   }
 }

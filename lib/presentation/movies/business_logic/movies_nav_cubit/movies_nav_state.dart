@@ -18,5 +18,5 @@ class MoviesNavWithGenres extends MoviesNavState {
   MoviesNavWithGenres(this.genre);
 
   @override
-  List<Object> get props => [this.genre];
+  List<Object> get props => [genre];
 }

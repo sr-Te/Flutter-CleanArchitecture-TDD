@@ -13,5 +13,5 @@ class MoviesGet extends MoviesEvent {
   MoviesGet({this.endpoint, this.language, this.genre = -1});
 
   @override
-  List<Object> get props => [this.endpoint, this.language, this.genre];
+  List<Object> get props => [endpoint, language, genre];
 }
