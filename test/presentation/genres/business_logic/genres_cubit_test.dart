@@ -36,7 +36,7 @@ void main() {
         cubit.genresGet(language: tLanguage);
         await untilCalled(mockGetGenres(any));
         // assert
-        verify(mockGetGenres(Params(language: tLanguage)));
+        verify(mockGetGenres(GenresParams(language: tLanguage)));
       },
     );
 

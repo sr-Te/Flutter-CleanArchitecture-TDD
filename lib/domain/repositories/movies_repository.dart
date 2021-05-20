@@ -14,4 +14,9 @@ abstract class MoviesRepository {
     String language,
     String query,
   );
+
+  Future<Either<Failure, Movie>> getMovieDetail(
+    String language,
+    int movieId,
+  );
 }

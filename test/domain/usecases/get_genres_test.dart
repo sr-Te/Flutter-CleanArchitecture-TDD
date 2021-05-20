@@ -27,7 +27,7 @@ void main() {
       when(mockMovieRepository.getGenres(any))
           .thenAnswer((_) async => Right(tGenreList));
       // act
-      final result = await usecase(Params(language: tLanguage));
+      final result = await usecase(GenresParams(language: tLanguage));
       // assert
       expect(result, Right(tGenreList));
       verify(mockMovieRepository.getGenres(tLanguage));

@@ -2,12 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../core/errors/failure.dart';
-import '../../core/network/api/movies_api.dart';
 import '../../core/usecases/usecase.dart';
 import '../entities/genre.dart';
 import '../repositories/genres_repository.dart';
 
-class GetGenres extends UseCase<List<Genre>, Params> {
+class GetGenres extends UseCase<List<Genre>, GenresParams> {
   final GenresRepository repository;
 
   GetGenres(this.repository);
@@ -18,10 +17,10 @@ class GetGenres extends UseCase<List<Genre>, Params> {
   }
 }
 
-class Params extends Equatable {
+class GenresParams extends Equatable {
   final String language;
 
-  Params({this.language = MoviesApi.es});
+  GenresParams({this.language});
 
   @override
   List<Object> get props => [language];

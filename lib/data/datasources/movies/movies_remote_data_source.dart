@@ -18,6 +18,8 @@ abstract class MoviesRemoteDataSource {
     String language,
     String query,
   );
+
+  Future<MovieModel> getMovieDetail(String language, int movieId);
 }
 
 class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
@@ -47,5 +49,10 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
       return movieModelListFromJsonList(json.decode(response.body)['results']);
     } else
       throw ServerException();
+  }
+
+  @override
+  Future<MovieModel> getMovieDetail(String language, int movieId) {
+    return null;
   }
 }

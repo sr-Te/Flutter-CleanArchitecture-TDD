@@ -21,7 +21,7 @@ class GenresCubit extends Cubit<GenresState> {
     String language = MoviesApi.es,
   }) async {
     emit(GenresLoadInProgress());
-    final failureOrGenres = await getGenres(Params(language: language));
+    final failureOrGenres = await getGenres(GenresParams(language: language));
     emit(
       failureOrGenres.fold(
         (failure) => GenresLoadFailure(message: _mapFailureToMessage(failure)),

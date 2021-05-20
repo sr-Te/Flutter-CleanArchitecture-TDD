@@ -1,6 +1,8 @@
 import 'dart:convert';
 
-import 'package:my_movie_list/domain/entities/movie.dart';
+import '../../domain/entities/movie.dart';
+import 'production_company_model.dart';
+import 'production_country_model.dart';
 
 List<MovieModel> movieModelListFromJsonList(List<dynamic> jsonList) {
   if (jsonList == null) return [];
@@ -42,6 +44,10 @@ class MovieModel extends Movie {
     this.video,
     this.voteAverage,
     this.voteCount,
+    this.budget,
+    this.homepage,
+    this.productionCompanies,
+    this.productionCountries,
   }) : super(
           id: id,
           title: title,
@@ -57,6 +63,10 @@ class MovieModel extends Movie {
           video: video,
           voteAverage: voteAverage,
           voteCount: voteCount,
+          budget: budget,
+          homepage: homepage,
+          productionCompanies: productionCompanies,
+          productionCountries: productionCountries,
         );
 
   final bool adult;
@@ -73,6 +83,10 @@ class MovieModel extends Movie {
   final bool video;
   final double voteAverage;
   final int voteCount;
+  int budget;
+  String homepage;
+  List<ProductionCompanyModel> productionCompanies;
+  List<ProductionCountryModel> productionCountries;
 
   factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
         adult: json["adult"],
@@ -89,6 +103,16 @@ class MovieModel extends Movie {
         video: json["video"],
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
+        budget: json["budget"],
+        homepage: json["homepage"],
+        productionCompanies: json["production_companies"] != null
+            ? List<ProductionCompanyModel>.from(json["production_companies"]
+                .map((x) => ProductionCompanyModel.fromJson(x)))
+            : [],
+        productionCountries: json["production_countries"] != null
+            ? List<ProductionCountryModel>.from(json["production_countries"]
+                .map((x) => ProductionCountryModel.fromJson(x)))
+            : [],
       );
 
   Map<String, dynamic> toJson() => {
@@ -107,5 +131,11 @@ class MovieModel extends Movie {
         "video": video,
         "vote_average": voteAverage,
         "vote_count": voteCount,
+        "budget": budget,
+        "homepage": homepage,
+        "production_companies":
+            List<dynamic>.from(productionCompanies.map((x) => x.toJson())),
+        "production_countries":
+            List<dynamic>.from(productionCountries.map((x) => x.toJson())),
       };
 }

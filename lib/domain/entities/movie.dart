@@ -1,3 +1,6 @@
+import '../../data/models/production_company_model.dart';
+import '../../data/models/production_country_model.dart';
+
 class Movie {
   final bool adult;
   final String backdropPath;
@@ -13,6 +16,10 @@ class Movie {
   final bool video;
   final double voteAverage;
   final int voteCount;
+  int budget;
+  String homepage;
+  List<ProductionCompanyModel> productionCompanies;
+  List<ProductionCountryModel> productionCountries;
 
   Movie({
     this.adult,
@@ -29,5 +36,9 @@ class Movie {
     this.video,
     this.voteAverage,
     this.voteCount,
+    this.budget,
+    this.homepage,
+    this.productionCompanies,
+    this.productionCountries,
   });
 }

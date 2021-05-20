@@ -10,8 +10,8 @@ class MoviesGet extends MoviesEvent {
   final String language;
   final int genre;
 
-  MoviesGet({String tEndpoint, this.endpoint, this.language, this.genre = -1});
+  MoviesGet({this.endpoint, this.language, this.genre = -1});
 
   @override
-  List<Object> get props => [this.endpoint, this.language];
+  List<Object> get props => [this.endpoint, this.language, this.genre];
 }
