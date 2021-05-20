@@ -111,6 +111,7 @@ void main() {
           );
         },
       );
+
       test(
         'should return server failure when the call to remote data source is unsuccessful',
         () async {
@@ -192,6 +193,7 @@ void main() {
           expect(result, equals(Right(tMovieList)));
         },
       );
+
       test(
         'should return server failure when the call to remote data source is unsuccessful',
         () async {
@@ -213,6 +215,68 @@ void main() {
         () async {
           // act
           final result = await repository.searchMovies(tLanguage, tQuery);
+          // assert
+          verifyZeroInteractions(mockRemoteDataSource);
+          expect(result, equals(Left(InternetFailure())));
+        },
+      );
+    });
+  });
+
+  group('getMovieDetail', () {
+    final tLanguage = MoviesApi.en;
+    final tMovieId = 399566;
+    final tMovie = MovieModel();
+
+    test(
+      'should check if the device is online',
+      () {
+        // arrange
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+        // act
+        repository.getMovieDetail(tLanguage, tMovieId);
+        // assert
+        verify(mockNetworkInfo.isConnected);
+      },
+    );
+
+    runTestsOnline(() {
+      test(
+        'should return remote data when the call to remote data source is successful',
+        () async {
+          // arrange
+          when(
+            mockRemoteDataSource.getMovieDetail(any, any),
+          ).thenAnswer((_) async => tMovie);
+          // act
+          final result = await repository.getMovieDetail(tLanguage, tMovieId);
+          // assert
+          verify(mockRemoteDataSource.getMovieDetail(any, any));
+          expect(result, equals(Right(tMovie)));
+        },
+      );
+
+      test(
+        'should return server failure when the call to remote data source is unsuccessful',
+        () async {
+          // arrange
+          when(mockRemoteDataSource.getMovieDetail(any, any))
+              .thenThrow(ServerException());
+          // act
+          final result = await repository.getMovieDetail(tLanguage, tMovieId);
+          // assert
+          verify(mockRemoteDataSource.getMovieDetail(tLanguage, tMovieId));
+          expect(result, equals(Left(ServerFailure())));
+        },
+      );
+    });
+
+    runTestsOffline(() {
+      test(
+        'should return internet failure when there is no internet',
+        () async {
+          // act
+          final result = await repository.getMovieDetail(tLanguage, tMovieId);
           // assert
           verifyZeroInteractions(mockRemoteDataSource);
           expect(result, equals(Left(InternetFailure())));

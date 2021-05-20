@@ -96,6 +96,17 @@ class MoviesRepositoryImpl implements MoviesRepository {
     String language,
     int movieId,
   ) async {
-    return Right(Movie());
+    if (await networkInfo.isConnected)
+      try {
+        final remoteMovieDetail = await remoteDataSource.getMovieDetail(
+          language,
+          movieId,
+        );
+        return Right(remoteMovieDetail);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    else
+      return Left(InternetFailure());
   }
 }
