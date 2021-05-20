@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '../../domain/entities/genre.dart';
 
 List<GenreModel> genreModelListFromJsonList(List<dynamic> jsonList) {
@@ -20,11 +18,6 @@ List<Map<String, dynamic>> genreModelListToJsonList(List<GenreModel> genres) {
   });
   return genresJson;
 }
-
-GenreModel genreModelFromJson(String str) =>
-    GenreModel.fromJson(json.decode(str));
-
-String genreModelToJson(GenreModel data) => json.encode(data.toJson());
 
 class GenreModel extends Genre {
   GenreModel({

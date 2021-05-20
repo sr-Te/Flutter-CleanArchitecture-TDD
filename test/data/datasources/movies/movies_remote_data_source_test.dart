@@ -23,10 +23,10 @@ void main() {
     dataSource = MoviesRemoteDataSourceImpl(client: mockHttpClient);
   });
 
-  void setUpMockHttpClientSuccess200() {
+  void setUpMockHttpClientSuccess200(String jsonFile) {
     when(mockHttpClient.get(any)).thenAnswer(
       (_) async => http.Response(
-        fixture('movies_now_playing.json'),
+        fixture(jsonFile),
         200,
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
@@ -49,7 +49,7 @@ void main() {
       'should preform a GET request on a URL',
       () {
         // arrange
-        setUpMockHttpClientSuccess200();
+        setUpMockHttpClientSuccess200('movies_now_playing.json');
         // act
         dataSource.getMovies(tEndpoint, tLanguage, -1);
         // assert
@@ -63,7 +63,7 @@ void main() {
       'should return List<MovieModel> when response code is 200 (success)',
       () async {
         // arrange
-        setUpMockHttpClientSuccess200();
+        setUpMockHttpClientSuccess200('movies_now_playing.json');
         // act
         final result = await dataSource.getMovies(tEndpoint, tLanguage, -1);
         // arrange
@@ -95,7 +95,7 @@ void main() {
       'should return List<MovieModel> when response code is 200 (success)',
       () async {
         // arrange
-        setUpMockHttpClientSuccess200();
+        setUpMockHttpClientSuccess200('movies_now_playing.json');
         // act
         final result = await dataSource.searchMovies(tLanguage, tQuery);
         // assert
@@ -113,6 +113,38 @@ void main() {
         // assert
         expect(
           () => call(tLanguage, tQuery),
+          throwsA(TypeMatcher<ServerException>()),
+        );
+      },
+    );
+  });
+
+  group('getMovieDetail', () {
+    final tLanguage = MoviesApi.es;
+    final tMovieId = 399566;
+
+    test(
+      'should return a MovieModel when response code is 200 (success)',
+      () async {
+        // arrange
+        setUpMockHttpClientSuccess200('movie_detail.json');
+        // act
+        final result = await dataSource.getMovieDetail(tLanguage, tMovieId);
+        // assert
+        expect(result, isA<MovieModel>());
+      },
+    );
+
+    test(
+      'should throw a ServerException when response code is 404 or other',
+      () async {
+        // arrange
+        setUpMockHttpClientFailure404();
+        // act
+        final call = dataSource.getMovieDetail;
+        // assert
+        expect(
+          () => call(tLanguage, tMovieId),
           throwsA(TypeMatcher<ServerException>()),
         );
       },

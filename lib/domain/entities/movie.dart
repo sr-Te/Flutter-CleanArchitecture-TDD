@@ -1,22 +1,25 @@
 import '../../data/models/production_company_model.dart';
 import '../../data/models/production_country_model.dart';
+import 'genre.dart';
 
 class Movie {
-  final bool adult;
-  final String backdropPath;
-  final List<int> genreIds;
-  final int id;
-  final String originalLanguage;
-  final String originalTitle;
-  final String overview;
-  final double popularity;
-  final String posterPath;
-  final DateTime releaseDate;
-  final String title;
-  final bool video;
-  final double voteAverage;
-  final int voteCount;
+  bool adult;
+  String backdropPath;
+  List<int> genreIds;
+  List<Genre> genres;
+  int id;
+  String originalLanguage;
+  String originalTitle;
+  String overview;
+  double popularity;
+  String posterPath;
+  DateTime releaseDate;
+  String title;
+  bool video;
+  double voteAverage;
+  int voteCount;
   int budget;
+  int revenue;
   String homepage;
   List<ProductionCompanyModel> productionCompanies;
   List<ProductionCountryModel> productionCountries;
@@ -25,6 +28,7 @@ class Movie {
     this.adult,
     this.backdropPath,
     this.genreIds,
+    this.genres,
     this.id,
     this.originalLanguage,
     this.originalTitle,
@@ -37,6 +41,7 @@ class Movie {
     this.voteAverage,
     this.voteCount,
     this.budget,
+    this.revenue,
     this.homepage,
     this.productionCompanies,
     this.productionCountries,

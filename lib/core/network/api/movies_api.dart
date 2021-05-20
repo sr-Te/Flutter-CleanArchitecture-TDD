@@ -19,7 +19,7 @@ class MoviesApi {
       {'api_key': _apikey, 'language': language, 'query': query});
 
   static Uri getMovieDetail(String language, int movieId) => Uri.https(
-      _url, '3/movie/$movieId?', {'api_key': _apikey, 'language': language});
+      _url, '3/movie/$movieId', {'api_key': _apikey, 'language': language});
 
   // Img / Posters
   static String getMoviePoster(String posterPath) {

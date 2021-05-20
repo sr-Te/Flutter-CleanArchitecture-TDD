@@ -52,7 +52,13 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   }
 
   @override
-  Future<MovieModel> getMovieDetail(String language, int movieId) {
-    return null;
+  Future<MovieModel> getMovieDetail(String language, int movieId) async {
+    final response = await client.get(
+      MoviesApi.getMovieDetail(language, movieId),
+    );
+    if (response.statusCode == 200) {
+      return MovieModel.fromJson(json.decode(response.body));
+    } else
+      throw ServerException();
   }
 }

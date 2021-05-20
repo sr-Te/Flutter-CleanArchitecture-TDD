@@ -1,5 +1,6 @@
-import 'dart:convert';
+import 'package:my_movie_list/data/models/genre_model.dart';
 
+import '../../domain/entities/genre.dart';
 import '../../domain/entities/movie.dart';
 import 'production_company_model.dart';
 import 'production_country_model.dart';
@@ -23,18 +24,35 @@ List<Map<String, dynamic>> movieModelListToJsonList(List<MovieModel> movies) {
   return moviesJson;
 }
 
-MovieModel movieModelFromJson(String str) =>
-    MovieModel.fromJson(json.decode(str));
-
-String movieModelToJson(MovieModel data) => json.encode(data.toJson());
-
 class MovieModel extends Movie {
+  int id;
+  String title;
+  String homepage;
+  bool adult;
+  String backdropPath;
+  List<int> genreIds;
+  List<Genre> genres;
+  String originalLanguage;
+  String originalTitle;
+  String overview;
+  double popularity;
+  String posterPath;
+  DateTime releaseDate;
+  bool video;
+  double voteAverage;
+  int voteCount;
+  int budget;
+  int revenue;
+  List<ProductionCompanyModel> productionCompanies;
+  List<ProductionCountryModel> productionCountries;
   MovieModel({
     this.id,
     this.title,
+    this.homepage,
     this.adult,
     this.backdropPath,
     this.genreIds,
+    this.genres,
     this.originalLanguage,
     this.originalTitle,
     this.overview,
@@ -45,7 +63,7 @@ class MovieModel extends Movie {
     this.voteAverage,
     this.voteCount,
     this.budget,
-    this.homepage,
+    this.revenue,
     this.productionCompanies,
     this.productionCountries,
   }) : super(
@@ -54,6 +72,7 @@ class MovieModel extends Movie {
           adult: adult,
           backdropPath: backdropPath,
           genreIds: genreIds,
+          genres: genres,
           originalLanguage: originalLanguage,
           originalTitle: originalTitle,
           overview: overview,
@@ -64,34 +83,21 @@ class MovieModel extends Movie {
           voteAverage: voteAverage,
           voteCount: voteCount,
           budget: budget,
+          revenue: revenue,
           homepage: homepage,
           productionCompanies: productionCompanies,
           productionCountries: productionCountries,
         );
 
-  final bool adult;
-  final String backdropPath;
-  final List<int> genreIds;
-  final int id;
-  final String originalLanguage;
-  final String originalTitle;
-  final String overview;
-  final double popularity;
-  final String posterPath;
-  final DateTime releaseDate;
-  final String title;
-  final bool video;
-  final double voteAverage;
-  final int voteCount;
-  int budget;
-  String homepage;
-  List<ProductionCompanyModel> productionCompanies;
-  List<ProductionCountryModel> productionCountries;
-
   factory MovieModel.fromJson(Map<String, dynamic> json) => MovieModel(
         adult: json["adult"],
         backdropPath: json["backdrop_path"],
-        genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
+        genreIds: json["genre_ids"] != null
+            ? List<int>.from(json["genre_ids"].map((x) => x))
+            : [],
+        genres: json["genres"] != null
+            ? genreModelListFromJsonList(json['genres'])
+            : [],
         id: json["id"],
         originalLanguage: json["original_language"],
         originalTitle: json["original_title"],
@@ -104,6 +110,7 @@ class MovieModel extends Movie {
         voteAverage: json["vote_average"].toDouble(),
         voteCount: json["vote_count"],
         budget: json["budget"],
+        revenue: json["revenue"],
         homepage: json["homepage"],
         productionCompanies: json["production_companies"] != null
             ? List<ProductionCompanyModel>.from(json["production_companies"]
@@ -119,6 +126,7 @@ class MovieModel extends Movie {
         "adult": adult,
         "backdrop_path": backdropPath,
         "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
+        "genres": genreModelListToJsonList(genres),
         "id": id,
         "original_language": originalLanguage,
         "original_title": originalTitle,
