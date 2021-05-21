@@ -1,13 +1,14 @@
 import 'dart:math';
-import 'package:intl/intl.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_movie_list/data/models/production_company_model.dart';
-import 'package:my_movie_list/data/models/production_country_model.dart';
+import 'package:intl/intl.dart';
+import 'package:my_movie_list/domain/entities/actor.dart';
+import 'package:my_movie_list/presentation/movies/business_logic/movie_cast_cubit/movie_cast_cubit.dart';
 
 import '../../../core/network/api/movies_api.dart';
+import '../../../data/models/production_company_model.dart';
 import '../../../domain/entities/movie.dart';
 import '../../genres/business_logic/genres_cubit.dart';
 import '../business_logic/movie_details_cubit/movie_details_cubit.dart';
@@ -21,6 +22,9 @@ class MoviesProfileView extends StatelessWidget {
 
     BlocProvider.of<MovieDetailsCubit>(context)
         .movieDetailsGet(language: MoviesApi.es, movieId: movie.id);
+
+    BlocProvider.of<MovieCastCubit>(context)
+        .movieCastGet(language: MoviesApi.es, movieId: movie.id);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -40,7 +44,7 @@ class MoviesProfileView extends StatelessWidget {
 
     return Container(
       height: double.infinity,
-      margin: EdgeInsets.only(top: topMargin, bottom: 20, left: 20, right: 20),
+      margin: EdgeInsets.only(top: topMargin, bottom: 40, left: 20, right: 20),
       padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
@@ -70,9 +74,11 @@ class MoviesProfileView extends StatelessWidget {
                 ),
               ],
             ),
-            _movieOverview(context, movie),
+            _movieOverview(movie),
             SizedBox(height: 10),
             _movieDetail(movie),
+            SizedBox(height: 10),
+            _movieCast(movie),
           ],
         ),
       ),
@@ -112,7 +118,7 @@ class MoviesProfileView extends StatelessWidget {
     );
   }
 
-  Widget _movieOverview(BuildContext context, Movie movie) {
+  Widget _movieOverview(Movie movie) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20),
       child: Column(
@@ -279,8 +285,6 @@ class MoviesProfileView extends StatelessWidget {
           ],
         ),
         SizedBox(height: 20),
-        _productionCountries(state.movie.productionCountries),
-        SizedBox(height: 20),
         _sectionTitle('Compañias de producción: '),
         _productionCompanies(state.movie.productionCompanies),
       ],
@@ -306,8 +310,9 @@ class MoviesProfileView extends StatelessWidget {
           itemBuilder: (context, index) => Container(
             margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
             child: FadeInImage.assetNetwork(
-                placeholder: 'assets/img/loading-gif.gif',
-                image: MoviesApi.getMoviePoster(companies[index].logoPath)),
+              placeholder: 'assets/img/loading-gif.gif',
+              image: MoviesApi.getMoviePoster(companies[index].logoPath),
+            ),
           ),
         ),
       );
@@ -315,7 +320,119 @@ class MoviesProfileView extends StatelessWidget {
       return Text('No hay información al respecto');
   }
 
-  Widget _productionCountries(
-    List<ProductionCountryModel> countries,
-  ) {}
+  Widget _movieCast(Movie movie) {
+    return BlocBuilder<MovieCastCubit, MovieCastState>(
+      builder: (context, state) {
+        if (state is MovieCastLoadSuccess) {
+          if (state.cast.isNotEmpty)
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _sectionTitle('Reparto:'),
+                SizedBox(height: 10),
+                SizedBox(
+                  height: 150.0,
+                  child: PageView.builder(
+                    pageSnapping: false,
+                    controller:
+                        PageController(viewportFraction: 0.35, initialPage: 1),
+                    itemCount: state.cast.length,
+                    itemBuilder: (context, i) => _actorCard(
+                      context,
+                      state.cast[i],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          else
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _sectionTitle('Reparto:'),
+                SizedBox(height: 10),
+                Text('No hay detalles de esta película, meperd0n as¿'),
+              ],
+            );
+        } else if (state is MovieCastLoadInProgress)
+          return Container();
+        else if (state is MovieCastLoadFailure)
+          return Text(state.message);
+        else
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _sectionTitle('Reparto:'),
+              SizedBox(height: 10),
+              Text('No hay detalles de esta película, meperd0n as¿'),
+            ],
+          );
+      },
+    );
+  }
+
+  Widget _actorCard(BuildContext context, Actor actor) {
+    return GestureDetector(
+      onTap: () => _goToActorProfile(context, actor),
+      child: Container(
+        padding: EdgeInsets.only(left: 20),
+        child: Stack(
+          children: [
+            Hero(
+              tag: actor.id,
+              child: Container(
+                child: _actorPhoto(actor),
+              ),
+            ),
+            Column(
+              children: [
+                Expanded(child: Container()),
+                Opacity(
+                  opacity: 0.7,
+                  child: Container(
+                    height: 50,
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                      ),
+                      color: Colors.black,
+                    ),
+                    child: Center(
+                      child: Text(
+                        actor.name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _actorPhoto(Actor actor) {
+    return CachedNetworkImage(
+      imageUrl: actor.getFoto(),
+      imageBuilder: (context, imageProvider) => Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+        ),
+      ),
+      progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+          child: CircularProgressIndicator(value: downloadProgress.progress)),
+      errorWidget: (context, url, error) => Icon(Icons.error),
+    );
+  }
+
+  _goToActorProfile(BuildContext context, Actor actor) {}
 }

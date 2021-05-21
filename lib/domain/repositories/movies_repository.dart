@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../core/errors/failure.dart';
+import '../entities/actor.dart';
 import '../entities/movie.dart';
 
 abstract class MoviesRepository {
@@ -16,6 +17,11 @@ abstract class MoviesRepository {
   );
 
   Future<Either<Failure, Movie>> getMovieDetail(
+    String language,
+    int movieId,
+  );
+
+  Future<Either<Failure, List<Actor>>> getMovieCast(
     String language,
     int movieId,
   );

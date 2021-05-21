@@ -7,11 +7,11 @@ class MoviesApi {
   static const String en = 'en-US';
 
   // Uris
-  static Uri getMovies(String endpoint, String language, int genreId) =>
-      Uri.https(_url, endpoint, _getParameters(language, genreId));
-
   static Uri getGenres(String language) => Uri.https(
       _url, '3/genre/movie/list', {'api_key': _apikey, 'language': language});
+
+  static Uri getMovies(String endpoint, String language, int genreId) =>
+      Uri.https(_url, endpoint, _getParameters(language, genreId));
 
   static Uri searchMovies(String language, String query) => Uri.https(
       _url,
@@ -20,6 +20,9 @@ class MoviesApi {
 
   static Uri getMovieDetail(String language, int movieId) => Uri.https(
       _url, '3/movie/$movieId', {'api_key': _apikey, 'language': language});
+
+  static Uri getMovieCast(String language, int movieId) => Uri.https(_url,
+      '3/movie/$movieId/credits', {'api_key': _apikey, 'language': language});
 
   // Img / Posters
   static String getMoviePoster(String posterPath) {

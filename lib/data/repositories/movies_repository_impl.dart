@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:my_movie_list/domain/entities/actor.dart';
 
 import '../../core/errors/exception.dart';
 import '../../core/errors/failure.dart';
@@ -99,6 +100,25 @@ class MoviesRepositoryImpl implements MoviesRepository {
     if (await networkInfo.isConnected)
       try {
         final remoteMovieDetail = await remoteDataSource.getMovieDetail(
+          language,
+          movieId,
+        );
+        return Right(remoteMovieDetail);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    else
+      return Left(InternetFailure());
+  }
+
+  @override
+  Future<Either<Failure, List<Actor>>> getMovieCast(
+    String language,
+    int movieId,
+  ) async {
+    if (await networkInfo.isConnected)
+      try {
+        final remoteMovieDetail = await remoteDataSource.getMovieCast(
           language,
           movieId,
         );
