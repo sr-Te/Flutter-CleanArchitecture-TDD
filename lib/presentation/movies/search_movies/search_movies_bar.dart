@@ -24,14 +24,13 @@ class SearchMoviesBar extends StatelessWidget {
           ),
           child: TypeAheadField(
               suggestionsBoxController: suggestionsBoxController,
-              keepSuggestionsOnLoading: false,
               hideSuggestionsOnKeyboardHide: false,
               suggestionsBoxDecoration: _suggestionsBoxDecoration(context),
               textFieldConfiguration:
                   _texFieldConfiguration(context, radius, editingController),
               loadingBuilder: (context) => _loadingBuilder(),
               noItemsFoundBuilder: (context) => _noItemsFound(),
-              errorBuilder: (context, exception) => _loadingBuilder(),
+              errorBuilder: (context, exception) => _errorBuilder(),
               suggestionsCallback: (pattern) async =>
                   await BlocProvider.of<MoviesSearchCubit>(context)
                       .moviesSearch(language: MoviesApi.es, query: pattern),
@@ -56,7 +55,10 @@ class SearchMoviesBar extends StatelessWidget {
   }
 
   _texFieldConfiguration(
-      BuildContext context, double radius, TextEditingController controller) {
+    BuildContext context,
+    double radius,
+    TextEditingController controller,
+  ) {
     return TextFieldConfiguration(
       autofocus: true,
       cursorColor: Colors.white,
@@ -138,6 +140,13 @@ class SearchMoviesBar extends StatelessWidget {
       child: CircularProgressIndicator(
         valueColor: new AlwaysStoppedAnimation<Color>(Colors.black),
       ),
+    );
+  }
+
+  _errorBuilder() {
+    return Text(
+      'Parece que ha habido un error, intente otra vez!',
+      style: TextStyle(fontSize: 15),
     );
   }
 }

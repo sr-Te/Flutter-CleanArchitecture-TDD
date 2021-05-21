@@ -302,22 +302,35 @@ class MoviesProfileView extends StatelessWidget {
 
   Widget _productionCompanies(List<ProductionCompanyModel> companies) {
     if (companies.isNotEmpty)
-      return Container(
-        height: 75,
-        child: ListView.builder(
+      return SizedBox(
+        height: 75.0,
+        child: PageView.builder(
+          pageSnapping: false,
+          controller: PageController(viewportFraction: 0.4, initialPage: 1),
           itemCount: companies.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) => Container(
-            margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-            child: FadeInImage.assetNetwork(
-              placeholder: 'assets/img/loading-gif.gif',
-              image: MoviesApi.getMoviePoster(companies[index].logoPath),
-            ),
-          ),
+          itemBuilder: (context, i) => _companyLogo(companies[i]),
         ),
       );
     else
       return Text('No hay información al respecto');
+  }
+
+  Widget _companyLogo(ProductionCompanyModel company) {
+    return Container(
+      padding: EdgeInsets.only(left: 50),
+      child: CachedNetworkImage(
+        imageUrl: MoviesApi.getMoviePoster(company.logoPath),
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            image: DecorationImage(image: imageProvider, fit: BoxFit.contain),
+          ),
+        ),
+        progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+            child: CircularProgressIndicator(value: downloadProgress.progress)),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      ),
+    );
   }
 
   Widget _movieCast(Movie movie) {
