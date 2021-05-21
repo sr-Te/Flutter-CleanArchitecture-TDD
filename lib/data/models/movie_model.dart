@@ -31,7 +31,6 @@ class MovieModel extends Movie {
   bool adult;
   String backdropPath;
   List<int> genreIds;
-  List<Genre> genres;
   String originalLanguage;
   String originalTitle;
   String overview;
@@ -45,6 +44,7 @@ class MovieModel extends Movie {
   int revenue;
   List<ProductionCompanyModel> productionCompanies;
   List<ProductionCountryModel> productionCountries;
+
   MovieModel({
     this.id,
     this.title,
@@ -52,7 +52,6 @@ class MovieModel extends Movie {
     this.adult,
     this.backdropPath,
     this.genreIds,
-    this.genres,
     this.originalLanguage,
     this.originalTitle,
     this.overview,
@@ -72,7 +71,6 @@ class MovieModel extends Movie {
           adult: adult,
           backdropPath: backdropPath,
           genreIds: genreIds,
-          genres: genres,
           originalLanguage: originalLanguage,
           originalTitle: originalTitle,
           overview: overview,
@@ -94,9 +92,6 @@ class MovieModel extends Movie {
         backdropPath: json["backdrop_path"],
         genreIds: json["genre_ids"] != null
             ? List<int>.from(json["genre_ids"].map((x) => x))
-            : [],
-        genres: json["genres"] != null
-            ? genreModelListFromJsonList(json['genres'])
             : [],
         id: json["id"],
         originalLanguage: json["original_language"],
@@ -126,7 +121,6 @@ class MovieModel extends Movie {
         "adult": adult,
         "backdrop_path": backdropPath,
         "genre_ids": List<dynamic>.from(genreIds.map((x) => x)),
-        "genres": genreModelListToJsonList(genres),
         "id": id,
         "original_language": originalLanguage,
         "original_title": originalTitle,

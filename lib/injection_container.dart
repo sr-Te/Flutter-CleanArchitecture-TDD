@@ -13,6 +13,7 @@ import 'data/repositories/movies_repository_impl.dart';
 import 'domain/repositories/genres_repository.dart';
 import 'domain/repositories/movies_repository.dart';
 import 'domain/usecases/get_genres.dart';
+import 'domain/usecases/get_movie_detail.dart';
 import 'domain/usecases/get_movies.dart';
 import 'domain/usecases/search_movies.dart';
 import 'presentation/genres/business_logic/genres_cubit.dart';
@@ -20,6 +21,7 @@ import 'presentation/movies/business_logic/movies_bloc/movies_bloc.dart';
 import 'presentation/movies/business_logic/movies_nav_cubit/movies_nav_cubit.dart';
 import 'presentation/movies/business_logic/movies_search_cubit/movies_search_cubit.dart';
 import 'presentation/movies/business_logic/movies_view_mode_cubit.dart';
+import 'presentation/movies/business_logic/movie_details_cubit/movie_details_cubit.dart';
 import 'presentation/widgets/main_appbar/business_logic/appbar_search_mode_cubit.dart';
 
 final sl = GetIt.instance;
@@ -34,10 +36,12 @@ Future<void> init() async {
   sl.registerFactory(() => MoviesViewModeCubit());
   sl.registerFactory(() => AppbarSearhModeCubit());
   sl.registerFactory(() => MoviesSearchCubit(searchMovies: sl()));
+  sl.registerFactory(() => MovieDetailsCubit(getMovieDetail: sl()));
 
   // UseCases
   sl.registerLazySingleton(() => GetMovies(sl()));
   sl.registerLazySingleton(() => SearchMovies(sl()));
+  sl.registerLazySingleton(() => GetMovieDetail(sl()));
 
   // Repository
   sl.registerLazySingleton<MoviesRepository>(

@@ -1,12 +1,16 @@
 import 'dart:math';
+import 'package:intl/intl.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_movie_list/data/models/production_company_model.dart';
+import 'package:my_movie_list/data/models/production_country_model.dart';
 
 import '../../../core/network/api/movies_api.dart';
 import '../../../domain/entities/movie.dart';
 import '../../genres/business_logic/genres_cubit.dart';
+import '../business_logic/movie_details_cubit/movie_details_cubit.dart';
 import '../ui/movie_poster.dart';
 import 'movie_profile_appbar.dart';
 
@@ -14,6 +18,9 @@ class MoviesProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Movie movie = ModalRoute.of(context).settings.arguments;
+
+    BlocProvider.of<MovieDetailsCubit>(context)
+        .movieDetailsGet(language: MoviesApi.es, movieId: movie.id);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -52,11 +59,11 @@ class MoviesProfileView extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        _movieTitle(context, movie),
+                        _movieTitle(movie),
                         SizedBox(height: 10),
                         _rating(context, movie),
                         SizedBox(height: 10),
-                        _movieGenres(context, movie),
+                        _movieGenres(movie),
                       ],
                     ),
                   ),
@@ -64,6 +71,8 @@ class MoviesProfileView extends StatelessWidget {
               ],
             ),
             _movieOverview(context, movie),
+            SizedBox(height: 10),
+            _movieDetail(movie),
           ],
         ),
       ),
@@ -142,21 +151,15 @@ class MoviesProfileView extends StatelessWidget {
             height: 90,
             child: randomCatImage(),
           ),
-          Text(
-            'No hay sinopsis :c',
-            textAlign: TextAlign.justify,
-          ),
+          Text('No hay sinopsis :(')
         ],
       );
     } else {
-      return Text(
-        movie.overview,
-        textAlign: TextAlign.justify,
-      );
+      return Text(movie.overview, textAlign: TextAlign.justify);
     }
   }
 
-  Widget _movieTitle(BuildContext context, Movie movie) {
+  Widget _movieTitle(Movie movie) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -183,7 +186,7 @@ class MoviesProfileView extends StatelessWidget {
     );
   }
 
-  Widget _movieGenres(BuildContext context, Movie movie) {
+  Widget _movieGenres(Movie movie) {
     return Container(
       width: double.infinity,
       child: Column(
@@ -193,7 +196,7 @@ class MoviesProfileView extends StatelessWidget {
           BlocBuilder<GenresCubit, GenresState>(
             builder: (context, state) {
               if (state is GenresLoadSuccess) {
-                return _getMoviesGenres(context, movie, state);
+                return _getMoviesGenres(movie, state);
               } else if (state is GenresLoadInProgress) {
                 return CircularProgressIndicator();
               } else {
@@ -207,7 +210,6 @@ class MoviesProfileView extends StatelessWidget {
   }
 
   Widget _getMoviesGenres(
-    BuildContext context,
     Movie movie,
     GenresLoadSuccess state,
   ) {
@@ -220,17 +222,100 @@ class MoviesProfileView extends StatelessWidget {
       });
     });
 
-    movieGenreNames = movieGenreNames.substring(0, movieGenreNames.length - 2);
-    movieGenreNames = movieGenreNames.trim();
-    if (movieGenreNames.isNotEmpty)
-      return Text(
-        movieGenreNames,
-        style: TextStyle(fontSize: 14),
+    if (movieGenreNames.isNotEmpty) {
+      movieGenreNames =
+          movieGenreNames.substring(0, movieGenreNames.length - 2);
+      movieGenreNames = movieGenreNames.trim();
+      return Text(movieGenreNames);
+    } else
+      return Text('No hay informaciión, meperd0n as¿');
+  }
+
+  Widget _movieDetail(Movie movie) {
+    return BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
+      builder: (context, state) {
+        if (state is MovieDetailsLoadInProgress) {
+          return CircularProgressIndicator();
+        } else if (state is MovieDetailsLoadSuccess) {
+          return _movieDetailsSuccessfulLoaded(state);
+        } else if (state is MovieDetailsLoadFailure) {
+          return Text(state.message);
+        } else
+          return Text('No hay detalles de esta película, meperd0n as¿');
+      },
+    );
+  }
+
+  Widget _movieDetailsSuccessfulLoaded(MovieDetailsLoadSuccess state) {
+    final String releaseDate = '${state.movie.releaseDate.day}' +
+        '-' +
+        '${state.movie.releaseDate.month}' +
+        '-' +
+        '${state.movie.releaseDate.year}';
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _sectionTitle('Fecha de lanzamiento: '),
+        Text(releaseDate),
+        SizedBox(height: 10),
+        Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _sectionTitle('Presupuesto: '),
+                Text(formatNumber(state.movie.budget)),
+              ],
+            ),
+            Expanded(child: Container()),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _sectionTitle('Ingresos: '),
+                Text(formatNumber(state.movie.revenue)),
+              ],
+            )
+          ],
+        ),
+        SizedBox(height: 20),
+        _productionCountries(state.movie.productionCountries),
+        SizedBox(height: 20),
+        _sectionTitle('Compañias de producción: '),
+        _productionCompanies(state.movie.productionCompanies),
+      ],
+    );
+  }
+
+  String formatNumber(dynamic number) {
+    var f = NumberFormat.simpleCurrency(
+      name: '\$ ',
+      decimalDigits: 0,
+      locale: 'eu',
+    );
+    return '${f.format(number)}';
+  }
+
+  Widget _productionCompanies(List<ProductionCompanyModel> companies) {
+    if (companies.isNotEmpty)
+      return Container(
+        height: 75,
+        child: ListView.builder(
+          itemCount: companies.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) => Container(
+            margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+            child: FadeInImage.assetNetwork(
+                placeholder: 'assets/img/loading-gif.gif',
+                image: MoviesApi.getMoviePoster(companies[index].logoPath)),
+          ),
+        ),
       );
     else
-      return Text(
-        'No hay información, meperd0n as¿',
-        style: TextStyle(fontSize: 14),
-      );
+      return Text('No hay información al respecto');
   }
+
+  Widget _productionCountries(
+    List<ProductionCountryModel> countries,
+  ) {}
 }

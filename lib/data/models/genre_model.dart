@@ -19,6 +19,17 @@ List<Map<String, dynamic>> genreModelListToJsonList(List<GenreModel> genres) {
   return genresJson;
 }
 
+List<Map<String, dynamic>> genreListToJsonList(List<Genre> genres) {
+  List<Map<String, dynamic>> genresJson = [];
+  genres.forEach((genre) {
+    genresJson.add(genreToJson(genre));
+  });
+  return genresJson;
+}
+
+Map<String, dynamic> genreToJson(Genre genre) =>
+    {"id": genre.id, "name": genre.name};
+
 class GenreModel extends Genre {
   GenreModel({
     this.id,
