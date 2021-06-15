@@ -52,7 +52,9 @@ void main() {
         cubit.moviesSearch(language: tLanguage, query: tQuery);
         await untilCalled(mockSearchMovies(any));
         // assert
-        verify(mockSearchMovies(Params(language: tLanguage, query: tQuery)));
+        verify(mockSearchMovies(
+          SearchMoviesParams(language: tLanguage, query: tQuery),
+        ));
       },
     );
 

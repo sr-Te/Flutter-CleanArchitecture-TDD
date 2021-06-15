@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_movie_list/presentation/movies/business_logic/movies_search_cubit/movies_search_cubit.dart';
+import 'package:my_movie_list/presentation/movies/search_movies/search_movies_suggestions.dart';
 
 import '../../../data/models/movie_model.dart';
 import '../../widgets/custom_drawer/custom_drawer.dart';
@@ -19,31 +21,54 @@ class MoviesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mainAppbar = MainAppbar(title: title);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
-      appBar: MainAppbar(title: title),
+      appBar: mainAppbar,
       drawer: CustomDrawer(),
-      body: Column(
-        children: [
-          Container(height: 30, color: Colors.black),
-          Expanded(
-            child: BlocBuilder<MoviesBloc, MoviesState>(
-              builder: (context, state) {
-                if (state is MoviesLoadSuccess)
-                  return _moviesLoadSuccess(state);
-                else if (state is MoviesLoadFailure)
-                  return _moviesFailure(context, state);
-                else if (state is MoviesLoadInProgress)
-                  return MoviesLoadingView();
-                else
-                  return null;
-              },
-            ),
-          ),
-        ],
+      body: BlocBuilder<MoviesSearchCubit, MoviesSearchState>(
+        builder: (context, searchState) {
+          if (searchState is MoviesSearchInitial)
+            return _viewMovies();
+          else
+            return Stack(
+              children: [
+                _viewMovies(),
+                Column(
+                  children: [
+                    SizedBox(height: mainAppbar.preferredSize.height + 40),
+                    SearchMoviesSuggestions(),
+                  ],
+                ),
+              ],
+            );
+        },
       ),
+    );
+  }
+
+  Widget _viewMovies() {
+    return Column(
+      children: [
+        Container(height: 30, color: Colors.black),
+        Expanded(
+          child: BlocBuilder<MoviesBloc, MoviesState>(
+            builder: (context, state) {
+              if (state is MoviesLoadSuccess)
+                return _moviesLoadSuccess(state);
+              else if (state is MoviesLoadFailure)
+                return _moviesFailure(context, state);
+              else if (state is MoviesLoadInProgress)
+                return MoviesLoadingView();
+              else
+                return null;
+            },
+          ),
+        ),
+      ],
     );
   }
 

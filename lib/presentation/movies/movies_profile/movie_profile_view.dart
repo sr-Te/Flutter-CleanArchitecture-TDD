@@ -286,6 +286,7 @@ class MoviesProfileView extends StatelessWidget {
         ),
         SizedBox(height: 20),
         _sectionTitle('Compañias de producción: '),
+        SizedBox(height: 10),
         _productionCompanies(state.movie.productionCompanies),
       ],
     );

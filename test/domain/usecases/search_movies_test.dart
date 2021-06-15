@@ -28,7 +28,9 @@ void main() {
       when(mockMovieRepository.searchMovies(any, any))
           .thenAnswer((_) async => Right(tMovieList));
       // act
-      final result = await usecase(Params(language: tLanguage, query: tQuery));
+      final result = await usecase(
+        SearchMoviesParams(language: tLanguage, query: tQuery),
+      );
       // assert
       expect(result, Right(tMovieList));
       verify(mockMovieRepository.searchMovies(tLanguage, tQuery));

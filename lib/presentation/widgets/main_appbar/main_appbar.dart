@@ -61,6 +61,5 @@ class MainAppbar extends StatelessWidget with PreferredSizeWidget {
           );
       },
     );
-    ;
   }
 }
