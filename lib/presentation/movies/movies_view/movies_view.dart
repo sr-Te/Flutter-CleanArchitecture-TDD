@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_movie_list/presentation/movies/business_logic/movies_search_cubit/movies_search_cubit.dart';
 import 'package:my_movie_list/presentation/movies/search_movies/search_movies_suggestions.dart';
+import 'package:my_movie_list/presentation/widgets/main_appbar/business_logic/appbar_search_mode_cubit.dart';
 
 import '../../../data/models/movie_model.dart';
 import '../../widgets/custom_drawer/custom_drawer.dart';
@@ -34,16 +35,24 @@ class MoviesView extends StatelessWidget {
           if (searchState is MoviesSearchInitial)
             return _viewMovies();
           else
-            return Stack(
-              children: [
-                _viewMovies(),
-                Column(
-                  children: [
-                    SizedBox(height: mainAppbar.preferredSize.height + 40),
-                    SearchMoviesSuggestions(),
-                  ],
-                ),
-              ],
+            return BlocBuilder<AppbarSearhModeCubit, bool>(
+              builder: (context, inSearchMode) {
+                if (inSearchMode)
+                  return Stack(
+                    children: [
+                      _viewMovies(),
+                      Column(
+                        children: [
+                          SizedBox(
+                              height: mainAppbar.preferredSize.height + 40),
+                          SearchMoviesSuggestions(),
+                        ],
+                      ),
+                    ],
+                  );
+                else
+                  return _viewMovies();
+              },
             );
         },
       ),

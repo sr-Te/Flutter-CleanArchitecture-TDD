@@ -34,7 +34,7 @@ class MoviesSearchCubit extends Cubit<MoviesSearchState> {
 
       // to avoid making a query in every on change
       Timer(
-        Duration(milliseconds: 1500),
+        Duration(milliseconds: 500),
         () async {
           final failureOrMovies = await searchMovies(
             SearchMoviesParams(language: language, query: query),
