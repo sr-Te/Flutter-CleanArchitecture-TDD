@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../movies/business_logic/movies_search_cubit/movies_search_cubit.dart';
 import '../../movies/search_movies/search_movies_bar.dart';
 import 'business_logic/appbar_search_mode_cubit.dart';
 import 'movie_view_mode_icon_button.dart';
@@ -30,8 +31,12 @@ class MainAppbar extends StatelessWidget with PreferredSizeWidget {
             actions: [
               IconButton(
                 icon: Icon(Icons.search_off),
-                onPressed: () => BlocProvider.of<AppbarSearhModeCubit>(context)
-                    .appbarModeNormal(),
+                onPressed: () {
+                  BlocProvider.of<MoviesSearchCubit>(context)
+                      .moviesSearchRestart();
+                  BlocProvider.of<AppbarSearhModeCubit>(context)
+                      .appbarModeNormal();
+                },
               ),
             ],
           );
