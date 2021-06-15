@@ -8,10 +8,12 @@ para cualquier interesado.
 Estoy abierto a las criticas y siempre estaré agradecido de ayudarme a crecer como desarrollador.
 
 ## Vista Previa
-<img src="./readme_sources/view_modes.gif" alt="gif" width="150" height="300">
-<img src="./readme_sources/categories.gif" alt="gif" width="150" height="300">
-<img src="./readme_sources/searchAMovie.gif" alt="gif" width="150" height="300">
-<img src="./readme_sources/notFound.gif" alt="gif" width="150" height="300">
+| <img src="./readme_sources/view_modes.gif" alt="gif" width="150" height="300"> | <img src="./readme_sources/categories.gif" alt="gif" width="150" height="300"> | <img src="./readme_sources/searchAMovie.gif" alt="gif" width="150" height="300"> | <img src="./readme_sources/notFound.gif" alt="gif" width="150" height="300"> |
+|:------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
+<!--<img src="./readme_sources/view_modes.gif" alt="gif" width="150" height="300">-->
+<!--<img src="./readme_sources/categories.gif" alt="gif" width="150" height="300">-->
+<!--<img src="./readme_sources/searchAMovie.gif" alt="gif" width="150" height="300">-->
+<!--<img src="./readme_sources/notFound.gif" alt="gif" width="150" height="300">-->
 
 #### APK
 [Obten tu APK]()
