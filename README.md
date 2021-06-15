@@ -9,11 +9,8 @@ Estoy abierto a las criticas y siempre estaré agradecido de ayudarme a crecer c
 
 ## Vista Previa
 <img src="./readme_sources/view_modes.gif" alt="gif" width="150" height="300">
-&nbsp;
 <img src="./readme_sources/categories.gif" alt="gif" width="150" height="300">
-&nbsp;
 <img src="./readme_sources/searchAMovie.gif" alt="gif" width="150" height="300">
-&nbsp;
 <img src="./readme_sources/notFound.gif" alt="gif" width="150" height="300">
 
 #### APK
