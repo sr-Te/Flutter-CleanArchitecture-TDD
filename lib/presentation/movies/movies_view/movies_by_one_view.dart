@@ -6,8 +6,8 @@ import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import '../../../core/network/api/movies_api.dart';
 import '../../../domain/entities/movie.dart';
 import '../business_logic/movies_nav_cubit/movies_nav_cubit.dart';
-import '../ui/movie_poster.dart';
-import '../ui/movie_rating.dart';
+import '../movies_widgets/movie_poster.dart';
+import '../movies_widgets/movie_rating.dart';
 
 class MoviesByOneView extends StatefulWidget {
   final List<Movie> movies;

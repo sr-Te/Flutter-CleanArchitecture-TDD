@@ -7,12 +7,12 @@ import 'package:intl/intl.dart';
 import 'package:my_movie_list/domain/entities/actor.dart';
 import 'package:my_movie_list/presentation/movies/business_logic/movie_cast_cubit/movie_cast_cubit.dart';
 
-import '../../../core/network/api/movies_api.dart';
-import '../../../data/models/production_company_model.dart';
-import '../../../domain/entities/movie.dart';
-import '../../genres/business_logic/genres_cubit.dart';
-import '../business_logic/movie_details_cubit/movie_details_cubit.dart';
-import '../ui/movie_poster.dart';
+import '../../../../core/network/api/movies_api.dart';
+import '../../../../data/models/production_company_model.dart';
+import '../../../../domain/entities/movie.dart';
+import '../../../genres/business_logic/genres_cubit.dart';
+import '../../business_logic/movie_details_cubit/movie_details_cubit.dart';
+import '../movie_poster.dart';
 import 'movie_profile_appbar.dart';
 
 class MoviesProfileView extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../movies/business_logic/movies_view_mode_cubit.dart';
+import '../../business_logic/movies_view_mode_cubit.dart';
 
 class MovieViewModeIconButton extends StatelessWidget {
   @override

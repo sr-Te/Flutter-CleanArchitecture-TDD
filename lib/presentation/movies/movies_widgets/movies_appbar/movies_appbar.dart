@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../movies/search_movies/search_movies_bar.dart';
+import '../search_movies/search_movies_bar.dart';
 import 'business_logic/appbar_search_mode_cubit.dart';
 import 'movie_view_mode_icon_button.dart';
 
-class MainAppbar extends StatelessWidget with PreferredSizeWidget {
+class MoviesAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
 
   final GlobalKey<ScaffoldState> drawerKey;
   final String title;
 
-  MainAppbar({
+  MoviesAppBar({
     @required this.title,
     this.drawerKey,
   })  : preferredSize = Size.fromHeight(80.0),

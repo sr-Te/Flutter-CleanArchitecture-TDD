@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/network/api/movies_api.dart';
 import '../../../data/models/movie_model.dart';
-import '../ui/movie_rating.dart';
+import '../movies_widgets/movie_rating.dart';
 
 class MoviesGridView extends StatelessWidget {
   final List<MovieModel> movies;

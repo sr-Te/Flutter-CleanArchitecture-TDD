@@ -24,7 +24,7 @@ import 'presentation/movies/business_logic/movies_nav_cubit/movies_nav_cubit.dar
 import 'presentation/movies/business_logic/movies_search_cubit/movies_search_cubit.dart';
 import 'presentation/movies/business_logic/movies_view_mode_cubit.dart';
 import 'presentation/movies/business_logic/movie_details_cubit/movie_details_cubit.dart';
-import 'presentation/widgets/main_appbar/business_logic/appbar_search_mode_cubit.dart';
+import 'presentation/movies/movies_widgets/movies_appbar/business_logic/appbar_search_mode_cubit.dart';
 
 final sl = GetIt.instance;
 

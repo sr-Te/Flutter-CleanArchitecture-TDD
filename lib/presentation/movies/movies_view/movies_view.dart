@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_movie_list/presentation/movies/business_logic/movies_search_cubit/movies_search_cubit.dart';
-import 'package:my_movie_list/presentation/movies/search_movies/search_movies_suggestions.dart';
-import 'package:my_movie_list/presentation/widgets/main_appbar/business_logic/appbar_search_mode_cubit.dart';
 
 import '../../../data/models/movie_model.dart';
-import '../../widgets/custom_drawer/custom_drawer.dart';
-import '../../widgets/main_appbar/main_appbar.dart';
+import '../../global_widgets/custom_drawer/custom_drawer.dart';
 import '../business_logic/movies_bloc/movies_bloc.dart';
+import '../business_logic/movies_search_cubit/movies_search_cubit.dart';
 import '../business_logic/movies_view_mode_cubit.dart';
+import '../movies_widgets/movies_appbar/business_logic/appbar_search_mode_cubit.dart';
+import '../movies_widgets/movies_appbar/movies_appbar.dart';
+import '../movies_widgets/search_movies/search_movies_suggestions.dart';
 import 'movies_by_one_view.dart';
 import 'movies_grid_view.dart';
 import 'movies_loading_view.dart';
@@ -22,7 +22,7 @@ class MoviesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mainAppbar = MainAppbar(title: title);
+    final mainAppbar = MoviesAppBar(title: title);
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
