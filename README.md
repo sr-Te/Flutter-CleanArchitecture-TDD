@@ -1,14 +1,21 @@
 # Movies - Clean Architecture & TDD
 
+[![Linkedin Badge](https://img.shields.io/badge/-Linkedin-0e76a8?style=flat&labelColor=0e76a8&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jf96/) 
+![visitors](https://visitor-badge.glitch.me/badge?page_id=sr-Te.movies-CleanArchitecture-TDD)
+<a href="https://flutter.dev/">
+  <img src="https://img.shields.io/badge/flutter-%3E%3D%202.0.0-green.svg"/>
+</a>
+
+
 ## Introducción
 Este proyecto está en desarrollo y tiene como objetivo estudiar y practicar los temas aprendidos del tutorial de 
 [Resocoder: tdd-clean-architecture](https://resocoder.com/category/tutorials/flutter/tdd-clean-architecture/).
 
 ## Vista Previa
 <p float="left">
-  <img src="readme_sources/categories.gif" width="100" />
-  <img src="readme_sources/movie_profile.gif" width="100" /> 
-  <img src="readme_sources/search.gif" width="100" />
+  <img src="readme_sources/categories.gif" width="150" />
+  <img src="readme_sources/movie_profile.gif" width="150" /> 
+  <img src="readme_sources/search.gif" width="150" />
 </p>
 
 <!--#### APK-->
@@ -27,17 +34,15 @@ La idea principal en la arquitectura limpia es separar el código en capas indep
 cuando se avanza a las capas interiores.
 
 <div>
-<img src="./readme_sources/clean_architecture.jpeg" alt="jpeg" width="420" height="300">
+<img src="./readme_sources/clean_architecture.jpeg" alt="jpeg" width="350" height="250">
 <div>
-
-La regla principal para que esta arquitectura funcione es la regla de la dependencia.
 
 **The Dependency Rule:** Las capas exteriores pueden depender de las interiores, pero no al revés. Esto debido a que
 las capas interiores deben contener las "reglas" que deben seguir las capas más exteriores, las cuales a su vez ejecutan mecanismos en
 torno a estas capas interiores.
 
 <div>
-<img src="./readme_sources/architecture.jpeg" alt="jpeg" width="350" height="420">
+<img src="./readme_sources/architecture.jpeg" alt="jpeg" width="340" height="410">
 <div>
 
 Para la implementación de esta arquitectura se utilizará la [implementación propuesta por Resocoder](https://resocoder.com/2019/08/27/flutter-tdd-clean-architecture-course-1-explanation-project-structure/),
