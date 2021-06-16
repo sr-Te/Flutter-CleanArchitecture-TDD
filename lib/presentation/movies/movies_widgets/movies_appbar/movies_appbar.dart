@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../business_logic/appbar_search_mode_cubit.dart';
 import '../search_movies/search_movies_bar.dart';
-import 'business_logic/appbar_search_mode_cubit.dart';
-import 'movie_view_mode_icon_button.dart';
 
 class MoviesAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
@@ -51,7 +50,6 @@ class MoviesAppBar extends StatelessWidget with PreferredSizeWidget {
             backgroundColor: Colors.transparent,
             shadowColor: Colors.transparent,
             actions: [
-              MovieViewModeIconButton(),
               IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () => BlocProvider.of<AppbarSearhModeCubit>(context)

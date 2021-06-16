@@ -18,13 +18,12 @@ import 'domain/usecases/get_movie_detail.dart';
 import 'domain/usecases/get_movies.dart';
 import 'domain/usecases/search_movies.dart';
 import 'presentation/genres/business_logic/genres_cubit.dart';
+import 'presentation/movies/business_logic/appbar_search_mode_cubit.dart';
 import 'presentation/movies/business_logic/movie_cast_cubit/movie_cast_cubit.dart';
 import 'presentation/movies/business_logic/movies_bloc/movies_bloc.dart';
 import 'presentation/movies/business_logic/movies_nav_cubit/movies_nav_cubit.dart';
 import 'presentation/movies/business_logic/movies_search_cubit/movies_search_cubit.dart';
-import 'presentation/movies/business_logic/movies_view_mode_cubit.dart';
 import 'presentation/movies/business_logic/movie_details_cubit/movie_details_cubit.dart';
-import 'presentation/movies/movies_widgets/movies_appbar/business_logic/appbar_search_mode_cubit.dart';
 
 final sl = GetIt.instance;
 
@@ -35,7 +34,6 @@ Future<void> init() async {
   // Business Logic
   sl.registerFactory(() => MoviesNavCubit());
   sl.registerFactory(() => MoviesBloc(getMovies: sl()));
-  sl.registerFactory(() => MoviesViewModeCubit());
   sl.registerFactory(() => AppbarSearhModeCubit());
   sl.registerFactory(() => MoviesSearchCubit(searchMovies: sl()));
   sl.registerFactory(() => MovieDetailsCubit(getMovieDetail: sl()));

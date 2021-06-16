@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/network/api/movies_api.dart';
 import '../../../../domain/entities/movie.dart';
+import '../../business_logic/appbar_search_mode_cubit.dart';
 import '../../business_logic/movies_search_cubit/movies_search_cubit.dart';
-import '../movies_appbar/business_logic/appbar_search_mode_cubit.dart';
 
 class SearchMoviesSuccess extends StatelessWidget {
   final List<Movie> movies;
