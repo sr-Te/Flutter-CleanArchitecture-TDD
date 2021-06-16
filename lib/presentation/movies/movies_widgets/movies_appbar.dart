@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../business_logic/appbar_search_mode_cubit.dart';
-import '../search_movies/search_movies_bar.dart';
+import '../business_logic/appbar_search_mode_cubit.dart';
+import 'search_movies/search_movies_bar.dart';
 
 class MoviesAppBar extends StatelessWidget with PreferredSizeWidget {
   @override

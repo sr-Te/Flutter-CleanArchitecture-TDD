@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../core/network/api/movies_api.dart';
-import '../../core/network/api/movies_endpoint.dart';
+import '../../core/api/movies_api.dart';
+import '../../core/api/movies_endpoint.dart';
 import '../global_widgets/dialogs/on_will_pop_dialog.dart';
 import 'business_logic/movies_bloc/movies_bloc.dart';
 import 'business_logic/movies_nav_cubit/movies_nav_cubit.dart';

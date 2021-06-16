@@ -2,27 +2,23 @@
 
 ## Introducción
 Este proyecto está en desarrollo y tiene como objetivo estudiar y practicar los temas aprendidos del tutorial de 
-[Resocoder](https://resocoder.com/category/tutorials/flutter/tdd-clean-architecture/), del cual, resumire más adelante,
-para cualquier interesado.
-
-Estoy abierto a las criticas y siempre estaré agradecido de ayudarme a crecer como desarrollador.
+[Resocoder: tdd-clean-architecture](https://resocoder.com/category/tutorials/flutter/tdd-clean-architecture/).
 
 ## Vista Previa
-| <img src="./readme_sources/view_modes.gif" alt="gif" width="150" height="300"> | <img src="./readme_sources/categories.gif" alt="gif" width="150" height="300"> | <img src="./readme_sources/searchAMovie.gif" alt="gif" width="150" height="300"> | <img src="./readme_sources/notFound.gif" alt="gif" width="150" height="300"> |
-|:------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------:|:----------------------------------------------------------------------------:|
-<!--<img src="./readme_sources/view_modes.gif" alt="gif" width="150" height="300">-->
-<!--<img src="./readme_sources/categories.gif" alt="gif" width="150" height="300">-->
-<!--<img src="./readme_sources/searchAMovie.gif" alt="gif" width="150" height="300">-->
-<!--<img src="./readme_sources/notFound.gif" alt="gif" width="150" height="300">-->
+<p float="left">
+  <img src="readme_sources/categories.gif" width="100" />
+  <img src="readme_sources/movie_profile.gif" width="100" /> 
+  <img src="readme_sources/search.gif" width="100" />
+</p>
 
-#### APK
-[Obten tu APK]()
+<!--#### APK-->
+<!--[Obten tu APK]()-->
 
 ## Instalación Proyecto
 * [Instalar Flutter](https://flutter.dev/docs/get-started/install)
-* Crear una cuenta y obtener un [API KEY aquí](https://developers.themoviedb.org/)
-* Copiar el ```API KEY``` obtenido en ``./lib/core/network/api/movies_api.dart``
-* Listo!
+* Crear una cuenta y obtener un [API KEY aquí](https://www.themoviedb.org/documentation/api)
+* Copiar el ```API KEY``` obtenido en ``./lib/core/api/movies_api.dart``
+* Flutter run y listo!
 
 ## Clean Architecture
 Propuesta por [El tío Bob](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).

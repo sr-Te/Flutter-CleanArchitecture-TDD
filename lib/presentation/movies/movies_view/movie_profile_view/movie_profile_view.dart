@@ -4,18 +4,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:my_movie_list/domain/entities/actor.dart';
-import 'package:my_movie_list/presentation/movies/business_logic/movie_cast_cubit/movie_cast_cubit.dart';
 
-import '../../../../core/network/api/movies_api.dart';
+import '../../../../core/api/movies_api.dart';
 import '../../../../data/models/production_company_model.dart';
+import '../../../../domain/entities/actor.dart';
 import '../../../../domain/entities/movie.dart';
 import '../../../genres/business_logic/genres_cubit.dart';
+import '../../business_logic/movie_cast_cubit/movie_cast_cubit.dart';
 import '../../business_logic/movie_details_cubit/movie_details_cubit.dart';
-import '../movie_poster.dart';
+import '../../movies_widgets/movie_poster.dart';
 import 'movie_profile_appbar.dart';
 
-class MoviesProfileView extends StatelessWidget {
+class MovieProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Movie movie = ModalRoute.of(context).settings.arguments;

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../core/errors/exception.dart';
-import '../../../core/network/api/movies_api.dart';
+import '../../../core/api/movies_api.dart';
 import '../../models/genre_model.dart';
 
 abstract class GenresRemoteDataSource {

@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../core/errors/failure.dart';
-import '../../core/network/api/movies_api.dart';
+import '../../core/api/movies_api.dart';
 import '../../core/usecases/usecase.dart';
 import '../entities/movie.dart';
 import '../repositories/movies_repository.dart';

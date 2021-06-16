@@ -1,10 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:my_movie_list/domain/entities/actor.dart';
 
+import '../../core/api/movies_endpoint.dart';
 import '../../core/errors/exception.dart';
 import '../../core/errors/failure.dart';
 import '../../core/network/network_info.dart';
+import '../../domain/entities/actor.dart';
 import '../../domain/entities/movie.dart';
 import '../../domain/repositories/movies_repository.dart';
 import '../datasources/movies/movies_local_data_source.dart';
@@ -22,13 +23,20 @@ class MoviesRepositoryImpl implements MoviesRepository {
     @required this.networkInfo,
   });
 
+  Map<String, List<MovieModel>> moviesByEnpoint = {};
+  Map<int, List<MovieModel>> moviesByCategory = {};
+
   @override
   Future<Either<Failure, List<MovieModel>>> getMovies(
     String endpoint,
     String language,
     int genreId,
   ) async {
-    if (await networkInfo.isConnected) {
+    if (_isInMoviesByCategory(endpoint, genreId))
+      return Right(moviesByCategory[genreId]);
+    else if (_isInMoviesByEndpoint(endpoint))
+      return Right(moviesByEnpoint[endpoint]);
+    else if (await networkInfo.isConnected) {
       try {
         final remoteMovies = await remoteDataSource.getMovies(
           endpoint,
@@ -36,6 +44,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
           genreId,
         );
         localDataSource.cacheMovies(endpoint + '$genreId', remoteMovies);
+        _saveData(endpoint, genreId, remoteMovies);
         return Right(remoteMovies);
       } on ServerException {
         return Left(ServerFailure());
@@ -45,6 +54,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
         final localMovies = await localDataSource.getLastMovies(
           endpoint + '$genreId',
         );
+        _saveData(endpoint, genreId, localMovies);
         return Right(localMovies);
       } on CacheException {
         return Left(CacheFailure());
@@ -108,4 +118,20 @@ class MoviesRepositoryImpl implements MoviesRepository {
     else
       return Left(InternetFailure());
   }
+
+  void _saveData(String endpoint, int genreId, List<MovieModel> movies) {
+    if (endpoint == MoviesEndpoint.withGenre) {
+      moviesByCategory[genreId] = movies;
+    } else {
+      moviesByEnpoint[endpoint] = movies;
+    }
+  }
+
+  bool _isInMoviesByCategory(String endpoint, int genreId) =>
+      endpoint == MoviesEndpoint.withGenre &&
+      moviesByCategory[genreId] != null &&
+      moviesByCategory[genreId].isNotEmpty;
+
+  bool _isInMoviesByEndpoint(String endpoint) =>
+      moviesByEnpoint[endpoint] != null && moviesByEnpoint[endpoint].isNotEmpty;
 }

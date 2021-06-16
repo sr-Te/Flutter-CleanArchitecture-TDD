@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:my_movie_list/core/network/api/movies_api.dart';
+import 'package:my_movie_list/core/api/movies_api.dart';
 import 'package:my_movie_list/domain/entities/genre.dart';
 import 'package:my_movie_list/domain/repositories/genres_repository.dart';
 import 'package:my_movie_list/domain/usecases/get_genres.dart';

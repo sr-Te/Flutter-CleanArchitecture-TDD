@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'core/network/api/movies_api.dart';
+import 'core/api/movies_api.dart';
 import 'core/routes.dart';
 import 'injection_container.dart' as di;
 import 'presentation/genres/business_logic/genres_cubit.dart';
