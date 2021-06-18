@@ -29,9 +29,7 @@ dependencies:
   shared_preferences: ^2.0.5
   # Beauty
   cached_network_image: ^2.5.0
-  flutter_swiper_null_safety: ^1.0.1 #flutter_swiper: ^1.1.6
   percent_indicator: ^3.0.1
-  flutter_typeahead: ^3.1.2
 
 dev_dependencies:
   flutter_test:

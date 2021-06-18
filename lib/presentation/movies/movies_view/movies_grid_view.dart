@@ -50,37 +50,7 @@ class MovieGridCard extends StatelessWidget {
               child: _posterImage(movie),
             ),
           ),
-          Column(
-            children: [
-              Expanded(child: Container()),
-              Opacity(
-                opacity: 0.7,
-                child: Container(
-                  height: 85,
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                    ),
-                    color: Colors.black,
-                  ),
-                  child: Center(
-                    child: Text(
-                      movie.title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          _movieTitle(movie),
           Column(
             children: [
               Expanded(child: Container()),
@@ -117,7 +87,49 @@ class MovieGridCard extends StatelessWidget {
     );
   }
 
-  _goToMovieProfile(BuildContext context, movie) {
+  Widget _movieTitle(MovieModel movie) {
+    return Column(
+      children: [
+        Expanded(child: Container()),
+        Container(
+          height: 85,
+          width: double.infinity,
+          child: Stack(
+            children: [
+              Opacity(
+                opacity: 0.7,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Center(
+                  child: Text(
+                    movie.title,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _goToMovieProfile(BuildContext context, movie) {
     Navigator.of(context).pushNamed('/movie_profile', arguments: movie);
   }
 }

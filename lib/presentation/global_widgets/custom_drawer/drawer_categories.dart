@@ -37,7 +37,17 @@ class DrawerCategories extends StatelessWidget {
         else
           return Container(
             padding: EdgeInsets.only(top: 20, left: 20),
-            child: CircularProgressIndicator(),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    CircularProgressIndicator(),
+                    Expanded(child: Container()),
+                  ],
+                ),
+                Expanded(child: Container()),
+              ],
+            ),
           );
       },
     );
