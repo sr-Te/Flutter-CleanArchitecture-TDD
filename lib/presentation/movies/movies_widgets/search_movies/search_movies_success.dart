@@ -12,9 +12,14 @@ class SearchMoviesSuccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewInsets = EdgeInsets.fromWindowPadding(
+      WidgetsBinding.instance.window.viewInsets,
+      WidgetsBinding.instance.window.devicePixelRatio,
+    );
+
     if (movies.isNotEmpty)
       return Container(
-        height: MediaQuery.of(context).size.height * 0.75,
+        height: MediaQuery.of(context).size.height * 0.75 - viewInsets.bottom,
         child: ListView.builder(
           padding: EdgeInsets.all(0),
           itemCount: movies.length,

@@ -20,6 +20,7 @@ class MoviesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mainAppbar = MoviesAppBar(title: title);
+    final bodyMargin = 30.0;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -30,25 +31,26 @@ class MoviesView extends StatelessWidget {
       body: BlocBuilder<MoviesSearchCubit, MoviesSearchState>(
         builder: (context, searchState) {
           if (searchState is MoviesSearchInitial)
-            return _viewMovies();
+            return _viewMovies(bodyMargin);
           else
             return BlocBuilder<AppbarSearhModeCubit, bool>(
               builder: (context, inSearchMode) {
                 if (inSearchMode)
                   return Stack(
                     children: [
-                      _viewMovies(),
+                      _viewMovies(bodyMargin),
                       Column(
                         children: [
-                          SizedBox(
-                              height: mainAppbar.preferredSize.height + 40),
+                          SizedBox(height: mainAppbar.preferredSize.height),
+                          SizedBox(height: bodyMargin),
+                          SizedBox(height: 10),
                           SearchMoviesSuggestions(),
                         ],
                       ),
                     ],
                   );
                 else
-                  return _viewMovies();
+                  return _viewMovies(bodyMargin);
               },
             );
         },
@@ -56,10 +58,10 @@ class MoviesView extends StatelessWidget {
     );
   }
 
-  Widget _viewMovies() {
+  Widget _viewMovies(double bodyMargin) {
     return Column(
       children: [
-        Container(height: 30, color: Colors.black),
+        Container(height: bodyMargin, color: Colors.black),
         Expanded(
           child: BlocBuilder<MoviesBloc, MoviesState>(
             builder: (context, state) {
