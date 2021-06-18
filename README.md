@@ -15,15 +15,15 @@
 2. [Vista Previa](#preview)
     * [APK](#apk)
 3. [Instalación Proyecto](#install)
-4. [Flujo De Trabajo](#workflow)
+4. [Flujo De Trabajo (workflow)](#workflow)
     * [Capa De Presentación](#presentation)
     * [Capa De Dominio](#domain)
     * [Capa De Datos](#data)
 5. [Estructura Del Proyecto](#structure)
 6. [Definiciones](#def)
-    * [Clean Architecture](#clean_architecture)
+    * [Arquitectura Limpia (Clean Architecture)](#clean_architecture)
     * [TDD](#tdd)
-7. [Tests Unitarios En Flutter](#tests)
+7. [Testeo Unitario En Flutter (Unit Tests)](#tests)
 
 
 <a name="intro"></a>
@@ -52,18 +52,14 @@ Se tiene como objetivo practicar, compartir y discutir los temas aprendidos en e
 ## Instalación Proyecto
 * [Instalar Flutter](https://flutter.dev/docs/get-started/install)
 * Crear una cuenta y obtener un [API KEY aquí](https://www.themoviedb.org/documentation/api)
-* Copiar el ```API KEY``` obtenido en ``./lib/core/api/movies_api.dart``
+* Copiar el ```API KEY``` obtenido en ```./lib/core/api/movies_api.dart```
 * Flutter run
 
 
 <a name="workflow"></a>
-## Flujo De Trabajo
+## Flujo De Trabajo (Workflow)
 El usuario interactúa con las **vistas** gatillando **eventos**, los que al ser escuchados por nuestro **gestor de estados**,
-hace comenzar un nuevo **flujo de estados** que pueden hacer mutar las vistas de nuestra app, para indicar en que etapa del proceso 
-en el que se obtienen datos del **repositorio** se está y luego estos puedan ser **presentados** al usuario.
-
-Cabe destacar que pueden haber gestores de estados que no traen datos del repostorio, por el contrario sólo hacen mutar la vista, 
-esto generalmente con el proposito de no utilizar StatefulWidgets y mejorar la legibilidad.
+genera un nuevo **flujo de estados**; éstos las pueden mutar para indicar en que etapa del proceso está y así permite desarrollar un **caso de uso**.
 
 <div>
   <img src="./readme_sources/architecture.jpeg" width="300" />
@@ -145,7 +141,7 @@ se obtiene el beneficio, por si en algún futuro se decide cambiar de json a xml
 ## Definiciones
 
 <a name="clean_architecture"></a>
-#### Clean Architecture
+#### Arquitectura Limpia (Clean Architecture)
 Propuesta por [Robert C. Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 
 La idea principal en la arquitectura limpia es separar el código en capas independientes, las cuales se vuelven más abstractas
@@ -179,4 +175,4 @@ sus hábitos con el tiempo, lo que conducir√≠a a una mejora en su calidad de
 
 
 <a name="tests"></a>
-## Tests Unitarios En Flutter (pendiente)
+## Testeo Unitario En Flutter (Unit Tests)[pendiente]

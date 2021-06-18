@@ -21,7 +21,7 @@ void main() {
   final tGenreList = [Genre(id: 1, name: 'test')];
 
   test(
-    'shoul get movie list from the repository',
+    'shoul get genres list from the repository',
     () async {
       // arrange
       when(mockMovieRepository.getGenres(any))
