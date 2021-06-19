@@ -6,7 +6,6 @@ import '../../core/errors/exception.dart';
 import '../../core/errors/failure.dart';
 import '../../core/network/network_info.dart';
 import '../../domain/entities/actor.dart';
-import '../../domain/entities/movie.dart';
 import '../../domain/repositories/movies_repository.dart';
 import '../datasources/movies/movies_local_data_source.dart';
 import '../datasources/movies/movies_remote_data_source.dart';
@@ -82,7 +81,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, Movie>> getMovieDetail(
+  Future<Either<Failure, MovieModel>> getMovieDetail(
     String language,
     int movieId,
   ) async {

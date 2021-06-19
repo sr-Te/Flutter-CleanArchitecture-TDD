@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:my_movie_list/core/errors/exception.dart';
-import 'package:my_movie_list/core/errors/failure.dart';
 import 'package:my_movie_list/core/api/movies_api.dart';
 import 'package:my_movie_list/core/api/movies_endpoint.dart';
+import 'package:my_movie_list/core/errors/exception.dart';
+import 'package:my_movie_list/core/errors/failure.dart';
 import 'package:my_movie_list/core/network/network_info.dart';
 import 'package:my_movie_list/data/datasources/movies/movies_local_data_source.dart';
 import 'package:my_movie_list/data/datasources/movies/movies_remote_data_source.dart';
@@ -60,7 +60,7 @@ void main() {
     final tLanguage = MoviesApi.en;
     final tEndpoint = MoviesEndpoint.nowPlaying;
     final genreId = -1;
-    final List<MovieModel> tMovieList = [];
+    final List<MovieModel> tMovieModelList = [];
 
     test(
       'should check if the device is online',
@@ -85,13 +85,13 @@ void main() {
           // arrange
           when(
             mockRemoteDataSource.getMovies(any, any, any),
-          ).thenAnswer((_) async => tMovieList);
+          ).thenAnswer((_) async => tMovieModelList);
           // act
           final result =
               await repository.getMovies(tEndpoint, tLanguage, genreId);
           // assert
           verify(mockRemoteDataSource.getMovies(any, any, any));
-          expect(result, equals(Right(tMovieList)));
+          expect(result, equals(Right(tMovieModelList)));
         },
       );
 
@@ -100,14 +100,17 @@ void main() {
         () async {
           // arrange
           when(mockRemoteDataSource.getMovies(any, any, any))
-              .thenAnswer((_) async => tMovieList);
+              .thenAnswer((_) async => tMovieModelList);
           // act
           await repository.getMovies(tEndpoint, tLanguage, genreId);
           // assert
           verify(mockRemoteDataSource.getMovies(tEndpoint, tLanguage, genreId));
 
           verify(
-            mockLocalDataSource.cacheMovies(tEndpoint + '$genreId', tMovieList),
+            mockLocalDataSource.cacheMovies(
+              tEndpoint + '$genreId',
+              tMovieModelList,
+            ),
           );
         },
       );
@@ -134,14 +137,14 @@ void main() {
         () async {
           // arrange
           when(mockLocalDataSource.getLastMovies(tEndpoint + '$genreId'))
-              .thenAnswer((_) async => tMovieList);
+              .thenAnswer((_) async => tMovieModelList);
           // act
           final result =
               await repository.getMovies(tEndpoint, tLanguage, genreId);
           // assert
           verifyZeroInteractions(mockRemoteDataSource);
           verify(mockLocalDataSource.getLastMovies(tEndpoint + '$genreId'));
-          expect(result, equals(Right(tMovieList)));
+          expect(result, equals(Right(tMovieModelList)));
         },
       );
 
@@ -226,7 +229,7 @@ void main() {
   group('getMovieDetail', () {
     final tLanguage = MoviesApi.en;
     final tMovieId = 399566;
-    final tMovie = MovieModel();
+    final tMovieModel = MovieModel();
 
     test(
       'should check if the device is online',
@@ -247,12 +250,12 @@ void main() {
           // arrange
           when(
             mockRemoteDataSource.getMovieDetail(any, any),
-          ).thenAnswer((_) async => tMovie);
+          ).thenAnswer((_) async => tMovieModel);
           // act
           final result = await repository.getMovieDetail(tLanguage, tMovieId);
           // assert
           verify(mockRemoteDataSource.getMovieDetail(any, any));
-          expect(result, equals(Right(tMovie)));
+          expect(result, equals(Right(tMovieModel)));
         },
       );
 

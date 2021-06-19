@@ -8,7 +8,6 @@ import '../../fixtures/fixture_reader.dart';
 
 void main() {
   final tGenreModel = GenreModel(id: 0, name: 'test');
-  final tGenreModelList = [tGenreModel];
 
   test('should be a subclass of Genre entity', () async {
     // assert

@@ -1,6 +1,3 @@
-import 'package:my_movie_list/data/models/genre_model.dart';
-
-import '../../domain/entities/genre.dart';
 import '../../domain/entities/movie.dart';
 import 'production_company_model.dart';
 import 'production_country_model.dart';
