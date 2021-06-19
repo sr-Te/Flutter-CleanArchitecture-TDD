@@ -36,8 +36,9 @@ void main() {
         // arrange
         when(mockGetMovies(any)).thenAnswer((_) async => Right(tMovieList));
         // act
-        bloc.add(MoviesGet(
-            endpoint: tEndpoint, language: tLanguage, genre: genreId));
+        bloc.add(
+          MoviesGet(endpoint: tEndpoint, language: tLanguage, genre: genreId),
+        );
         await untilCalled(mockGetMovies(any));
         // assert
         verify(mockGetMovies(Params(
@@ -57,8 +58,9 @@ void main() {
         ];
         expectLater(bloc.stream, emitsInOrder(expected));
         //act
-        bloc.add(MoviesGet(
-            endpoint: tEndpoint, language: tLanguage, genre: genreId));
+        bloc.add(
+          MoviesGet(endpoint: tEndpoint, language: tLanguage, genre: genreId),
+        );
       },
     );
 
@@ -74,8 +76,9 @@ void main() {
         ];
         expectLater(bloc.stream, emitsInOrder(expected));
         //act
-        bloc.add(MoviesGet(
-            endpoint: tEndpoint, language: tLanguage, genre: genreId));
+        bloc.add(
+          MoviesGet(endpoint: tEndpoint, language: tLanguage, genre: genreId),
+        );
       },
     );
   });

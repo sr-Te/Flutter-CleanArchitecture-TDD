@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:my_movie_list/core/errors/failure.dart';
 import 'package:my_movie_list/core/api/movies_api.dart';
+import 'package:my_movie_list/core/errors/failure.dart';
 import 'package:my_movie_list/domain/entities/movie.dart';
 import 'package:my_movie_list/domain/usecases/get_movie_detail.dart';
 import 'package:my_movie_list/presentation/movies/business_logic/movie_details_cubit/movie_details_cubit.dart';
@@ -66,8 +66,9 @@ void main() {
       'should emit [MovieDetailsLoadInProgress, MovieDetailsLoadFailure] when getting data fails',
       () async {
         // arrange
-        when(mockGetMovieDetails(any))
-            .thenAnswer((_) async => Left(ServerFailure()));
+        when(mockGetMovieDetails(any)).thenAnswer(
+          (_) async => Left(ServerFailure()),
+        );
         // assert layer
         final expected = [
           MovieDetailsLoadInProgress(),
@@ -80,11 +81,12 @@ void main() {
     );
 
     test(
-      'should emit [MoviesSearchLoadInProgress, MoviesSearchLoadFailure] when there is no internet',
+      'should emit [MoviesDetailsLoadInProgress, MoviesDetailsLoadFailure] when there is no internet',
       () async {
         // arrange
-        when(mockGetMovieDetails(any))
-            .thenAnswer((_) async => Left(InternetFailure()));
+        when(mockGetMovieDetails(any)).thenAnswer(
+          (_) async => Left(InternetFailure()),
+        );
         // assert layer
         final expected = [
           MovieDetailsLoadInProgress(),
