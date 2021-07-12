@@ -26,9 +26,10 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     yield MoviesLoadInProgress();
     final failureOrMovies = await getMovies(
       Params(
-          endpoint: event.endpoint,
-          language: event.language,
-          genreId: event.genre),
+        endpoint: event.endpoint,
+        language: event.language,
+        genreId: event.genre,
+      ),
     );
     yield failureOrMovies.fold(
       (failure) => MoviesLoadFailure(message: mapFailureToMessage(failure)),
