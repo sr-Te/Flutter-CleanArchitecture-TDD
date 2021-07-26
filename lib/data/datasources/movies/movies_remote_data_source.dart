@@ -41,8 +41,11 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
     );
     if (response.statusCode == 200)
       return movieModelListFromJsonList(json.decode(response.body)['results']);
-    else
+    else {
+      print(response.statusCode);
+      print(response.body);
       throw ServerException();
+    }
   }
 
   @override
