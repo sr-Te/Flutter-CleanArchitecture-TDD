@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/errors/exception.dart';
-import '../../models/movie_model.dart';
+import '../../../domain/entities/movie.dart';
 
 abstract class MoviesLocalDataSource {
-  Future<List<MovieModel>> getLastMovies(String endpoint);
-  Future<void> cacheMovies(String endpoint, List<MovieModel> moviesToCache);
+  Future<List<Movie>> getLastMovies(String endpoint);
+  Future<void> cacheMovies(String endpoint, List<Movie> moviesToCache);
 }
 
 class MoviesLocalDataSourceImpl implements MoviesLocalDataSource {
@@ -17,7 +17,7 @@ class MoviesLocalDataSourceImpl implements MoviesLocalDataSource {
   MoviesLocalDataSourceImpl({@required this.sharedPreferences});
 
   @override
-  Future<void> cacheMovies(String endpoint, List<MovieModel> moviesToCache) {
+  Future<void> cacheMovies(String endpoint, List<Movie> moviesToCache) {
     return sharedPreferences.setString(
       endpoint,
       json.encode(movieModelListToJsonList(moviesToCache)),
@@ -25,7 +25,7 @@ class MoviesLocalDataSourceImpl implements MoviesLocalDataSource {
   }
 
   @override
-  Future<List<MovieModel>> getLastMovies(String endpoint) {
+  Future<List<Movie>> getLastMovies(String endpoint) {
     final jsonString = sharedPreferences.getString(endpoint);
     if (jsonString != null) {
       return Future.value(movieModelListFromJsonList(json.decode(jsonString)));

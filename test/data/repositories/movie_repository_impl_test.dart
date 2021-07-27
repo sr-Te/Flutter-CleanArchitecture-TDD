@@ -8,8 +8,8 @@ import 'package:my_movie_list/core/errors/failure.dart';
 import 'package:my_movie_list/core/network/network_info.dart';
 import 'package:my_movie_list/data/datasources/movies/movies_local_data_source.dart';
 import 'package:my_movie_list/data/datasources/movies/movies_remote_data_source.dart';
-import 'package:my_movie_list/data/models/movie_model.dart';
 import 'package:my_movie_list/data/repositories/movies_repository_impl.dart';
+import 'package:my_movie_list/domain/entities/movie.dart';
 
 class MockRemoteDataSource extends Mock implements MoviesRemoteDataSource {}
 
@@ -60,7 +60,7 @@ void main() {
     final tLanguage = MoviesApi.en;
     final tEndpoint = MoviesEndpoint.nowPlaying;
     final genreId = -1;
-    final List<MovieModel> tMovieModelList = [];
+    final List<Movie> tMovieModelList = [];
 
     test(
       'should check if the device is online',
@@ -167,7 +167,7 @@ void main() {
   group('searchMovies', () {
     final tLanguage = MoviesApi.en;
     final tQuery = 'k';
-    final List<MovieModel> tMovieList = [];
+    final List<Movie> tMovieList = [];
 
     test(
       'should check if the device is online',
@@ -229,7 +229,7 @@ void main() {
   group('getMovieDetail', () {
     final tLanguage = MoviesApi.en;
     final tMovieId = 399566;
-    final tMovieModel = MovieModel();
+    final tMovieModel = Movie();
 
     test(
       'should check if the device is online',

@@ -3,26 +3,26 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../core/errors/exception.dart';
 import '../../../core/api/movies_api.dart';
-import '../../models/actor_model.dart';
-import '../../models/movie_model.dart';
+import '../../../core/errors/exception.dart';
+import '../../../domain/entities/actor.dart';
+import '../../../domain/entities/movie.dart';
 
 abstract class MoviesRemoteDataSource {
-  Future<List<MovieModel>> getMovies(
+  Future<List<Movie>> getMovies(
     String endpoint,
     String language,
     int genreId,
   );
 
-  Future<List<MovieModel>> searchMovies(
+  Future<List<Movie>> searchMovies(
     String language,
     String query,
   );
 
-  Future<MovieModel> getMovieDetail(String language, int movieId);
+  Future<Movie> getMovieDetail(String language, int movieId);
 
-  Future<List<ActorModel>> getMovieCast(String language, int movieId);
+  Future<List<Actor>> getMovieCast(String language, int movieId);
 }
 
 class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
@@ -31,7 +31,7 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   MoviesRemoteDataSourceImpl({@required this.client});
 
   @override
-  Future<List<MovieModel>> getMovies(
+  Future<List<Movie>> getMovies(
     String endpoint,
     String language,
     int genreId,
@@ -49,7 +49,7 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   }
 
   @override
-  Future<List<MovieModel>> searchMovies(String language, String query) async {
+  Future<List<Movie>> searchMovies(String language, String query) async {
     final response = await client.get(MoviesApi.searchMovies(language, query));
     if (response.statusCode == 200) {
       return movieModelListFromJsonList(json.decode(response.body)['results']);
@@ -58,18 +58,18 @@ class MoviesRemoteDataSourceImpl implements MoviesRemoteDataSource {
   }
 
   @override
-  Future<MovieModel> getMovieDetail(String language, int movieId) async {
+  Future<Movie> getMovieDetail(String language, int movieId) async {
     final response = await client.get(
       MoviesApi.getMovieDetail(language, movieId),
     );
     if (response.statusCode == 200) {
-      return MovieModel.fromJson(json.decode(response.body));
+      return Movie.fromJson(json.decode(response.body));
     } else
       throw ServerException();
   }
 
   @override
-  Future<List<ActorModel>> getMovieCast(String language, int movieId) async {
+  Future<List<Actor>> getMovieCast(String language, int movieId) async {
     final response = await client.get(
       MoviesApi.getMovieCast(language, movieId),
     );

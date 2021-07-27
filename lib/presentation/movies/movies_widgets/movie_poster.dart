@@ -4,10 +4,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/api/movies_api.dart';
-import '../../../data/models/movie_model.dart';
+import '../../../domain/entities/movie.dart';
 
 class MoviePoster extends StatelessWidget {
-  final MovieModel movie;
+  final Movie movie;
 
   const MoviePoster({this.movie});
   @override

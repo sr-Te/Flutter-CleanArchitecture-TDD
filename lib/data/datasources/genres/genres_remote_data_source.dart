@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../../../core/errors/exception.dart';
 import '../../../core/api/movies_api.dart';
-import '../../models/genre_model.dart';
+import '../../../core/errors/exception.dart';
+import '../../../domain/entities/genre.dart';
 
 abstract class GenresRemoteDataSource {
-  Future<List<GenreModel>> getGenres(String language);
+  Future<List<Genre>> getGenres(String language);
 }
 
 class GenresRemoteDataSourceImpl implements GenresRemoteDataSource {
@@ -17,7 +17,7 @@ class GenresRemoteDataSourceImpl implements GenresRemoteDataSource {
   GenresRemoteDataSourceImpl({@required this.client});
 
   @override
-  Future<List<GenreModel>> getGenres(String language) async {
+  Future<List<Genre>> getGenres(String language) async {
     final response = await client.get(MoviesApi.getGenres(language));
     if (response.statusCode == 200)
       return genreModelListFromJsonList(json.decode(response.body)['genres']);

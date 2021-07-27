@@ -1,5 +1,5 @@
-class ProductionCountryModel {
-  ProductionCountryModel({
+class ProductionCountry {
+  ProductionCountry({
     this.iso31661,
     this.name,
   });
@@ -7,8 +7,8 @@ class ProductionCountryModel {
   String iso31661;
   String name;
 
-  factory ProductionCountryModel.fromJson(Map<String, dynamic> json) =>
-      ProductionCountryModel(
+  factory ProductionCountry.fromJson(Map<String, dynamic> json) =>
+      ProductionCountry(
         iso31661: json["iso_3166_1"],
         name: json["name"],
       );

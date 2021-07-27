@@ -6,7 +6,7 @@ import 'package:matcher/matcher.dart';
 import 'package:my_movie_list/core/errors/exception.dart';
 import 'package:my_movie_list/core/api/movies_endpoint.dart';
 import 'package:my_movie_list/data/datasources/movies/movies_local_data_source.dart';
-import 'package:my_movie_list/data/models/movie_model.dart';
+import 'package:my_movie_list/domain/entities/movie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../fixtures/fixture_reader.dart';
@@ -28,7 +28,7 @@ void main() {
 
   group('getLastMovies', () {
     test(
-      'should return List<MovieModel> from SharedPreferences when is at least one movie in the cache',
+      'should return List<Movie> from SharedPreferences when is at least one movie in the cache',
       () async {
         // arrange
         when(mockSharedPreferences.getString(any))
@@ -37,7 +37,7 @@ void main() {
         final result = await dataSource.getLastMovies(tEndpoint);
         // assert
         verify(mockSharedPreferences.getString(tEndpoint));
-        expect(result, isA<List<MovieModel>>());
+        expect(result, isA<List<Movie>>());
       },
     );
 
@@ -55,7 +55,7 @@ void main() {
   });
 
   group('cacheMovies', () {
-    final List<MovieModel> tMovieListModel = [];
+    final List<Movie> tMovieListModel = [];
 
     test(
       'should call SharedPreferences to cache the data',

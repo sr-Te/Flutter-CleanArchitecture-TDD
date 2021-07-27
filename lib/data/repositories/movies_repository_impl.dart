@@ -6,10 +6,10 @@ import '../../core/errors/exception.dart';
 import '../../core/errors/failure.dart';
 import '../../core/network/network_info.dart';
 import '../../domain/entities/actor.dart';
+import '../../domain/entities/movie.dart';
 import '../../domain/repositories/movies_repository.dart';
 import '../datasources/movies/movies_local_data_source.dart';
 import '../datasources/movies/movies_remote_data_source.dart';
-import '../models/movie_model.dart';
 
 class MoviesRepositoryImpl implements MoviesRepository {
   final MoviesRemoteDataSource remoteDataSource;
@@ -22,11 +22,11 @@ class MoviesRepositoryImpl implements MoviesRepository {
     @required this.networkInfo,
   });
 
-  Map<String, List<MovieModel>> moviesByEnpoint = {};
-  Map<int, List<MovieModel>> moviesByCategory = {};
+  Map<String, List<Movie>> moviesByEnpoint = {};
+  Map<int, List<Movie>> moviesByCategory = {};
 
   @override
-  Future<Either<Failure, List<MovieModel>>> getMovies(
+  Future<Either<Failure, List<Movie>>> getMovies(
     String endpoint,
     String language,
     int genreId,
@@ -62,7 +62,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, List<MovieModel>>> searchMovies(
+  Future<Either<Failure, List<Movie>>> searchMovies(
     String language,
     String query,
   ) async {
@@ -81,7 +81,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   @override
-  Future<Either<Failure, MovieModel>> getMovieDetail(
+  Future<Either<Failure, Movie>> getMovieDetail(
     String language,
     int movieId,
   ) async {
@@ -118,7 +118,7 @@ class MoviesRepositoryImpl implements MoviesRepository {
       return Left(InternetFailure());
   }
 
-  void _saveData(String endpoint, int genreId, List<MovieModel> movies) {
+  void _saveData(String endpoint, int genreId, List<Movie> movies) {
     if (endpoint == MoviesEndpoint.withGenre) {
       moviesByCategory[genreId] = movies;
     } else {

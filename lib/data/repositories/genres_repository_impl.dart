@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import '../../core/errors/exception.dart';
 import '../../core/errors/failure.dart';
 import '../../core/network/network_info.dart';
+import '../../domain/entities/genre.dart';
 import '../../domain/repositories/genres_repository.dart';
 import '../datasources/genres/genres_local_data_source.dart';
 import '../datasources/genres/genres_remote_data_source.dart';
-import '../models/genre_model.dart';
 
 class GenresRepositoryImpl extends GenresRepository {
   final GenresRemoteDataSource remoteDataSource;
   final GenresLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
 
-  List<GenreModel> genres = [];
+  List<Genre> genres = [];
 
   GenresRepositoryImpl({
     @required this.remoteDataSource,
@@ -23,7 +23,7 @@ class GenresRepositoryImpl extends GenresRepository {
   });
 
   @override
-  Future<Either<Failure, List<GenreModel>>> getGenres(String language) async {
+  Future<Either<Failure, List<Genre>>> getGenres(String language) async {
     if (genres != null && genres.isNotEmpty) {
       return Right(genres);
     } else if (await networkInfo.isConnected) {

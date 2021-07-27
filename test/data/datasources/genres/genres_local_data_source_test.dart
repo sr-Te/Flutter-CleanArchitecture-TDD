@@ -5,7 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:matcher/matcher.dart';
 import 'package:my_movie_list/core/errors/exception.dart';
 import 'package:my_movie_list/data/datasources/genres/genres_local_data_source.dart';
-import 'package:my_movie_list/data/models/genre_model.dart';
+import 'package:my_movie_list/domain/entities/genre.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../fixtures/fixture_reader.dart';
@@ -25,7 +25,7 @@ void main() {
 
   group('getLastGenres', () {
     test(
-      'should return List<GenreModel> from SharedPreferences when is at least one movie in the cache',
+      'should return List<Genre> from SharedPreferences when is at least one movie in the cache',
       () async {
         // arrange
         when(mockSharedPreferences.getString(any))
@@ -34,7 +34,7 @@ void main() {
         final result = await dataSource.getLastGenres();
         // assert
         verify(mockSharedPreferences.getString(CACHED_GENRES));
-        expect(result, isA<List<GenreModel>>());
+        expect(result, isA<List<Genre>>());
       },
     );
 
@@ -52,7 +52,7 @@ void main() {
   });
 
   group('cacheGenres', () {
-    final List<GenreModel> tGenreListModel = [];
+    final List<Genre> tGenreListModel = [];
 
     test(
       'should call SharedPreferences to cache the data',

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-import '../../../data/models/movie_model.dart';
+import '../../../domain/entities/movie.dart';
 
 class MovieRating extends StatelessWidget {
-  final MovieModel movie;
+  final Movie movie;
   final bool tiny;
 
   const MovieRating({this.movie, this.tiny = false});

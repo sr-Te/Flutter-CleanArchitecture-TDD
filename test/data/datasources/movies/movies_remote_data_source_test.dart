@@ -8,7 +8,7 @@ import 'package:my_movie_list/core/errors/exception.dart';
 import 'package:my_movie_list/core/api/movies_api.dart';
 import 'package:my_movie_list/core/api/movies_endpoint.dart';
 import 'package:my_movie_list/data/datasources/movies/movies_remote_data_source.dart';
-import 'package:my_movie_list/data/models/movie_model.dart';
+import 'package:my_movie_list/domain/entities/movie.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
@@ -60,14 +60,14 @@ void main() {
     );
 
     test(
-      'should return List<MovieModel> when response code is 200 (success)',
+      'should return List<Movie> when response code is 200 (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200('movies_now_playing.json');
         // act
         final result = await dataSource.getMovies(tEndpoint, tLanguage, -1);
         // arrange
-        expect(result, isA<List<MovieModel>>());
+        expect(result, isA<List<Movie>>());
       },
     );
 
@@ -92,14 +92,14 @@ void main() {
     final tQuery = 'k';
 
     test(
-      'should return List<MovieModel> when response code is 200 (success)',
+      'should return List<Movie> when response code is 200 (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200('movies_now_playing.json');
         // act
         final result = await dataSource.searchMovies(tLanguage, tQuery);
         // assert
-        expect(result, isA<List<MovieModel>>());
+        expect(result, isA<List<Movie>>());
       },
     );
 
@@ -124,14 +124,14 @@ void main() {
     final tMovieId = 399566;
 
     test(
-      'should return a MovieModel when response code is 200 (success)',
+      'should return a Movie when response code is 200 (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200('movie_detail.json');
         // act
         final result = await dataSource.getMovieDetail(tLanguage, tMovieId);
         // assert
-        expect(result, isA<MovieModel>());
+        expect(result, isA<Movie>());
       },
     );
 

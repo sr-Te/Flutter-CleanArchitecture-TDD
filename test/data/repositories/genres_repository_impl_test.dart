@@ -7,8 +7,8 @@ import 'package:my_movie_list/core/api/movies_api.dart';
 import 'package:my_movie_list/core/network/network_info.dart';
 import 'package:my_movie_list/data/datasources/genres/genres_local_data_source.dart';
 import 'package:my_movie_list/data/datasources/genres/genres_remote_data_source.dart';
-import 'package:my_movie_list/data/models/genre_model.dart';
 import 'package:my_movie_list/data/repositories/genres_repository_impl.dart';
+import 'package:my_movie_list/domain/entities/genre.dart';
 
 class MockRemoteDataSource extends Mock implements GenresRemoteDataSource {}
 
@@ -55,7 +55,7 @@ void main() {
 
   group('getGenres', () {
     final tLanguage = MoviesApi.en;
-    final tGenresList = [GenreModel(id: 1, name: 'test')];
+    final tGenresList = [Genre(id: 1, name: 'test')];
 
     test(
       'should check if the device is online',

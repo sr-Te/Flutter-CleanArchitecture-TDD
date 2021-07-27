@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:my_movie_list/core/errors/exception.dart';
 import 'package:my_movie_list/core/api/movies_api.dart';
 import 'package:my_movie_list/data/datasources/genres/genres_remote_data_source.dart';
-import 'package:my_movie_list/data/models/genre_model.dart';
+import 'package:my_movie_list/domain/entities/genre.dart';
 
 import '../../../fixtures/fixture_reader.dart';
 
@@ -56,14 +56,14 @@ void main() {
     );
 
     test(
-      'shoud return a List<GenreModel> when the Response code is 200 (success)',
+      'shoud return a List<Genre> when the Response code is 200 (success)',
       () async {
         // arrange
         setUpMockHttpClientSuccess200();
         // act
         final result = await dataSource.getGenres(tLanguage);
         // assert
-        expect(result, isA<List<GenreModel>>());
+        expect(result, isA<List<Genre>>());
       },
     );
 

@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/api/movies_api.dart';
-import '../../../../data/models/production_company_model.dart';
 import '../../../../domain/entities/actor.dart';
 import '../../../../domain/entities/movie.dart';
+import '../../../../domain/entities/production_company.dart';
 import '../../../genres/business_logic/genres_cubit.dart';
 import '../../business_logic/movie_cast_cubit/movie_cast_cubit.dart';
 import '../../business_logic/movie_details_cubit/movie_details_cubit.dart';
@@ -301,7 +301,7 @@ class MovieProfileView extends StatelessWidget {
     return '${f.format(number)}';
   }
 
-  Widget _productionCompanies(List<ProductionCompanyModel> companies) {
+  Widget _productionCompanies(List<ProductionCompany> companies) {
     if (companies.isNotEmpty)
       return SizedBox(
         height: 75.0,
@@ -316,7 +316,7 @@ class MovieProfileView extends StatelessWidget {
       return Text('No hay información al respecto');
   }
 
-  Widget _companyLogo(ProductionCompanyModel company) {
+  Widget _companyLogo(ProductionCompany company) {
     return Container(
       padding: EdgeInsets.only(left: 50),
       child: CachedNetworkImage(

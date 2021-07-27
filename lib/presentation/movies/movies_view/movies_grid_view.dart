@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/api/movies_api.dart';
-import '../../../data/models/movie_model.dart';
+import '../../../domain/entities/movie.dart';
 import '../movies_widgets/movie_rating.dart';
 
 class MoviesGridView extends StatelessWidget {
-  final List<MovieModel> movies;
+  final List<Movie> movies;
 
   const MoviesGridView({this.movies});
   @override
@@ -35,7 +35,7 @@ class MoviesGridView extends StatelessWidget {
 }
 
 class MovieGridCard extends StatelessWidget {
-  final MovieModel movie;
+  final Movie movie;
   MovieGridCard(this.movie);
 
   @override
@@ -72,7 +72,7 @@ class MovieGridCard extends StatelessWidget {
     );
   }
 
-  Widget _posterImage(MovieModel movie) {
+  Widget _posterImage(Movie movie) {
     return CachedNetworkImage(
       imageUrl: MoviesApi.getMoviePoster(movie.posterPath),
       imageBuilder: (context, imageProvider) => Container(
@@ -87,7 +87,7 @@ class MovieGridCard extends StatelessWidget {
     );
   }
 
-  Widget _movieTitle(MovieModel movie) {
+  Widget _movieTitle(Movie movie) {
     return Column(
       children: [
         Expanded(child: Container()),

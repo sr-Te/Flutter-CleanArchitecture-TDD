@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/errors/exception.dart';
-import '../../models/genre_model.dart';
+import '../../../domain/entities/genre.dart';
 
 abstract class GenresLocalDataSource {
-  Future<List<GenreModel>> getLastGenres();
-  Future<void> cacheGenres(List<GenreModel> moviesToCache);
+  Future<List<Genre>> getLastGenres();
+  Future<void> cacheGenres(List<Genre> moviesToCache);
 }
 
 const CACHED_GENRES = 'CACHED_GENRES';
@@ -19,7 +19,7 @@ class GenresLocalDataSourceImpl implements GenresLocalDataSource {
   GenresLocalDataSourceImpl({@required this.sharedPreferences});
 
   @override
-  Future<void> cacheGenres(List<GenreModel> genresToCache) {
+  Future<void> cacheGenres(List<Genre> genresToCache) {
     return sharedPreferences.setString(
       CACHED_GENRES,
       json.encode(genreModelListToJsonList(genresToCache)),
@@ -27,7 +27,7 @@ class GenresLocalDataSourceImpl implements GenresLocalDataSource {
   }
 
   @override
-  Future<List<GenreModel>> getLastGenres() async {
+  Future<List<Genre>> getLastGenres() async {
     final jsonString = sharedPreferences.getString(CACHED_GENRES);
     if (jsonString != null) {
       return Future.value(genreModelListFromJsonList(json.decode(jsonString)));

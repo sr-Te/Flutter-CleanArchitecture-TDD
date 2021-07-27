@@ -1,5 +1,5 @@
-class ProductionCompanyModel {
-  ProductionCompanyModel({
+class ProductionCompany {
+  ProductionCompany({
     this.id,
     this.logoPath,
     this.name,
@@ -11,8 +11,8 @@ class ProductionCompanyModel {
   String name;
   String originCountry;
 
-  factory ProductionCompanyModel.fromJson(Map<String, dynamic> json) =>
-      ProductionCompanyModel(
+  factory ProductionCompany.fromJson(Map<String, dynamic> json) =>
+      ProductionCompany(
         id: json["id"],
         logoPath: json["logo_path"],
         name: json["name"],
