@@ -48,7 +48,7 @@ class SearchMoviesSuggestions extends StatelessWidget {
     String error = AppLocalizations.of(context).search_movies_error;
 
     return Text(
-      'Parece que ha habido un error, intente otra vez!',
+      error,
       style: TextStyle(fontSize: 15),
     );
   }
