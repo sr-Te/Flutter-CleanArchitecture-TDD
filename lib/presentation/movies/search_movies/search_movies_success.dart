@@ -46,9 +46,15 @@ class SearchMoviesSuccess extends StatelessWidget {
   Widget _moviePoster(BuildContext context, Movie movie) {
     return FadeInImage(
       image: NetworkImage(MoviesApi.getMoviePoster(movie.posterPath)),
-      placeholder: AssetImage('assets/img/no-image.jpg'),
       width: 60.0,
       fit: BoxFit.contain,
+      placeholder: AssetImage('assets/img/no-image.jpg'),
+      placeholderErrorBuilder: (context, object, stacktrace) {
+        return Icon(Icons.error_outline);
+      },
+      imageErrorBuilder: (context, object, stacktrace) {
+        return Icon(Icons.error_outline);
+      },
     );
   }
 
