@@ -6,8 +6,8 @@ import '../presentation/movies/business_logic/appbar_search_mode_cubit.dart';
 import '../presentation/movies/business_logic/movie_cast_cubit/movie_cast_cubit.dart';
 import '../presentation/movies/business_logic/movie_details_cubit/movie_details_cubit.dart';
 import '../presentation/movies/business_logic/movies_nav_cubit/movies_nav_cubit.dart';
+import '../presentation/movies/movie_profile_view/movie_profile_view.dart';
 import '../presentation/movies/movies_home.dart';
-import '../presentation/movies/movies_view/movie_profile_view/movie_profile_view.dart';
 
 class AppRouter {
   Route onGenerateRoute(RouteSettings settings) {

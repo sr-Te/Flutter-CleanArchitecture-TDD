@@ -9,10 +9,10 @@ import '../../../../core/api/movies_api.dart';
 import '../../../../domain/entities/actor.dart';
 import '../../../../domain/entities/movie.dart';
 import '../../../../domain/entities/production_company.dart';
-import '../../../genres/business_logic/genres_cubit.dart';
-import '../../business_logic/movie_cast_cubit/movie_cast_cubit.dart';
-import '../../business_logic/movie_details_cubit/movie_details_cubit.dart';
-import '../../movies_widgets/movie_poster.dart';
+import '../../genres/business_logic/genres_cubit.dart';
+import '../business_logic/movie_cast_cubit/movie_cast_cubit.dart';
+import '../business_logic/movie_details_cubit/movie_details_cubit.dart';
+import '../movies_widgets/movie_poster.dart';
 import 'movie_profile_appbar.dart';
 
 class MovieProfileView extends StatelessWidget {
@@ -253,11 +253,13 @@ class MovieProfileView extends StatelessWidget {
   }
 
   Widget _movieDetailsSuccessfulLoaded(MovieDetailsLoadSuccess state) {
-    final String releaseDate = '${state.movie.releaseDate.day}' +
-        '-' +
-        '${state.movie.releaseDate.month}' +
-        '-' +
-        '${state.movie.releaseDate.year}';
+    final String releaseDate = state.movie.releaseDate != null
+        ? '${state.movie.releaseDate.day}' +
+            '-' +
+            '${state.movie.releaseDate.month}' +
+            '-' +
+            '${state.movie.releaseDate.year}'
+        : 'Sin información';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
