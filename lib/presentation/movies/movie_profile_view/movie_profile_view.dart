@@ -15,6 +15,8 @@ import '../business_logic/movie_details_cubit/movie_details_cubit.dart';
 import '../movies_widgets/movie_poster.dart';
 import 'movie_profile_appbar.dart';
 
+const String NO_INFO = 'No hay información';
+
 class MovieProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -259,7 +261,7 @@ class MovieProfileView extends StatelessWidget {
             '${state.movie.releaseDate.month}' +
             '-' +
             '${state.movie.releaseDate.year}'
-        : 'Sin información';
+        : NO_INFO;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -273,7 +275,9 @@ class MovieProfileView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _sectionTitle('Presupuesto: '),
-                Text(formatNumber(state.movie.budget)),
+                state.movie.budget != 0
+                    ? Text(formatNumber(state.movie.budget))
+                    : Text(NO_INFO),
               ],
             ),
             Expanded(child: Container()),
@@ -281,7 +285,9 @@ class MovieProfileView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _sectionTitle('Ingresos: '),
-                Text(formatNumber(state.movie.revenue)),
+                state.movie.revenue != 0
+                    ? Text(formatNumber(state.movie.revenue))
+                    : Text(NO_INFO),
               ],
             )
           ],

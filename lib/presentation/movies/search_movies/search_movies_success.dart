@@ -50,10 +50,14 @@ class SearchMoviesSuccess extends StatelessWidget {
       fit: BoxFit.contain,
       placeholder: AssetImage('assets/img/no-image.jpg'),
       placeholderErrorBuilder: (context, object, stacktrace) {
-        return Icon(Icons.error_outline);
+        return Container(
+          child: Image(image: AssetImage('assets/img/no-image.jpg')),
+        );
       },
       imageErrorBuilder: (context, object, stacktrace) {
-        return Icon(Icons.error_outline);
+        return Container(
+          child: Image(image: AssetImage('assets/img/no-image.jpg')),
+        );
       },
     );
   }
