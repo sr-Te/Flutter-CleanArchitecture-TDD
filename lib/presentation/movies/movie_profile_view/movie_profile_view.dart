@@ -42,7 +42,7 @@ class MovieProfileView extends StatelessWidget {
   }
 
   Widget _infoCard(BuildContext context, Movie movie) {
-    final topMargin = AppBar().preferredSize.height + 40;
+    final topMargin = AppBar().preferredSize.height + 50;
 
     return Container(
       height: double.infinity,
