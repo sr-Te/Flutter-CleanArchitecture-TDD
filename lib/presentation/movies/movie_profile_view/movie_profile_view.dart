@@ -337,7 +337,13 @@ class MovieProfileView extends StatelessWidget {
         ),
         progressIndicatorBuilder: (context, url, downloadProgress) => Center(
             child: CircularProgressIndicator(value: downloadProgress.progress)),
-        errorWidget: (context, url, error) => Icon(Icons.error),
+        errorWidget: (context, url, error) => Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(Icons.error),
+            Text(company.name, textAlign: TextAlign.center),
+          ],
+        ),
       ),
     );
   }
