@@ -14,7 +14,6 @@ class DrawerCategories extends StatelessWidget {
           return ListView.builder(
             itemCount: state.genres.length,
             shrinkWrap: true,
-            //physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return Container(
                 margin: EdgeInsets.only(right: 30),

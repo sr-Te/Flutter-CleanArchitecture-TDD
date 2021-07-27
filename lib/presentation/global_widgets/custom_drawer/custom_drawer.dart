@@ -36,7 +36,6 @@ class CustomDrawer extends StatelessWidget {
                 children: [
                   _drawerTitle('Categorías'),
                   Expanded(child: Container()),
-                  Icon(Icons.swap_vert),
                 ],
               ),
               Expanded(child: DrawerCategories()),
