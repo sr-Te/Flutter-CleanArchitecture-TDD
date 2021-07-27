@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../business_logic/movies_search_cubit/movies_search_cubit.dart';
 import 'search_movies_success.dart';
 
@@ -22,7 +23,7 @@ class SearchMoviesSuggestions extends StatelessWidget {
           else if (state is MoviesSearchLoadInProgress)
             return _loadingBuilder();
           else if (state is MoviesSearchLoadFailure)
-            return _errorBuilder();
+            return _errorBuilder(context);
           else if (state is MoviesSearchInitial)
             return Container();
           else
@@ -43,7 +44,9 @@ class SearchMoviesSuggestions extends StatelessWidget {
     );
   }
 
-  Widget _errorBuilder() {
+  Widget _errorBuilder(BuildContext context) {
+    String error = AppLocalizations.of(context).search_movies_error;
+
     return Text(
       'Parece que ha habido un error, intente otra vez!',
       style: TextStyle(fontSize: 15),

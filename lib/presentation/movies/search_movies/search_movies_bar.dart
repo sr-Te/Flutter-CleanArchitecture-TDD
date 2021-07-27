@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../business_logic/movies_search_cubit/movies_search_cubit.dart';
 
 class SearchMoviesBar extends StatelessWidget {
@@ -9,6 +10,8 @@ class SearchMoviesBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String searching = AppLocalizations.of(context).search_movies_searching;
+
     return Opacity(
       opacity: 0.7,
       child: Container(
@@ -28,7 +31,7 @@ class SearchMoviesBar extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             suffixIconConstraints: BoxConstraints(minWidth: 70),
             hintStyle: TextStyle(color: Colors.white, fontSize: 15),
-            hintText: 'Buscando películas...',
+            hintText: searching,
             suffixIcon: _iconClearButton(context),
             focusedBorder: _outlineInputBorder(radius, Colors.white),
             enabledBorder: _outlineInputBorder(radius, Colors.red),

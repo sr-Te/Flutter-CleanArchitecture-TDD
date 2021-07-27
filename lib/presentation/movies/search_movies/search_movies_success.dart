@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../core/api/movies_api.dart';
 import '../../../../domain/entities/movie.dart';
 import '../business_logic/appbar_search_mode_cubit.dart';
@@ -27,7 +28,7 @@ class SearchMoviesSuccess extends StatelessWidget {
         ),
       );
     else
-      return _noItemsFound();
+      return _noItemsFound(context);
   }
 
   Widget _movieTile(BuildContext context, Movie movie) {
@@ -62,7 +63,8 @@ class SearchMoviesSuccess extends StatelessWidget {
     );
   }
 
-  Widget _noItemsFound() {
+  Widget _noItemsFound(BuildContext context) {
+    String notFound = AppLocalizations.of(context).search_movies_not_found;
     return BlocBuilder<MoviesSearchCubit, MoviesSearchState>(
         builder: (context, state) {
       if (state is MoviesSearchLoadFailure)
@@ -72,7 +74,7 @@ class SearchMoviesSuccess extends StatelessWidget {
         );
       else
         return Text(
-          'No se han encontrado películas que coincidan :(',
+          notFound,
           style: TextStyle(fontSize: 15),
         );
     });

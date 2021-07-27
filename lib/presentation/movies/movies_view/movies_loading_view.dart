@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MoviesLoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    String loadingMovies = AppLocalizations.of(context).loading_movies;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -14,7 +17,10 @@ class MoviesLoadingView extends StatelessWidget {
               flex: 15,
               child: Container(
                 child: Text(
-                  'Cargando Películas...',
+                  loadingMovies,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  softWrap: true,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,

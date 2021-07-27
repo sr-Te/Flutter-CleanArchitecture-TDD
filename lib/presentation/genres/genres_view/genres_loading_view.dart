@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GenresLoadingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    String loadingGenres = AppLocalizations.of(context).loading_genres;
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -14,7 +17,10 @@ class GenresLoadingView extends StatelessWidget {
               flex: 15,
               child: Container(
                 child: Text(
-                  'Cargando Categorías...',
+                  loadingGenres,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  softWrap: true,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,

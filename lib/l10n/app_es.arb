@@ -1,6 +1,20 @@
 {
-    "helloWorld": "Hola Mundo!",
-    "@helloWorld": {
-        "description": "la manera convencional de comenzar algo"
-      }
-  }
+    "loading_genres": "Cargando Géneros De Películas...",
+    "loading_movies": "Cargando Películas...",
+    "drawer_categories": "Categorías",
+    "no_info" : "Sin Información",
+    "search_movies_searching" : "Buscando Películas...",
+    "search_movies_not_found" : "No se han encontrado películas que coincidan :(",
+    "search_movies_error" : "Parece que ha habido un error, intente otra vez!",
+    "movie_profile_original_title": "Original Title",
+    "movie_profile_assessment": "Valoración",
+    "movie_profile_genres" : "Géneros",
+    "movie_profile_overview": "Sinopsis",
+    "movie_profile_release_date": "Fecha De Lanzamiento",
+    "movie_profile_budget" : "Presupuesto",
+    "movie_profile_revenue" : "Ingresos",
+    "movie_profile_production_compenies" : "Compañias De Producción",
+    "movie_profile_production_countries" : "Países De Producción",
+    "movie_profile_cast": "Reparto"
+
+}

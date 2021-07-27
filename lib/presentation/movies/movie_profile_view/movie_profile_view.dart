@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../core/api/movies_api.dart';
 import '../../../../domain/entities/actor.dart';
@@ -15,7 +16,7 @@ import '../business_logic/movie_details_cubit/movie_details_cubit.dart';
 import '../movies_widgets/movie_poster.dart';
 import 'movie_profile_appbar.dart';
 
-const String NO_INFO = 'No hay información';
+const String CAT_ASSETS = 'assets/cats_img/';
 
 class MovieProfileView extends StatelessWidget {
   @override
@@ -65,22 +66,22 @@ class MovieProfileView extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        _movieTitle(movie),
+                        _movieTitle(context, movie),
                         SizedBox(height: 10),
                         _rating(context, movie),
                         SizedBox(height: 10),
-                        _movieGenres(movie),
+                        _movieGenres(context, movie),
                       ],
                     ),
                   ),
                 ),
               ],
             ),
-            _movieOverview(movie),
+            _movieOverview(context, movie),
             SizedBox(height: 10),
             _movieDetail(movie),
             SizedBox(height: 10),
-            _movieCast(movie),
+            _movieCast(context, movie),
           ],
         ),
       ),
@@ -115,20 +116,30 @@ class MovieProfileView extends StatelessWidget {
               child:
                   CircularProgressIndicator(value: downloadProgress.progress)),
         ),
-        errorWidget: (context, url, error) => Icon(Icons.error),
+        errorWidget: (context, url, error) => Container(
+          height: 170,
+          width: 110,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            image: DecorationImage(
+              image: AssetImage('assets/img/no-image.jpg'),
+            ),
+          ),
+        ),
       ),
     );
   }
 
-  Widget _movieOverview(Movie movie) {
+  Widget _movieOverview(BuildContext context, Movie movie) {
+    String overview = AppLocalizations.of(context).movie_profile_overview;
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('Sinopsis: '),
+          _sectionTitle('$overview: '),
           SizedBox(height: 5),
-          _getOverview(movie),
+          _getOverview(context, movie),
         ],
       ),
     );
@@ -146,10 +157,12 @@ class MovieProfileView extends StatelessWidget {
     int max = catImages.length - 1;
     int r = min + rnd.nextInt(max - min);
     String rndCatImage = catImages[r].toString();
-    return Image.asset('assets/cats_img/' + rndCatImage, fit: BoxFit.cover);
+    return Image.asset(CAT_ASSETS + rndCatImage, fit: BoxFit.cover);
   }
 
-  Widget _getOverview(Movie movie) {
+  Widget _getOverview(BuildContext context, Movie movie) {
+    String noInfo = AppLocalizations.of(context).no_info;
+
     if (movie.overview == null || movie.overview.isEmpty) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -159,7 +172,7 @@ class MovieProfileView extends StatelessWidget {
             height: 90,
             child: randomCatImage(),
           ),
-          Text('No hay sinopsis :(')
+          Text(noInfo),
         ],
       );
     } else {
@@ -167,11 +180,14 @@ class MovieProfileView extends StatelessWidget {
     }
   }
 
-  Widget _movieTitle(Movie movie) {
+  Widget _movieTitle(BuildContext context, Movie movie) {
+    String originalTitle =
+        AppLocalizations.of(context).movie_profile_original_title;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionTitle('Título Original:'),
+        _sectionTitle('$originalTitle: '),
         Center(
           child: Text(
             movie.originalTitle,
@@ -184,9 +200,11 @@ class MovieProfileView extends StatelessWidget {
   }
 
   Widget _rating(BuildContext context, Movie movie) {
+    String score = AppLocalizations.of(context).movie_profile_assessment;
+
     return Row(
       children: [
-        _sectionTitle('Valoración:'),
+        _sectionTitle('$score: '),
         SizedBox(width: 10),
         Text('${movie.voteAverage}/10'),
         Icon(Icons.star_border, size: 17),
@@ -194,21 +212,24 @@ class MovieProfileView extends StatelessWidget {
     );
   }
 
-  Widget _movieGenres(Movie movie) {
+  Widget _movieGenres(BuildContext context, Movie movie) {
+    String genres = AppLocalizations.of(context).movie_profile_genres;
+    String noInfo = AppLocalizations.of(context).no_info;
+
     return Container(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('Géneros:'),
+          _sectionTitle('$genres: '),
           BlocBuilder<GenresCubit, GenresState>(
             builder: (context, state) {
               if (state is GenresLoadSuccess) {
-                return _getMoviesGenres(movie, state);
+                return _getMoviesGenres(context, movie, state);
               } else if (state is GenresLoadInProgress) {
                 return CircularProgressIndicator();
               } else {
-                return Text('error al cargar los géneros :(, m3per d0nas¿');
+                return Text(noInfo);
               }
             },
           ),
@@ -218,9 +239,11 @@ class MovieProfileView extends StatelessWidget {
   }
 
   Widget _getMoviesGenres(
+    BuildContext context,
     Movie movie,
     GenresLoadSuccess state,
   ) {
+    String noInfo = AppLocalizations.of(context).no_info;
     String movieGenreNames = '';
     state.genres.forEach((genre) {
       movie.genreIds.forEach((movieGenreId) {
@@ -236,7 +259,7 @@ class MovieProfileView extends StatelessWidget {
       movieGenreNames = movieGenreNames.trim();
       return Text(movieGenreNames);
     } else
-      return Text('No hay informaciión, meperd0n as¿');
+      return Text(noInfo);
   }
 
   Widget _movieDetail(Movie movie) {
@@ -245,7 +268,7 @@ class MovieProfileView extends StatelessWidget {
         if (state is MovieDetailsLoadInProgress) {
           return CircularProgressIndicator();
         } else if (state is MovieDetailsLoadSuccess) {
-          return _movieDetailsSuccessfulLoaded(state);
+          return _movieDetailsSuccessfulLoaded(context, state);
         } else if (state is MovieDetailsLoadFailure) {
           return Text(state.message);
         } else
@@ -254,19 +277,30 @@ class MovieProfileView extends StatelessWidget {
     );
   }
 
-  Widget _movieDetailsSuccessfulLoaded(MovieDetailsLoadSuccess state) {
+  Widget _movieDetailsSuccessfulLoaded(
+    BuildContext context,
+    MovieDetailsLoadSuccess state,
+  ) {
+    String releaseDateL10n =
+        AppLocalizations.of(context).movie_profile_release_date;
+    String budget = AppLocalizations.of(context).movie_profile_budget;
+    String revenue = AppLocalizations.of(context).movie_profile_revenue;
+    String productionCompanies =
+        AppLocalizations.of(context).movie_profile_production_compenies;
+    String noInfo = AppLocalizations.of(context).no_info;
+
     final String releaseDate = state.movie.releaseDate != null
         ? '${state.movie.releaseDate.day}' +
             '-' +
             '${state.movie.releaseDate.month}' +
             '-' +
             '${state.movie.releaseDate.year}'
-        : NO_INFO;
+        : noInfo;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionTitle('Fecha de lanzamiento: '),
+        _sectionTitle('$releaseDateL10n: '),
         Text(releaseDate),
         SizedBox(height: 10),
         Row(
@@ -274,26 +308,26 @@ class MovieProfileView extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _sectionTitle('Presupuesto: '),
+                _sectionTitle('$budget: '),
                 state.movie.budget != 0
                     ? Text(formatNumber(state.movie.budget))
-                    : Text(NO_INFO),
+                    : Text(noInfo),
               ],
             ),
             Expanded(child: Container()),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _sectionTitle('Ingresos: '),
+                _sectionTitle('$revenue: '),
                 state.movie.revenue != 0
                     ? Text(formatNumber(state.movie.revenue))
-                    : Text(NO_INFO),
+                    : Text(noInfo),
               ],
             )
           ],
         ),
         SizedBox(height: 20),
-        _sectionTitle('Compañias de producción: '),
+        _sectionTitle('$productionCompanies: '),
         SizedBox(height: 10),
         _productionCompanies(state.movie.productionCompanies),
       ],
@@ -349,7 +383,10 @@ class MovieProfileView extends StatelessWidget {
     );
   }
 
-  Widget _movieCast(Movie movie) {
+  Widget _movieCast(BuildContext context, Movie movie) {
+    String cast = AppLocalizations.of(context).movie_profile_cast;
+    String noInfo = AppLocalizations.of(context).no_info;
+
     return BlocBuilder<MovieCastCubit, MovieCastState>(
       builder: (context, state) {
         if (state is MovieCastLoadSuccess) {
@@ -357,7 +394,7 @@ class MovieProfileView extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _sectionTitle('Reparto:'),
+                _sectionTitle('$cast: '),
                 SizedBox(height: 10),
                 SizedBox(
                   height: 150.0,
@@ -378,9 +415,9 @@ class MovieProfileView extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _sectionTitle('Reparto:'),
+                _sectionTitle('$cast: '),
                 SizedBox(height: 10),
-                Text('No hay detalles de esta película, meperd0n as¿'),
+                Text(noInfo),
               ],
             );
         } else if (state is MovieCastLoadInProgress)
@@ -391,9 +428,9 @@ class MovieProfileView extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _sectionTitle('Reparto:'),
+              _sectionTitle('$cast: '),
               SizedBox(height: 10),
-              Text('No hay detalles de esta película, meperd0n as¿'),
+              Text(noInfo),
             ],
           );
       },
