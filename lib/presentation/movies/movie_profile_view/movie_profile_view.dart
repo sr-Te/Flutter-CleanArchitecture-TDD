@@ -326,7 +326,7 @@ class MovieProfileView extends StatelessWidget {
 
   Widget _companyLogo(ProductionCompany company) {
     return Container(
-      padding: EdgeInsets.only(left: 50),
+      padding: EdgeInsets.only(left: 20),
       child: CachedNetworkImage(
         imageUrl: MoviesApi.getMoviePoster(company.logoPath),
         imageBuilder: (context, imageProvider) => Container(
@@ -339,6 +339,7 @@ class MovieProfileView extends StatelessWidget {
             child: CircularProgressIndicator(value: downloadProgress.progress)),
         errorWidget: (context, url, error) => Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.error),
             Text(company.name, textAlign: TextAlign.center),

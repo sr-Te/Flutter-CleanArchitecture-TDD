@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../core/api/movies_endpoint.dart';
-import '../../domain/entities/genre.dart';
-import '../../l10n/I10n.dart';
-import '../genres/business_logic/genres_cubit.dart';
-import '../genres/genres_view/genres_loading_view.dart';
-import '../global_widgets/dialogs/on_will_pop_dialog.dart';
-import 'business_logic/movies_bloc/movies_bloc.dart';
-import 'business_logic/movies_nav_cubit/movies_nav_cubit.dart';
-import 'movies_view/movies_view.dart';
+import '../core/api/movies_endpoint.dart';
+import '../domain/entities/genre.dart';
+import '../l10n/I10n.dart';
+import 'custom_drawer/business_logic/drawer_nav_cubit/drawer_nav_cubit.dart';
+import 'genres/business_logic/genres_cubit.dart';
+import 'genres/genres_view/genres_loading_view.dart';
+import 'global_widgets/dialogs/on_will_pop_dialog.dart';
+import 'movies/business_logic/movies_bloc/movies_bloc.dart';
+import 'movies/movies_view/movies_view.dart';
 
-class MoviesHome extends StatelessWidget {
+class Index extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -45,13 +45,13 @@ class MoviesHome extends StatelessWidget {
   }
 
   Widget _genresLoadSuccess(BuildContext context, List<Genre> genres) {
-    return BlocBuilder<MoviesNavCubit, MoviesNavState>(
+    return BlocBuilder<DrawerNavCubit, DrawerNavState>(
       builder: (context, state) {
-        if (state is MoviesNavInitial) {
-          BlocProvider.of<MoviesNavCubit>(context).getWithGenres(genres[0]);
+        if (state is DrawerNavInitial) {
+          BlocProvider.of<DrawerNavCubit>(context).getWithGenre(genres[0]);
           return GenresLoadingView();
-        } else if (state is MoviesNavWithGenres) {
-          return _moviesWithGenres(context, state.genre);
+        } else if (state is DrawerNavGenre) {
+          return _moviesWithGenre(context, state.genre);
         } else {
           return null;
         }
@@ -59,7 +59,8 @@ class MoviesHome extends StatelessWidget {
     );
   }
 
-  Widget _moviesWithGenres(BuildContext context, Genre genre) {
+  Widget _moviesWithGenre(BuildContext context, Genre genre) {
+    print(genre);
     String endpoint = MoviesEndpoint.withGenre;
     String language = L10n.getLang[AppLocalizations.of(context).localeName];
     String title = genre.name;

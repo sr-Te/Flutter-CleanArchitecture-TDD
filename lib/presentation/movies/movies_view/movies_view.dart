@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../global_widgets/custom_drawer/custom_drawer.dart';
+import '../../custom_drawer/custom_drawer.dart';
 import '../business_logic/appbar_search_mode_cubit.dart';
 import '../business_logic/movies_bloc/movies_bloc.dart';
 import '../business_logic/movies_search_cubit/movies_search_cubit.dart';

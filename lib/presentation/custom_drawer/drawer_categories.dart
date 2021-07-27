@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../genres/business_logic/genres_cubit.dart';
-import '../../movies/business_logic/movies_nav_cubit/movies_nav_cubit.dart';
+import '../genres/business_logic/genres_cubit.dart';
+import 'business_logic/drawer_nav_cubit/drawer_nav_cubit.dart';
 import 'drawer_category_button.dart';
 
 class DrawerCategories extends StatelessWidget {
@@ -21,8 +21,8 @@ class DrawerCategories extends StatelessWidget {
                   title: state.genres[index].name,
                   function: () {
                     Navigator.of(context).pop();
-                    BlocProvider.of<MoviesNavCubit>(context)
-                        .getWithGenres(state.genres[index]);
+                    BlocProvider.of<DrawerNavCubit>(context)
+                        .getWithGenre(state.genres[index]);
                   },
                 ),
               );

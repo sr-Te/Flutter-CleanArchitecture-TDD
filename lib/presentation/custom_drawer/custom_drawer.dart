@@ -11,8 +11,8 @@ class CustomDrawer extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.grey[300],
           borderRadius: BorderRadius.only(
-            topRight: Radius.circular(30),
-            bottomRight: Radius.circular(30),
+            topRight: Radius.circular(20),
+            bottomRight: Radius.circular(20),
           ),
         ),
         child: Container(
@@ -26,6 +26,7 @@ class CustomDrawer extends StatelessWidget {
                   Expanded(child: Container()),
                 ],
               ),
+              SizedBox(height: 30),
               Expanded(child: DrawerCategories()),
             ],
           ),

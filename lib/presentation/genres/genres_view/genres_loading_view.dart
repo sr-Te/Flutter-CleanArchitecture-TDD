@@ -29,7 +29,7 @@ class GenresLoadingView extends StatelessWidget {
               height: 60,
               child: CircularProgressIndicator(
                 strokeWidth: 10,
-                valueColor: new AlwaysStoppedAnimation<Color>(Colors.blue),
+                valueColor: new AlwaysStoppedAnimation<Color>(Colors.orange),
               ),
             ),
             Expanded(flex: 15, child: Container()),
