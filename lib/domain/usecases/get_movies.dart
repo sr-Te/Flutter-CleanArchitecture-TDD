@@ -29,7 +29,7 @@ class Params extends Equatable {
   final int genreId;
 
   Params({
-    this.endpoint = MoviesEndpoint.popular,
+    this.endpoint = MoviesEndpoint.withGenre,
     this.language = MoviesApi.es,
     this.genreId,
   });

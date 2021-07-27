@@ -43,7 +43,7 @@ void main() {
 
   group('getMovies', () {
     final tLanguage = MoviesApi.es;
-    final tEndpoint = MoviesEndpoint.nowPlaying;
+    final tEndpoint = MoviesEndpoint.withGenre;
 
     test(
       'should preform a GET request on a URL',

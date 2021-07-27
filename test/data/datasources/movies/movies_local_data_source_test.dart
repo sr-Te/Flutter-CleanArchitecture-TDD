@@ -24,7 +24,7 @@ void main() {
     );
   });
 
-  final tEndpoint = MoviesEndpoint.nowPlaying;
+  final tEndpoint = MoviesEndpoint.withGenre;
 
   group('getLastMovies', () {
     test(

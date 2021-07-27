@@ -5,13 +5,7 @@ abstract class MoviesNavState extends Equatable {
   List<Object> get props => [];
 }
 
-class MoviesNavPopular extends MoviesNavState {}
-
-class MoviesNavTopRated extends MoviesNavState {}
-
-class MoviesNavNowPlaying extends MoviesNavState {}
-
-class MoviesNavUpComing extends MoviesNavState {}
+class MoviesNavInitial extends MoviesNavState {}
 
 class MoviesNavWithGenres extends MoviesNavState {
   final Genre genre;

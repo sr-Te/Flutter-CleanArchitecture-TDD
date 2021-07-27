@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../core/api/movies_api.dart';
 import '../../core/api/movies_endpoint.dart';
+import '../../domain/entities/genre.dart';
+import '../../l10n/I10n.dart';
+import '../genres/business_logic/genres_cubit.dart';
+import '../genres/genres_view/genres_loading_view.dart';
 import '../global_widgets/dialogs/on_will_pop_dialog.dart';
 import 'business_logic/movies_bloc/movies_bloc.dart';
 import 'business_logic/movies_nav_cubit/movies_nav_cubit.dart';
@@ -16,73 +20,64 @@ class MoviesHome extends StatelessWidget {
         context: context,
         builder: (context) => OnWillPopDialog(),
       ),
-      child: BlocBuilder<MoviesNavCubit, MoviesNavState>(
-        builder: (context, state) {
-          if (state is MoviesNavPopular)
-            return _moviesPopular(context);
-          else if (state is MoviesNavTopRated)
-            return _moviesTopRated(context);
-          else if (state is MoviesNavNowPlaying)
-            return _moviesNowPlaying(context);
-          else if (state is MoviesNavUpComing)
-            return _moviesUpcoming(context);
-          else if (state is MoviesNavWithGenres)
-            return _moviesWithGenres(context, state);
-          else
+      child: BlocBuilder<GenresCubit, GenresState>(
+        builder: (context, genresState) {
+          if (genresState is GenresInitial) {
+            _initGenres(context);
+            return GenresLoadingView();
+          } else if (genresState is GenresLoadInProgress) {
+            return GenresLoadingView();
+          } else if (genresState is GenresLoadFailure) {
+            return _genresLoadFailure(context, genresState.message);
+          } else if (genresState is GenresLoadSuccess) {
+            return _genresLoadSuccess(context, genresState.genres);
+          } else {
             return null;
+          }
         },
       ),
     );
   }
 
-  Widget _moviesNowPlaying(BuildContext context) {
-    String endpoint = MoviesEndpoint.nowPlaying;
-    String language = MoviesApi.es;
-    String title = 'En Reproducción';
-
-    BlocProvider.of<MoviesBloc>(context)
-        .add(MoviesGet(endpoint: endpoint, language: language));
-    return MoviesView(title: title, endpoint: endpoint, language: language);
+  void _initGenres(BuildContext context) {
+    String language = L10n.getLang[AppLocalizations.of(context).localeName];
+    BlocProvider.of<GenresCubit>(context).genresGet(language: language);
   }
 
-  Widget _moviesPopular(BuildContext context) {
-    String endpoint = MoviesEndpoint.popular;
-    String language = MoviesApi.es;
-    String title = 'Populares';
-
-    BlocProvider.of<MoviesBloc>(context)
-        .add(MoviesGet(endpoint: endpoint, language: language));
-    return MoviesView(title: title, endpoint: endpoint, language: language);
+  Widget _genresLoadSuccess(BuildContext context, List<Genre> genres) {
+    return BlocBuilder<MoviesNavCubit, MoviesNavState>(
+      builder: (context, state) {
+        if (state is MoviesNavInitial) {
+          BlocProvider.of<MoviesNavCubit>(context).getWithGenres(genres[0]);
+          return GenresLoadingView();
+        } else if (state is MoviesNavWithGenres) {
+          return _moviesWithGenres(context, state.genre);
+        } else {
+          return null;
+        }
+      },
+    );
   }
 
-  Widget _moviesTopRated(BuildContext context) {
-    String endpoint = MoviesEndpoint.topRated;
-    String language = MoviesApi.es;
-    String title = 'Mejor Valoradas';
-
-    BlocProvider.of<MoviesBloc>(context)
-        .add(MoviesGet(endpoint: endpoint, language: language));
-    return MoviesView(title: title, endpoint: endpoint, language: language);
-  }
-
-  Widget _moviesUpcoming(BuildContext context) {
-    String endpoint = MoviesEndpoint.upcoming;
-    String language = MoviesApi.es;
-    String title = 'Próximamente';
-
-    BlocProvider.of<MoviesBloc>(context)
-        .add(MoviesGet(endpoint: endpoint, language: language));
-    return MoviesView(title: title, endpoint: endpoint, language: language);
-  }
-
-  Widget _moviesWithGenres(BuildContext context, MoviesNavWithGenres state) {
+  Widget _moviesWithGenres(BuildContext context, Genre genre) {
     String endpoint = MoviesEndpoint.withGenre;
-    String language = MoviesApi.es;
-    String title = state.genre.name;
+    String language = L10n.getLang[AppLocalizations.of(context).localeName];
+    String title = genre.name;
 
     BlocProvider.of<MoviesBloc>(context).add(
-      MoviesGet(endpoint: endpoint, language: language, genre: state.genre.id),
+      MoviesGet(endpoint: endpoint, language: language, genre: genre.id),
     );
     return MoviesView(title: title, endpoint: endpoint, language: language);
+  }
+
+  Widget _genresLoadFailure(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Error'),
+        content: Text(message),
+      ),
+    );
+    return GenresLoadingView();
   }
 }

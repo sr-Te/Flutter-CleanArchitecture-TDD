@@ -71,7 +71,9 @@ class MoviesView extends StatelessWidget {
                 return Center(child: Text(state.message));
               else if (state is MoviesLoadInProgress)
                 return MoviesLoadingView();
-              else
+              else if (state is MoviesInitial) {
+                return MoviesLoadingView();
+              } else
                 return null;
             },
           ),

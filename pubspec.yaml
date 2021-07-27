@@ -1,7 +1,7 @@
 name: my_movie_list
 description: A new Flutter project.
 
-publish_to: 'none' 
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -11,25 +11,25 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  # Base
   cupertino_icons: ^1.0.0
-  # Strings & number formats
-  intl: ^0.17.0
-  # Service locator
-  get_it: ^6.1.1
-  # Bloc for state management
-  flutter_bloc: ^7.0.0
-  # Value equality
-  equatable: ^2.0.0
-  # Functional programming thingies
-  dartz: 0.10.0-nullsafety.1
-  # Remote API
-  data_connection_checker: ^0.3.4
   http: ^0.13.1
-  # Local cache
+  dartz: 0.10.0-nullsafety.1
+  get_it: ^6.1.1
+  equatable: ^2.0.0
+  flutter_bloc: ^7.0.0
   shared_preferences: ^2.0.5
+  data_connection_checker: ^0.3.4
+
   # Beauty
   cached_network_image: ^2.5.0
   percent_indicator: ^3.0.1
+
+  # Internationalization
+  intl: ^0.17.0
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -40,8 +40,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
 
   assets:
-   - assets/img/
-   - assets/cats_img/
-
+    - assets/img/
+    - assets/cats_img/

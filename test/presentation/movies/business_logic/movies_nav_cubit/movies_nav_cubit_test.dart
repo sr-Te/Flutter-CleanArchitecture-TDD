@@ -15,7 +15,7 @@ void main() {
     'initState should be MoviesNavPopular',
     () {
       // assert
-      expect(cubit.state, equals(MoviesNavPopular()));
+      expect(cubit.state, equals(MoviesNavInitial()));
     },
   );
 
@@ -27,61 +27,6 @@ void main() {
       expectLater(cubit.stream, emitsInOrder(expected));
       //act
       cubit.getWithGenres(tGenre);
-    },
-  );
-
-  test(
-    'should emit MoviesNavPopular when requested',
-    () {
-      // assert layer
-      final expected = [MoviesNavPopular()];
-      expectLater(cubit.stream, emitsInOrder(expected));
-      //act
-      cubit.getMoviesPopular();
-    },
-  );
-
-  test(
-    'should emit MoviesNavTopRated when requested',
-    () {
-      // assert layer
-      final expected = [MoviesNavTopRated()];
-      expectLater(cubit.stream, emitsInOrder(expected));
-      //act
-      cubit.getMoviesTopRated();
-    },
-  );
-
-  test(
-    'should emit MoviesNavUpComing when requested',
-    () {
-      // assert layer
-      final expected = [MoviesNavUpComing()];
-      expectLater(cubit.stream, emitsInOrder(expected));
-      //act
-      cubit.getMoviesUpcoming();
-    },
-  );
-
-  test(
-    'should emit MoviesNavNowPlaying when requested',
-    () {
-      // assert layer
-      final expected = [MoviesNavNowPlaying()];
-      expectLater(cubit.stream, emitsInOrder(expected));
-      //act
-      cubit.getMoviesNowPlaying();
-    },
-  );
-
-  test(
-    'should emit MoviesNavNowPlaying when requested',
-    () {
-      // assert layer
-      final expected = [MoviesNavNowPlaying()];
-      expectLater(cubit.stream, emitsInOrder(expected));
-      //act
-      cubit.getMoviesNowPlaying();
     },
   );
 }

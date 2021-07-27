@@ -28,7 +28,7 @@ void main() {
     final List<Movie> tMovieList = [];
     final tLanguage = MoviesApi.en;
     final genreId = -1;
-    final tEndpoint = MoviesEndpoint.nowPlaying;
+    final tEndpoint = MoviesEndpoint.withGenre;
 
     test(
       'should get data from getMovies usecase',

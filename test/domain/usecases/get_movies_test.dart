@@ -19,7 +19,7 @@ void main() {
   });
 
   final tLanguage = MoviesApi.en;
-  final tEndpoint = MoviesEndpoint.nowPlaying;
+  final tEndpoint = MoviesEndpoint.withGenre;
   final genreId = -1;
   final List<Movie> tMovieList = [];
 

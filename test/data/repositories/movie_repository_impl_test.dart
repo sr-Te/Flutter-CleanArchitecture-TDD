@@ -58,7 +58,7 @@ void main() {
   group('getMovies', () {
     // DATA FOR THE MOCKS AND ASSERTIONS
     final tLanguage = MoviesApi.en;
-    final tEndpoint = MoviesEndpoint.nowPlaying;
+    final tEndpoint = MoviesEndpoint.withGenre;
     final genreId = -1;
     final List<Movie> tMovieModelList = [];
 
