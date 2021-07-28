@@ -346,7 +346,7 @@ class MovieProfileView extends StatelessWidget {
   Widget _productionCompanies(List<ProductionCompany> companies) {
     if (companies.isNotEmpty)
       return SizedBox(
-        height: 75.0,
+        height: 85.0,
         child: PageView.builder(
           pageSnapping: false,
           controller: PageController(viewportFraction: 0.4, initialPage: 1),
