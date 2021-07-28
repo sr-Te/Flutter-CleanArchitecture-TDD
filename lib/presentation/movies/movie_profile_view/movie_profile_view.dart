@@ -79,7 +79,7 @@ class MovieProfileView extends StatelessWidget {
             ),
             _movieOverview(context, movie),
             SizedBox(height: 10),
-            _movieDetail(movie),
+            _movieDetail(context, movie),
             SizedBox(height: 10),
             _movieCast(context, movie),
           ],
@@ -262,7 +262,9 @@ class MovieProfileView extends StatelessWidget {
       return Text(noInfo);
   }
 
-  Widget _movieDetail(Movie movie) {
+  Widget _movieDetail(BuildContext context, Movie movie) {
+    String noInfo = AppLocalizations.of(context).no_info;
+
     return BlocBuilder<MovieDetailsCubit, MovieDetailsState>(
       builder: (context, state) {
         if (state is MovieDetailsLoadInProgress) {
@@ -272,7 +274,7 @@ class MovieProfileView extends StatelessWidget {
         } else if (state is MovieDetailsLoadFailure) {
           return Text(state.message);
         } else
-          return Text('No hay detalles de esta película, meperd0n as¿');
+          return Text(noInfo);
       },
     );
   }
@@ -329,7 +331,7 @@ class MovieProfileView extends StatelessWidget {
         SizedBox(height: 20),
         _sectionTitle('$productionCompanies: '),
         SizedBox(height: 10),
-        _productionCompanies(state.movie.productionCompanies),
+        _productionCompanies(context, state.movie.productionCompanies),
       ],
     );
   }
@@ -343,7 +345,12 @@ class MovieProfileView extends StatelessWidget {
     return '${f.format(number)}';
   }
 
-  Widget _productionCompanies(List<ProductionCompany> companies) {
+  Widget _productionCompanies(
+    BuildContext context,
+    List<ProductionCompany> companies,
+  ) {
+    String noInfo = AppLocalizations.of(context).no_info;
+
     if (companies.isNotEmpty)
       return SizedBox(
         height: 85.0,
@@ -355,7 +362,7 @@ class MovieProfileView extends StatelessWidget {
         ),
       );
     else
-      return Text('No hay información al respecto');
+      return Text(noInfo);
   }
 
   Widget _companyLogo(ProductionCompany company) {
