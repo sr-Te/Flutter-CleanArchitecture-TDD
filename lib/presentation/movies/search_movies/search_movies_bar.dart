@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:my_movie_list/l10n/I10n.dart';
 import '../business_logic/movies_search_cubit/movies_search_cubit.dart';
 
 class SearchMoviesBar extends StatelessWidget {
@@ -10,6 +11,7 @@ class SearchMoviesBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String language = L10n.getLang[AppLocalizations.of(context).localeName];
     String searching = AppLocalizations.of(context).search_movies_searching;
 
     return Opacity(
@@ -22,7 +24,7 @@ class SearchMoviesBar extends StatelessWidget {
         ),
         child: TextField(
           onChanged: (query) => BlocProvider.of<MoviesSearchCubit>(context)
-              .moviesSearch(query: query),
+              .moviesSearch(query: query, language: language),
           autofocus: true,
           cursorColor: Colors.white,
           controller: controller,
