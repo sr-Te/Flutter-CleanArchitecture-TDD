@@ -1,5 +1,3 @@
-import 'dart:developer' as logger;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,7 +15,6 @@ import 'movies/movies_view/movies_view.dart';
 class Index extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    logger.log('1');
     return WillPopScope(
       onWillPop: () async => showDialog(
         context: context,
@@ -34,7 +31,6 @@ class Index extends StatelessWidget {
             return _genresLoadFailure(context, genresState.message);
           } else if (genresState is GenresLoadSuccess) {
             return _genresLoadSuccess(context, genresState.genres);
-            // return _moviesWithGenre(context, genresState.genres[0]);
           } else {
             return null;
           }
@@ -44,22 +40,16 @@ class Index extends StatelessWidget {
   }
 
   void _initGenres(BuildContext context) {
-    logger.log('2');
     String language = L10n.getLang[AppLocalizations.of(context).localeName];
     BlocProvider.of<GenresCubit>(context).genresGet(language: language);
   }
 
   Widget _genresLoadSuccess(BuildContext context, List<Genre> genres) {
-    logger.log('3');
     return BlocBuilder<DrawerNavCubit, DrawerNavState>(
       builder: (context, state) {
-        logger.log('3.0.1: state => $state');
         if (state is DrawerNavInitial) {
-          logger.log('3.1: genre => ${genres[0].name}');
-          BlocProvider.of<DrawerNavCubit>(context).getWithGenre(genres[0]);
           return _moviesWithGenre(context, genres[0]);
         } else if (state is DrawerNavGenre) {
-          logger.log('3.2');
           return _moviesWithGenre(context, state.genre);
         } else {
           return null;
@@ -69,7 +59,6 @@ class Index extends StatelessWidget {
   }
 
   Widget _moviesWithGenre(BuildContext context, Genre genre) {
-    logger.log('4');
     String endpoint = MoviesEndpoint.withGenre;
     String language = L10n.getLang[AppLocalizations.of(context).localeName];
     String title = genre.name;
@@ -81,7 +70,6 @@ class Index extends StatelessWidget {
   }
 
   Widget _genresLoadFailure(BuildContext context, String message) {
-    logger.log('5');
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
